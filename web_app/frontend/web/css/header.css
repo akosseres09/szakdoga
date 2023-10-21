@@ -1,0 +1,15 @@
+.dropdown-menu {
+    padding: 5px;
+}
+.dropdown-menu > .dropdown-item {
+    border-radius: 10px;
+}
+
+.dropdown-item:hover{
+    background-color: lightseagreen;
+    cursor: pointer;
+}
+
+.flex-1 {
+    flex: 1;
+}

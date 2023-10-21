@@ -12,8 +12,5 @@ $this->beginContent('@frontend/views/layouts/base.php');?>
     <div class="container" id="outer-container" style="padding-top: 0">
         <?= $content?>
     </div>
-    <footer>
-        <?= $this->render('_footer') ?>
-    </footer>
 </main>
-<?php $this->endContent();?>
+<?php $this->endContent();
