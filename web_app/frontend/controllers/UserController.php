@@ -58,4 +58,21 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
+
+    public function actionSave($user_id){
+        $user = User::findOne($user_id);
+        if($this->request->isPost && $user->load(\Yii::$app->request->post())){
+            var_dump($user->save());
+            if($user->save()){
+                \Yii::$app->session->setFlash('UpdateSuccess', 'Profile updated successfully!');
+            }else{
+                \Yii::$app->session->setFlash('UpdateError', 'Profile updated failed!');
+            }
+            return $this->redirect(['user/account']);
+        }
+        return $this->render('update', [
+            'user' => $user
+        ]);
+    }
+
 }

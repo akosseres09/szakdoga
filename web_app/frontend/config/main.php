@@ -40,7 +40,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'user/update/<user_id>' => 'user/update'
+                'user/update/<user_id>' => 'user/update',
+                'user/save/<user_id>' => 'user/save'
             ],
         ],
         'assetManager' => [

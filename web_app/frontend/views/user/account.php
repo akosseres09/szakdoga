@@ -8,13 +8,12 @@ use common\models\User;
 use yii\helpers\Url;
 use yii\web\View;
 
-Yii::$app->formatter->locale = 'en_US';
 ?>
 
 <div class="container rounded bg-white mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-3 " style="border-right: darkgray solid 1px">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+    <div class="row justify-content-evenly">
+        <div class="col-lg-3 " style="border-right: darkgray solid 1px">
+            <div class="d-flex flex-column align-items-center text-center py-5">
                 <img class="rounded-circle" width="150px"
                      src="<?= $user->getProfilePic();?>" alt="Profile pic">
                 <span class="font-weight-bold"><?=ucfirst(Yii::$app->user->identity->username)?></span>
@@ -27,8 +26,8 @@ Yii::$app->formatter->locale = 'en_US';
             </div>
         </div>
 
-        <div class="col-md-4 border-right">
-            <div class="p-3">
+        <div class="col-lg-5 border-right">
+            <div class="p-1">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Billing Information</h4>
                 </div>
@@ -57,18 +56,18 @@ Yii::$app->formatter->locale = 'en_US';
                     </div>
                 </div>
 
-                <div class="mt-5 text-center">
+                <div class="mt-4 text-center">
                     <a href="<?= Url::to(['/user/save-billing/' . Yii::$app->user->id]) ?>" class="btn btn-primary profile-button" type="button">Save Billing information</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="p-3">
+        <div class="col-lg">
+            <div class="p-1">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Shipping Information</h4>
                 </div>
                 <div class="row mt-3">
-                    <div class="row">
+                    <div class="row justify-content-between">
                         <div class="col-md-6">
                             <label for="country" class="labels">Country</label>
                             <input id="country" type="text" class="form-control" placeholder="Hungary" value="">
@@ -92,8 +91,8 @@ Yii::$app->formatter->locale = 'en_US';
                     </div>
                 </div>
 
-                <div class="mt-5 text-center">
-                    <a href="<?= Url::to(['/user/save-shipping/' . Yii::$app->user->id]) ?>" class="btn btn-primary profile-button" type="button">Save Billing information</a>
+                <div class="mt-4 text-center">
+                    <a href="<?= Url::to(['/user/save-shipping/' . Yii::$app->user->id]) ?>" class="btn btn-primary profile-button" type="button">Save Shipping information</a>
                 </div>
             </div>
         </div>
