@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\User;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\ErrorAction;
@@ -35,11 +36,26 @@ class UserController extends Controller
         ];
     }
 
-    public function actionAccount(){
-        $this->render('account');
+    public function actionAccount(): string
+    {
+        $user = User::findOne(\Yii::$app->user->id);
+        return $this->render('account', [
+            'user' => $user
+        ]);
     }
 
-    public function actionSettings(){
-        $this->render('settings');
+    public function actionSettings(): string
+    {
+        return $this->render('settings');
+    }
+
+    public function actionUpdate($user_id){
+        if((int)$user_id !== \Yii::$app->user->id){
+            return $this->redirect(['/user/account']);
+        }
+        $user = User::findOne($user_id);
+        return $this->render('update', [
+            'user' => $user
+        ]);
     }
 }
