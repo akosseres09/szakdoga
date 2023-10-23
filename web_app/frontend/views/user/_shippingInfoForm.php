@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap5\ActiveForm;
 ?>
 
-<div class="col-lg">
+<div id="shipping-container" class="col-lg-4">
     <div class="p-1">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="text-right">Shipping Information</h4>

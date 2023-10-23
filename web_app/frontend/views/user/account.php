@@ -11,6 +11,7 @@ use common\models\ShippingInformation;
 use common\models\User;
 use yii\web\View;
 
+$this->registerCssFile('@web/css/account.css');
 $this->title = 'Your Account';
 ?>
 

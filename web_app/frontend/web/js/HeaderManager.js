@@ -1,22 +1,9 @@
-// function loadHeader(){
-//     let width = window.innerWidth;
-//
-//     let header = (width < 992) ? 'Mobile' : 'Desktop';
-//
-//     $.ajax({
-//         url: '/ajax/header?headerView='+header,
-//         method: 'GET',
-//         success: function (data){
-//             $('#header').html(data);
-//             $('.dropdown-toggle').dropdown();
-//         },
-//     });
-// }
-//
-// $(document).ready(function() {
-//     loadHeader();
-// });
-//
-// $(window).resize(function() {
-//     loadHeader();
-// });
+const mobileNavs = document.querySelectorAll('.mobile-nav');
+
+
+mobileNavs.forEach((nav) => {
+    nav.addEventListener('click', () => {
+        const toggleDiv = nav.querySelector('div');
+        toggleDiv.classList.toggle('active');
+    });
+});

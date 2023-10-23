@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 ?>
 
-<div class="col-lg-3 " style="border-right: darkgray solid 1px">
+<div id="profile-card" class="col-lg-3 " style="border-right: darkgray solid 1px">
     <div class="d-flex flex-column align-items-center text-center py-5">
         <img class="rounded-circle" width="150px"
              src="<?= $user->getProfilePic();?>" alt="Profile pic">

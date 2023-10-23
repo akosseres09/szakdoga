@@ -27,7 +27,16 @@
     height: 20px;
     border-radius: 100%;
 }
-
+.mobile-nav > div{
+    transition: opacity 1s ease-out;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+.mobile-nav > div.active {
+    opacity: 1;
+    height: auto;
+}
 @media screen and (max-width: 992px) {
     #mobile-header {
         display: flex !important;
