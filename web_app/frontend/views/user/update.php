@@ -8,6 +8,7 @@ use common\models\User;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
+$this->title = 'Update Your Profile';
 
 ?>
 
@@ -20,21 +21,19 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="row mt-2">
             <div class="col-md-12">
-                <label for="username" class="labels">Username</label>
-                <input type="text" id="username" class="form-control" placeholder="Username"
-                       value="<?= Yii::$app->user->identity->username ?>">
+                <?= $form->field($user, 'username')
+                    ->textInput(['placeholder' => 'Username', 'value' => $user->username]) ?>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-md-12">
-                <label for="email" class="labels">Email address</label>
-                <input type="email" id="email" class="form-control" placeholder="Email address"
-                       value="<?= Yii::$app->user->identity->email ?>">
+                <?= $form->field($user, 'email')
+                    ->Textinput(['type' => 'email' ,'placeholder' => 'Email address', 'value' => $user->email]) ?>
             </div>
         </div>
         <div class="col-lg-4 mt-5 text-center">
             <?=
-                Html::submitButton('Save Profile' ,[
+                Html::a('Save Profile' ,['user/save-user/'.$user->id],[
                     'class' => [
                             'flex-1 btn btn-success'
                         ],

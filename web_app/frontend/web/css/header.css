@@ -13,3 +13,27 @@
 .flex-1 {
     flex: 1;
 }
+
+.dropdown-toggle, .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-number-container {
+    background-color: red;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+}
+
+@media screen and (max-width: 992px) {
+    #mobile-header {
+        display: flex !important;
+    }
+
+    #desktop-header {
+        display: none;
+    }
+}
