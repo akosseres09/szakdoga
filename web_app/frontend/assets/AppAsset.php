@@ -14,7 +14,8 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/header.css',
-        'css/google.css'
+        'css/google.css',
+        'css/footer.css'
     ];
     public $js = [
         'js/HeaderManager.js',
