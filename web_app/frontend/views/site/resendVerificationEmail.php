@@ -2,13 +2,13 @@
 
 /** @var yii\web\View$this  */
 /** @var yii\bootstrap5\ActiveForm $form */
-/** @var \frontend\models\ResetPasswordForm $model */
+/** @var ResetPasswordForm $model */
 
+use frontend\models\ResetPasswordForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
 $this->title = 'Resend verification email';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-resend-verification-email">
     <h1><?= Html::encode($this->title) ?></h1>

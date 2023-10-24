@@ -98,24 +98,23 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionSaveShipping($user_id): Response|string
+    public function actionSaveShipping($user_id): Response
     {
         if((int)$user_id !== \Yii::$app->user->id){
+            var_dump(false);
             return $this->redirect(['/user/account/' . $user_id]);
         }
         $user = User::findOne($user_id);
         $shippingInfo = new ShippingInformation();
         if($this->request->isPost && $shippingInfo->load(\Yii::$app->request->post())){
+            echo 'in';
             if($shippingInfo->save()){
                 \Yii::$app->session->setFlash('ShippingSuccess', 'Shipping Information saved successfully!');
             }else{
                 \Yii::$app->session->setFlash('ShippingError', 'Failed to save shipping information!');
             }
-            return $this->redirect(['/user/account']);
         }
-        return $this->render('update', [
-            'user' => $user
-        ]);
+        return $this->redirect(['/user/account/' . $user->id]);
     }
 
     public function actionSaveBilling($user_id){
