@@ -40,12 +40,6 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'user/account/<user_id>' => 'user/account',
-                'user/update/<user_id>' => 'user/update',
-                'user/save-user/<user_id>' => 'user/save-user',
-                'user/save-shipping/<user_id>' => 'user/save-shipping',
-                'user/save-billing/<user_id>' => 'user/save-billing',
-                'ajax/load-header/<headerView>' => 'ajax/load-header'
             ],
         ],
         'assetManager' => [

@@ -21,7 +21,7 @@ class UserController extends Controller
                'only' => ['settings', 'account', 'save-user', 'save-billing', 'save-shipping'],
                'rules' => [
                    [
-                       'actions' => ['settings', 'account', 'save-billing', 'save-user', 'save-shipping'],
+                       'actions' => ['settings', 'account', 'save-billing', 'save-user', 'save-shipping', 'add-billing', 'add-shipping'],
                        'allow' => true,
                        'roles' => ['@']
                    ]
@@ -30,9 +30,9 @@ class UserController extends Controller
            'verbs' => [
                'class' => VerbFilter::class,
                'actions' => [
-                   'save-user' => ['post'],
-                   'save-shipping' => ['post'],
-                   'save-billing' => ['post']
+                   'save-user' => ['POST'],
+                   'save-shipping' => ['POST'],
+                   'save-billing' => ['POST']
                ],
            ],
        ];
@@ -48,14 +48,18 @@ class UserController extends Controller
         ];
     }
 
-    public function actionAccount($user_id): Response|string
+    public function actionAccount(): Response|string
     {
-        if((int)$user_id !== \Yii::$app->user->id){
-            return $this->redirect(['/']);
+
+        $user = User::findOne(\Yii::$app->user->id);
+        $shippingInfo = ShippingInformation::findOne($user->id);
+        if($shippingInfo === null){
+            $shippingInfo = new ShippingInformation();
         }
-        $user = User::findOne($user_id);
-        $shippingInfo = new ShippingInformation();
-        $billingInfo = new BillingInformation();
+        $billingInfo = BillingInformation::findOne($user->id);
+        if($billingInfo === null){
+            $billingInfo = new BillingInformation();
+        }
         return $this->render('account', [
             'user' => $user,
             'billingInfo' => $billingInfo,
@@ -68,59 +72,84 @@ class UserController extends Controller
         return $this->render('settings');
     }
 
-    public function actionUpdate($user_id): Response|string
+    public function actionUpdate(): Response|string
     {
-        if((int)$user_id !== \Yii::$app->user->id){
-            return $this->redirect(['/user/account/' . \Yii::$app->user->id]);
-        }
-        $user = User::findOne($user_id);
+        $user = User::findOne(\Yii::$app->user->id);
         return $this->render('update', [
             'user' => $user,
         ]);
     }
 
-    public function actionSaveUser($user_id): Response|string
+    public function actionSaveUser(): Response|string
     {
-        if((int)$user_id !== \Yii::$app->user->id){
-            return $this->redirect(['/user/account/' . $user_id]);
-        }
-        $user = User::findOne($user_id);
+        $user = User::findOne(\Yii::$app->user->id);
         if($this->request->isPost && $user->load(\Yii::$app->request->post())){
             if($user->save()){
                 \Yii::$app->session->setFlash('UpdateSuccess', 'Profile updated successfully!');
             }else{
                 \Yii::$app->session->setFlash('UpdateError', 'Profile updated failed!');
             }
-            return $this->redirect(['user/account/'.$user->id]);
+            return $this->redirect(['/user/account']);
         }
         return $this->render('update', [
             'user' => $user
         ]);
     }
 
-    public function actionSaveShipping($user_id): Response
+    public function actionAddShipping(): Response|string
     {
-        if((int)$user_id !== \Yii::$app->user->id){
-            var_dump(false);
-            return $this->redirect(['/user/account/' . $user_id]);
+        $shippingInfo = ShippingInformation::findOne(\Yii::$app->user->id);
+        if($shippingInfo === null){
+            $shippingInfo = new ShippingInformation();
         }
-        $user = User::findOne($user_id);
-        $shippingInfo = new ShippingInformation();
+        return $this->render('shippingInfoForm',[
+            'shippingInfo' => $shippingInfo
+        ]);
+    }
+
+    public function actionAddBilling(): Response|string
+    {
+        $billingInfo = BillingInformation::findOne(\Yii::$app->user->id);
+        if($billingInfo === null){
+            $billingInfo = new BillingInformation();
+        }
+        return $this->render('billingInfoForm', [
+            'billingInfo' => $billingInfo
+        ]);
+    }
+
+    public function actionSaveShipping(): Response
+    {
+        $user = User::findOne(\Yii::$app->user->id);
+        $shippingInfo = ShippingInformation::findOne($user->id);
+        if($shippingInfo === null){
+            $shippingInfo = new ShippingInformation();
+        }
         if($this->request->isPost && $shippingInfo->load(\Yii::$app->request->post())){
-            echo 'in';
             if($shippingInfo->save()){
                 \Yii::$app->session->setFlash('ShippingSuccess', 'Shipping Information saved successfully!');
             }else{
                 \Yii::$app->session->setFlash('ShippingError', 'Failed to save shipping information!');
             }
         }
-        return $this->redirect(['/user/account/' . $user->id]);
+        return $this->redirect(['/user/account']);
     }
 
-    public function actionSaveBilling($user_id){
-        if((int)$user_id !== \Yii::$app->user->id){
-            return $this->redirect(['/user/account/' . $user_id]);
+    public function actionSaveBilling(): Response
+    {
+        $user = User::findOne(\Yii::$app->user->id);
+        $billingInfo = BillingInformation::findOne($user->id);
+        if ($billingInfo === null) {
+           $billingInfo = new BillingInformation();
         }
+        if($this->request->isPost && $billingInfo->load(\Yii::$app->request->post())){
+            if($billingInfo->save()){
+                \Yii::$app->session->setFlash('BillingSuccess', 'Billing Information saved successfully!');
+            }else {
+                \Yii::$app->session->setFlash('BillingError', 'Failed to save billing Information!');
+            }
+        }
+        return $this->redirect(['/user/account']);
     }
 
 }

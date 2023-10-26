@@ -17,7 +17,7 @@ use yii\helpers\Url;
         <span class="text-black-50">Registered at: <?= Yii::$app->formatter->asDate($user->created_at) ?></span>
         <span class="text-black-50">Last Login at: <?= Yii::$app->formatter->asDate($user->last_login_at) ?></span>
         <span class="text-black-50 mt-3">
-            <a href="<?= Url::to(['user/update/' . Yii::$app->user->id]) ?>" class="btn btn-success">Update Profile</a>
+            <a href="<?= Url::to(['user/update']) ?>" class="btn btn-success">Update Profile</a>
         </span>
     </div>
 </div>

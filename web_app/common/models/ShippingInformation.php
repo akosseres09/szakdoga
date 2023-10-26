@@ -27,7 +27,11 @@ class ShippingInformation extends ActiveRecord
     public function behaviors(): array
     {
         return [
-            BlameableBehavior::class
+            [
+                'class' => BlameableBehavior::class,
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => false
+            ]
         ];
     }
 
@@ -44,5 +48,15 @@ class ShippingInformation extends ActiveRecord
     public static function findIdentity($user_id): ?ShippingInformation
     {
         return static::findOne(['user_id' => $user_id]);
+    }
+
+    public function hasNull(): bool
+    {
+        if (!$this->id === null || !$this->user_id || !$this->country || !$this->city
+            || !$this->postcode || !$this->street || !$this->state) {
+            return true;
+        }
+
+        return false;
     }
 }

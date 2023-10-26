@@ -64,7 +64,7 @@ $actionName = Yii::$app->controller->action->id;
                             Info
                         </a>
                         <div class="px-3" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item p-1" href="<?= Url::to(['/user/account/' . Yii::$app->user->id]) ?>">Account</a>
+                            <a class="dropdown-item p-1" href="<?= Url::to(['/user/account']) ?>">Account</a>
                             <a class="dropdown-item p-1" href="<?= Url::to(['/user/settings']) ?>">Settings</a>
                             <?= Html::a('Logout', ['/site/logout'], [
                                 'class' => 'dropdown-item p-1',
@@ -140,7 +140,7 @@ $actionName = Yii::$app->controller->action->id;
                                 <span class="material-symbols-outlined">account_circle</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="transform: translateX(-50%)">
-                                <a class="dropdown-item" href="<?= Url::to(['/user/account/' . Yii::$app->user->id]) ?>">Account</a>
+                                <a class="dropdown-item" href="<?= Url::to(['/user/account']) ?>">Account</a>
                                 <a class="dropdown-item" href="<?= Url::to(['/user/settings']) ?>">Settings</a>
                                 <?= Html::a('Logout', ['/site/logout'], [
                                     'class' => 'dropdown-item',

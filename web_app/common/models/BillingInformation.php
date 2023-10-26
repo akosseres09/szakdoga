@@ -15,7 +15,7 @@ use yii\db\ActiveRecord;
  * @property string $street
  * @property int $postcode
  *
- * @property User $userId
+ * @property User $createdBy
  */
 class BillingInformation extends ActiveRecord
 {
@@ -37,7 +37,11 @@ class BillingInformation extends ActiveRecord
     public function behaviors(): array
     {
         return [
-            BlameableBehavior::class
+            [
+                'class' => BlameableBehavior::class,
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => false
+            ]
         ];
     }
 
@@ -46,4 +50,13 @@ class BillingInformation extends ActiveRecord
         return static::findOne(['user_id' => $user_id]);
     }
 
+    public function hasNull(): bool
+    {
+        if (!$this->id === null || !$this->user_id || !$this->country || !$this->city
+            || !$this->postcode || !$this->street || !$this->state) {
+            return true;
+        }
+
+        return false;
+    }
 }

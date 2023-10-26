@@ -7,7 +7,7 @@
 use common\models\User;
 use yii\helpers\Html;
 use yii\web\View;
-use yii\widgets\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 $this->title = 'Update Your Profile';
 
 ?>
@@ -33,25 +33,29 @@ $this->title = 'Update Your Profile';
                             ->Textinput(['type' => 'email' ,'placeholder' => 'Email address', 'value' => $user->email]) ?>
                     </div>
                 </div>
-            <div class="d-flex justify-content-center">
-                <div class="col-lg-4 mt-4 text-center">
-                    <?=
-                    Html::a('Save Profile' ,['user/save-user/'.$user->id],[
-                        'class' => [
-                            'btn btn-success'
-                        ],
-                        'data' => [
-                            'method' => 'post'
-                        ]
-                    ]);
-                    ?>
-                    <?=
-                    Html::a('Cancel', ['/user/account'], [
-                        'class' => [
-                            'btn btn-danger'
-                        ]
-                    ]);
-                    ?>
+            <div class="col-12 d-flex justify-content-center">
+                <div class="row mt-4 text-center">
+                    <div class="col-8">
+                        <?=
+                            Html::a('Save Profile' ,['user/save-user'],[
+                                'class' => [
+                                    'btn btn-success'
+                                ],
+                                'data' => [
+                                    'method' => 'post'
+                                ]
+                            ]);
+                        ?>
+                    </div>
+                    <div class="col-4">
+                        <?=
+                            Html::a('Cancel', ['/user/account'], [
+                                'class' => [
+                                    'btn btn-danger'
+                                ]
+                            ]);
+                        ?>
+                    </div>
                 </div>
             </div>
             <?php ActiveForm::end();?>
