@@ -9,6 +9,10 @@
     font-weight: bolder;
 }
 
+.write > a {
+    color: inherit;
+    text-decoration: none;
+}
 
 @media screen and (max-width: 992px){
     #profile-card{

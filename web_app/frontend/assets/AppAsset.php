@@ -18,6 +18,7 @@ class AppAsset extends AssetBundle
         'css/footer.css'
     ];
     public $js = [
+        'js/app.js',
         'js/HeaderManager.js',
         'js/bootstrap.bundle.min.js'
     ];
