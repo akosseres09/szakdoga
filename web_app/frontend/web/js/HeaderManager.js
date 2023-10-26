@@ -1,5 +1,5 @@
 const mobileNavs = document.querySelectorAll('.mobile-nav');
-
+let click = true;
 
 mobileNavs.forEach((nav) => {
     nav.addEventListener('click', () => {

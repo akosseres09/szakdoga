@@ -1,13 +1,20 @@
 .dropdown-menu {
     padding: 5px;
 }
-.dropdown-menu > .dropdown-item {
-    border-radius: 10px;
+
+.dropdown-menu > .dropdown-item > a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.drop > span > a {
+    border-radius: 10px
 }
 
 .dropdown-item:hover{
     background-color: lightseagreen;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .flex-1 {
@@ -28,15 +35,17 @@
     border-radius: 100%;
 }
 .mobile-nav > div{
-    transition: opacity 1s ease-out;
+    transition: opacity 1s ease-out, max-height 0.3s ease-out;
     opacity: 0;
-    height: 0;
+    max-height: 0;
     overflow: hidden;
 }
 .mobile-nav > div.active {
     opacity: 1;
-    height: auto;
+    max-height: 100px;
 }
+
+
 @media screen and (max-width: 992px) {
     #mobile-header {
         display: flex !important;

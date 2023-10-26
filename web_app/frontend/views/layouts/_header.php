@@ -25,7 +25,7 @@ $actionName = Yii::$app->controller->action->id;
                 <div class="mobile-nav nav-item">
                     <a class="nav-link justify-content-start" aria-current="page" href="#">
                         Products</a>
-                    <div class="px-3" aria-labelledby="navbarDropdown">
+                    <div class="px-3 drop" aria-labelledby="navbarDropdown">
                         <span class="p-1 dropdown-item"><a>Shoes</a></span>
                         <span class=" p-1 dropdown-item"><a>Balls</a></span>
                         <span class="p-1 dropdown-item"><a>Accessories</a></span>
@@ -36,7 +36,7 @@ $actionName = Yii::$app->controller->action->id;
                     <a class="nav-link justify-content-start" href="#">
                         Info
                     </a>
-                    <div class="px-3" aria-labelledby="navbarDropdown">
+                    <div class="px-3 drop" aria-labelledby="navbarDropdown">
                         <span><a class="p-1 dropdown-item" href="<?= Url::to(['/site/contact']) ?>">Contact</a></span>
                         <span><a class="p-1 dropdown-item" href="#">Another action</a></span>
                         <span><a class="p-1 dropdown-item" href="#">Something else here</a></span>
@@ -59,20 +59,27 @@ $actionName = Yii::$app->controller->action->id;
                             Cart
                         </a>
                     </div>
+                    <div class="nav-item">
+                        <a class="nav-link justify-content-start" aria-current="page" href="#">
+                            Wishlist
+                        </a>
+                    </div>
                     <div class="mobile-nav nav-item dropdown">
                         <a class="nav-link justify-content-start" href="#">
-                            Info
+                            Profile
                         </a>
-                        <div class="px-3" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item p-1" href="<?= Url::to(['/user/account']) ?>">Account</a>
-                            <a class="dropdown-item p-1" href="<?= Url::to(['/user/settings']) ?>">Settings</a>
-                            <?= Html::a('Logout', ['/site/logout'], [
-                                'class' => 'dropdown-item p-1',
-                                'data' => [
-                                    'method' => 'post',
-                                ],
-                            ]);
-                            ?>
+                        <div class="px-3 drop" aria-labelledby="navbarDropdown">
+                           <span><a class="dropdown-item p-1" href="<?= Url::to(['/user/account']) ?>">Account</a></span>
+                            <span><a class="dropdown-item p-1" href="<?= Url::to(['/user/settings']) ?>">Settings</a></span>
+                           <span>
+                                <?= Html::a('Logout', ['/site/logout'], [
+                                    'class' => 'dropdown-item p-1',
+                                    'data' => [
+                                        'method' => 'post',
+                                    ],
+                                ]);
+                                ?>
+                           </span>
                         </div>
                     </div>
                 <?php endif;?>
@@ -103,10 +110,10 @@ $actionName = Yii::$app->controller->action->id;
                             Info
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="<?= Url::to(['/site/contact']) ?>">Contact</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li  class="dropdown-item"><a href="<?= Url::to(['/site/contact']) ?>">Contact</a></li>
+                            <li  class="dropdown-item"><a href="#">Another action</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li  class="dropdown-item"><a href="#">Something else here</a></li>
                         </ul>
                     </div>
                 </div>
@@ -134,6 +141,13 @@ $actionName = Yii::$app->controller->action->id;
                             <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="top: 25%; left: 90%">
                                 0
                             </span>
+                        </div>
+                        <div class="nav-item align-self-center">
+                            <a class="nav-link" href="#">
+                                <span class="material-symbols-outlined">
+                                    favorite
+                                </span>
+                            </a>
                         </div>
                         <div class="nav-item dropdown" id="profile" style="padding-right: 30px">
                             <a class="nav-link dropdown-toggle d-flex" aria-current="page" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
