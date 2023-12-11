@@ -108,7 +108,7 @@ a.desc:after {
     background-color: #CD7401;
     border-color: #CD7401;
     transition: transform 0.2s ;
-    color: black;
+    color: white;
 }
 .btn-primary:hover,
 .btn-primary:focus {
@@ -117,7 +117,8 @@ a.desc:after {
     border-color: #9c5900;
 }
 
-.btn-secondary {
+.btn-outline-light {
+    border-color: grey;
     border-radius: 50px;
     padding: 8px 25px;
     background-color: unset;
@@ -125,8 +126,8 @@ a.desc:after {
     transition: transform 0.2s;
 }
 
-.btn-secondary:hover,
-.btn-secondary:focus {
+.btn-outline-light:hover,
+.btn-outline-light:focus {
     transform: scale(1.05);
     border-color: black;
     background-color: unset;
@@ -155,11 +156,24 @@ a.desc:after {
 }
 
 .site-login,
-.site-signup {
+.site-signup,
+.site-password-reset{
     background-color: white;
-    padding: 35px 80px 50px 80px;
     border-radius: 20px;
-    max-height: 800px;
+}
+
+.site-signup,
+.site-password-reset {
+    padding: 35px 80px 50px 80px;
+}
+
+.site-login {
+    padding: 35px 50px 50px 50px
+}
+
+.new-container {
+    background-color: rgba(205,116,1,0.95);
+    padding-top: 20px !important;
 }
 
 a {
@@ -167,18 +181,21 @@ a {
     text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a:focus {
     color: #9c5900;
 }
 
-#loginform-rememberme,
+
 #loginform-rememberme ~ label {
     color: #CD7401;
 }
 
 
 @media screen and (max-width: 480px ) {
-    .site-login {
+    .site-login,
+    .site-signup,
+    .site-password-reset{
         padding: 35px 40px 40px 50px
     }
 }

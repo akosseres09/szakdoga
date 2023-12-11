@@ -46,7 +46,7 @@ LandingAsset::register($this);
                         <div class="d-flex gap-3 align-items-center flex-1">
                             <?php if(Yii::$app->user->isGuest): ?>
                                 <div class="d-flex gap-3 ms-auto">
-                                    <a class="btn btn-secondary" href="<?= Url::to(['/site/login']) ?>">
+                                    <a class="btn btn-outline-light" href="<?= Url::to(['/site/login']) ?>">
                                         Log in
                                     </a>
                                     <a class="btn btn-primary" href="<?= Url::to(['/site/signup']) ?>">
@@ -56,7 +56,7 @@ LandingAsset::register($this);
                             <?php else :?>
                                 <div class="d-flex gap-3 ms-auto">
                                     <a class="btn btn-primary">Browse Products</a>
-                                    <a href="<?= Url::to(['site/logout'])?>" data-method="POST" class="btn btn-secondary">Log out</a>
+                                    <a href="<?= Url::to(['site/logout'])?>" data-method="POST" class="btn btn-outline-light">Log out</a>
                                 </div>
                             <?php endif;?>
                         </div>

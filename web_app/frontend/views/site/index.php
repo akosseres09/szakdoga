@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 
-$this->title = 'Sportify - The best Choice ';
+$this->title = 'Sportify » The best Choice ';
 ?>
 
 
@@ -17,7 +17,7 @@ $this->title = 'Sportify - The best Choice ';
                 <div class="col-lg-5 text-lg-left text-center ps-lg-5 order-lg-1">
                     At Sportify, we believe in the power of sports to inspire, unite, and drive personal excellence. Whether you're a seasoned athlete or just starting your fitness journey, we've got everything you need to perform at your best.
                     <div class="text-center">
-                        <a class="btn btn-primary mt-5" href="" style="color: white">
+                        <a class="btn btn-lg btn-primary mt-5" href="" style="color: white">
                             GO SHOPPING
                         </a>
                     </div>

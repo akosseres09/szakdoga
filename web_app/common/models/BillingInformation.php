@@ -30,7 +30,7 @@ class BillingInformation extends ActiveRecord
             [['country', 'state', 'street', 'city', 'postcode'], 'required'],
             [['country', 'state', 'street', 'city'], 'string'],
             [['postcode'], 'integer'],
-            [['postcode'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number', 'message' => 'The postcode must be positive!']
+            [['postcode'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number', 'message' => 'The postcode must be positive!'],
         ];
     }
 

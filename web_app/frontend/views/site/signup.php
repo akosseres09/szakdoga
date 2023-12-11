@@ -15,9 +15,9 @@ $fieldOptions = [
     'template' => '<div><span class="pb-5">{label}</span>{input}{hint}{error}</div>'
 ];
 
-$this->title = 'Sportify >>> Signup';
+$this->title = 'Sportify » Signup';
 ?>
-<div class="container-fluid h-100" style="background-color: rgba(205,116,1,0.95)">
+<div class="container-fluid h-100 new-container" >
     <div class="container d-flex justify-content-center">
         <div class="site-signup">
             <div class="row">
@@ -31,10 +31,10 @@ $this->title = 'Sportify >>> Signup';
                 <div class="col-sm-12">
                     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                     <div class="row pt-3">
-                        <?= $form->field($model, 'username', $fieldOptions)->textInput(['autofocus' => true]) ?>
+                        <?= $form->field($model, 'username', $fieldOptions)->textInput() ?>
                     </div>
                     <div class="row pt-2">
-                        <?= $form->field($model, 'email', $fieldOptions)->textInput(['maxlength' => 255]) ?>
+                        <?= $form->field($model, 'email', $fieldOptions)->textInput(['maxlength' => 255, 'type' => 'email']) ?>
                     </div>
                     <div class="row pt-2">
                         <?= $form->field($model, 'password', $fieldOptions)->passwordInput() ?>
