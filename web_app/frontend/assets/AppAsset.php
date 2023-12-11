@@ -15,7 +15,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/header.css',
         'css/google.css',
-        'css/footer.css'
+        'css/footer.css',
     ];
     public $js = [
         'js/app.js',

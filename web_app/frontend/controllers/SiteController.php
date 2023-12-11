@@ -76,6 +76,7 @@ class SiteController extends Controller
      */
     public function actionIndex(): string
     {
+        $this->layout = 'landingPage';
         return $this->render('index');
     }
 
@@ -85,7 +86,7 @@ class SiteController extends Controller
 
     public function actionLogin(): \yii\web\Response|string
     {
-        $this->layout = 'mainWithoutFooter';
+        $this->layout = 'mainWithoutHeaderAndFooter';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -98,7 +99,7 @@ class SiteController extends Controller
         $model->password = '';
 
         return $this->render('login', [
-            'model' => $model,
+            'user' => $model,
         ]);
     }
 
@@ -154,7 +155,7 @@ class SiteController extends Controller
      */
     public function actionSignup(): Response|string
     {
-        $this->layout = 'mainWithoutFooter';
+        $this->layout = 'mainWithoutHeaderAndFooter';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if($model->signup()){

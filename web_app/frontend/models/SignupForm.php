@@ -14,6 +14,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $passwordAgain;
 
 
     /**
@@ -25,18 +26,23 @@ class SignupForm extends Model
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
-
+            ['username', 'string', 'min' => 2, 'max' => 255, 'message' => 'Username must be between 2 and 255 characters long'],
             ['email', 'trim'],
             ['email', 'required'],
-            ['email', 'email'],
+            ['email', 'email', 'message' => 'This email is not a valid email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
-
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['passwordAgain', 'trim'],
+            ['passwordAgain', 'required'],
+            ['passwordAgain', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['password', 'compare', 'compareAttribute' => 'passwordAgain', 'skipOnError' => false, 'message' => 'Passwords do not match'],
+            ['passwordAgain', 'compare', 'compareAttribute' => 'password', 'skipOnError' => false,'message' => 'Passwords do not match']
         ];
     }
+
+
 
     /**
      * Signs user up.

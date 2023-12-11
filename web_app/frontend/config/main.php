@@ -12,6 +12,10 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'app' => [
+            'class' => 'yii\web\Application',
+            'name' => 'Sportify'
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
