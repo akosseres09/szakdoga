@@ -32,7 +32,7 @@ $fieldOptions = [
             <div class="row">
                 <h1 class="row text-center pb-2">
                     <a class="col-sm" href="<?= Url::to(['/']) ?>">Sportify</a>
-                    <span class="col-sm w-100">Login</span>
+                    <span class="col-sm w-100 px-5">Login</span>
                 </h1>
             </div>
             <div class="w-100 border-bottom"></div>

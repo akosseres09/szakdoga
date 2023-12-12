@@ -11,6 +11,7 @@ $this->beginContent('@frontend/views/layouts/base.php');
 LandingAsset::register($this);
 ?>
 <header id="header">
+    <!-- MOBILE HEADER -->
     <nav id="mobile-header" class="d-none navbar navbar-light bg-light">
         <div class="container-fluid">
             <span class="navbar-brand fw-bold">Sportify</span>
@@ -33,11 +34,17 @@ LandingAsset::register($this);
                             Browse Products
                         </a>
                     </div>
+                    <div class="nav-item">
+                        <a class="nav-link justify-content-start" data-method="POST" aria-current="page" href="<?= Url::to(['/site/logout']) ?>">
+                            Logout
+                        </a>
+                    </div>
                 <?php endif;?>
             </div>
         </div>
     </nav>
-    <nav id="desktop-header" class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- DESKTOP HEADER -->
+    <nav id="desktop-header" class="navbar navbar-expand-lg navbar-light bg-light position-fixed w-100 shadow">
         <div class="container-fluid">
             <div class="container">
                 <div class="navbar-collapse d-flex justify-content-evenly" id="navbarSupportedContent">
@@ -66,7 +73,9 @@ LandingAsset::register($this);
         </div>
     </nav>
 </header>
-<?= $content ?>
+<div class="page-wrapper">
+    <?= $content ?>
+</div>
 <?php $this->endContent(); ?>
 
 

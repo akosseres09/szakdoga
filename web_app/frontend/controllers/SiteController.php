@@ -7,6 +7,7 @@ use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
+use yii\captcha\CaptchaAction;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -16,6 +17,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\ErrorAction;
 use yii\web\Response;
 
 /**
@@ -26,15 +28,15 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'login', 'request-reset-password'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'login', 'request-reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -61,10 +63,11 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => ErrorAction::class,
+                'layout' => 'mainWithoutHeaderAndFooter'
             ],
             'captcha' => [
-                'class' => \yii\captcha\CaptchaAction::class,
+                'class' => CaptchaAction::class,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
@@ -111,6 +114,9 @@ class SiteController extends Controller
      */
     public function actionLogout(): \yii\web\Response
     {
+        if (Yii::$app->user->isGuest){
+           return $this->goHome();
+        }
         Yii::$app->user->logout();
 
         return $this->goHome();
@@ -124,6 +130,10 @@ class SiteController extends Controller
      */
     public function actionSignup(): Response|string
     {
+        if (!Yii::$app->user->isGuest){
+            $this->goHome();
+        }
+
         $this->layout = 'mainWithoutHeaderAndFooter';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
@@ -147,6 +157,10 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset(): Response|string
     {
+        if (!Yii::$app->user->isGuest) {
+            $this->goHome();
+        }
+
         $this->layout = 'mainWithoutHeaderAndFooter';
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -173,6 +187,10 @@ class SiteController extends Controller
      */
     public function actionResetPassword(string $token): Response|string
     {
+        if (!Yii::$app->user->isGuest) {
+            $this->goHome();
+        }
+
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidArgumentException $e) {
