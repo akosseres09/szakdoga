@@ -1,3 +1,10 @@
+:root{
+    --spfy-button-color-hex: #CD7401;
+    --spfy-brown-color-rgba: rgba(205, 116, 1, 0.2);
+    --spfy-brown-hover-color: #9c5900;
+
+}
+
 main > .container {
     padding: 70px 15px 20px;
 }
@@ -87,4 +94,89 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+
+.btn-primary{
+    border-radius: 50px;
+    padding: 8px 25px ;
+    background-color: var(--spfy-button-color-hex);
+    border-color: var(--spfy-button-color-hex);
+    transition: transform 0.2s ;
+    color: white;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+    transform: scale(1.05);
+    background-color: var(--spfy-brown-hover-color);
+    border-color: var(--spfy-brown-hover-color);
+}
+
+.btn-outline-light {
+    border-color: grey;
+    border-radius: 50px;
+    padding: 8px 25px;
+    background-color: unset;
+    color: black;
+    transition: transform 0.2s;
+}
+
+.btn-outline-light:hover,
+.btn-outline-light:focus {
+    transform: scale(1.05);
+    border-color: black;
+    background-color: unset;
+    color: black;
+}
+
+.site-login,
+.site-signup,
+.site-password-reset{
+    background-color: white;
+    border-radius: 20px;
+}
+
+.site-signup,
+.site-password-reset {
+    padding: 35px 80px 50px 80px;
+}
+
+.site-login {
+    padding: 35px 50px 50px 50px
+}
+
+.new-container {
+    background-color: rgba(205,116,1,0.95);
+    padding-top: 20px !important;
+}
+
+a {
+    color: var(--spfy-button-color-hex);
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    color: var(--spfy-brown-hover-color);
+}
+
+#loginform-rememberme ~ label {
+    color: #2d2d2d;
+    font-weight: 600;
+}
+
+
+@media screen and (max-width: 480px ) {
+    .site-login,
+    .site-signup,
+    .site-password-reset{
+        padding: 35px 40px 40px 50px
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .page-wrapper {
+        position: relative;
+        top: 75px;
+    }
 }

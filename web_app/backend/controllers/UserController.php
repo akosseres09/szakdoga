@@ -37,7 +37,10 @@ class UserController extends Controller
     public function actionUsers(): string
     {
         $users = new ActiveDataProvider([
-            'query' => User::find()->all()
+            'query' => User::find(),
+            'pagination' => [
+                'pageSize' => 15
+            ]
         ]);
         return $this->render('users', [
             'users' => $users

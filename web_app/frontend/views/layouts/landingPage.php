@@ -30,7 +30,7 @@ LandingAsset::register($this);
                         </div>
                 <?php else :?>
                     <div class="nav-item">
-                        <a class="nav-link justify-content-start" aria-current="page" href="#">
+                        <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['shop/products']) ?>">
                             Browse Products
                         </a>
                     </div>
@@ -62,7 +62,7 @@ LandingAsset::register($this);
                                 </div>
                             <?php else :?>
                                 <div class="d-flex gap-3 ms-auto">
-                                    <a class="btn btn-primary">Browse Products</a>
+                                    <a class="btn btn-primary" href="<?= Url::to(['shop/products']) ?>">Browse Products</a>
                                     <a href="<?= Url::to(['site/logout'])?>" data-method="POST" class="btn btn-outline-light">Log out</a>
                                 </div>
                             <?php endif;?>

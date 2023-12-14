@@ -15,11 +15,11 @@ class m231023_093028_create_shipping_information_table extends Migration
         $this->createTable('{{%shipping_information}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'country' => $this->string()->notNull(),
-            'state' => $this->string()->notNull(),
-            'city' => $this->string()->notNull(),
-            'street' => $this->string()->notNull(),
+            'country' => $this->string(128)->notNull(),
+            'state' => $this->string(64)->notNull(),
             'postcode' => $this->integer()->notNull(),
+            'city' => $this->string(64)->notNull(),
+            'street' => $this->string(64)->notNull(),
         ]);
 
         // creates index for column `user_id`

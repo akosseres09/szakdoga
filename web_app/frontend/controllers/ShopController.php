@@ -42,7 +42,7 @@ class ShopController extends Controller
 
     public function actionProducts(): string
     {
-        $this->layout = 'main';
+        $this->layout = 'shop';
         return $this->render('products');
     }
 }

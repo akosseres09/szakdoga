@@ -5,8 +5,12 @@
 
 use yii\web\View;
 
-$this->title = 'The Best Choice In Sports » Sportify '
+$this->title = 'The Best Choice In Sports » Sportify ';
 
 ?>
+<div>
 
-<div></div>
+</div>
+
+
+<?php

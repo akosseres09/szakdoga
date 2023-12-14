@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use frontend\tests\UnitTester;
 use Yii;
 use yii\base\Exception;
 use yii\base\NotSupportedException;
@@ -25,6 +26,9 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property integer $last_login_at
  * @property string $password write-only password
+ *
+ * @property BillingInformation|null $billingInformation
+ * @property ShippingInformation|null $shippingInformation
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -68,6 +72,16 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
             [['created_at', 'updated_at', 'last_login_at'], 'integer']
         ];
+    }
+
+    public function getBilling(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(BillingInformation::class, ['user_id' => 'id']);
+    }
+
+    public function getShipping(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(ShippingInformation::class, ['user_id' => 'id']);
     }
 
     /**
@@ -231,6 +245,21 @@ class User extends ActiveRecord implements IdentityInterface
     public function getProfilePic(): string
     {
         return Yii::$app->params['frontendUrl'] . '/storage/profile-pics/default_pic.jpg';
+    }
+
+    public function hasBillingInfo(): bool
+    {
+        return $this->getBilling()->exists();
+    }
+
+    public function hasShippingInfo(): bool
+    {
+        return $this->getShipping()->exists();
+    }
+
+    public function getCartCount(): int
+    {
+        return 0;
     }
 
 }

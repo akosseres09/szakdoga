@@ -42,6 +42,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => '/user/users',
+                '/site/index' => '/user/users'
             ],
         ],
         'assetManager' => [

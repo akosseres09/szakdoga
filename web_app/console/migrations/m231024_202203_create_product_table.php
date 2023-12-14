@@ -17,9 +17,26 @@ class m231024_202203_create_product_table extends Migration
             'name' => $this->string(128)->notNull(),
             'description' => $this->string(256)->notNull(),
             'price' => $this->integer()->notNull(),
-            'rating' => $this->integer()->notNull(),
-            'number_of_ratings' => $this->integer()->notNull(),
+            'rating' => $this->integer(),
+            'number_of_stocks' => $this->integer()->notNull()
         ]);
+
+        $this->createIndex(
+            '{{%idx-product-name}}',
+            '{{%product}}',
+            'name'
+        );
+
+        $this->createIndex(
+            '{{%idx-product-price}}',
+            '{{%product}}',
+            'price'
+        );
+
+        $this->createIndex(
+        '{{%idx-product-number_of_stocks}}',
+        '{{%product}}',
+        'number_of_stocks');
     }
 
     /**
@@ -27,6 +44,10 @@ class m231024_202203_create_product_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropIndex('{{%idx-product-name}}', '{{%product}}');
+        $this->dropIndex('{{%idx-product-price}}', '{{%product}}');
+        $this->dropIndex('{{%idx-product-number_of_stocks}}', '{{%product}}');
+
         $this->dropTable('{{%product}}');
     }
 }

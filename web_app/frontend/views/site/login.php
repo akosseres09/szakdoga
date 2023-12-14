@@ -16,17 +16,7 @@ $fieldOptions = [
 ]
 ?>
 <div class="container-fluid h-100 new-container">
-    <?php foreach (Yii::$app->session->getAllFlashes() as $key => $flash) { ?>
-        <?php if (str_contains($key, 'success')) { ?>
-            <div class="alert alert-success" role="alert">
-                <?= $flash ?>
-            </div>
-        <?php } else if (str_contains($key, 'error')) { ?>
-            <div class="alert alert-warning">
-                <?= $flash ?>
-            </div>
-        <?php } ?>
-    <?php } ?>
+    <?= $this->render('/site/common/_alert') ?>
     <div class="container d-flex justify-content-center">
         <div class="site-signup">
             <div class="row">

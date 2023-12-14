@@ -1,3 +1,10 @@
+:root{
+    --spfy-button-color-hex: #CD7401;
+    --spfy-brown-color-rgba: rgba(205, 116, 1, 0.2);
+    --spfy-brown-hover-color: #9c5900;
+
+}
+
 main > .container, main > .container-fluid
 {
     padding: 70px 15px 20px;
@@ -103,28 +110,23 @@ a.desc:after {
 }
 
 .navbar {
-    height: 75px;
-    z-index: 99999;
+    padding: 15px
 }
 
-.page-wrapper {
-    position: relative;
-    top: 75px;
-}
 
 .btn-primary{
     border-radius: 50px;
     padding: 8px 25px ;
-    background-color: #CD7401;
-    border-color: #CD7401;
+    background-color: var(--spfy-button-color-hex);
+    border-color: var(--spfy-button-color-hex);
     transition: transform 0.2s ;
     color: white;
 }
 .btn-primary:hover,
 .btn-primary:focus {
     transform: scale(1.05);
-    background-color: #9c5900;
-    border-color: #9c5900;
+    background-color: var(--spfy-brown-hover-color);
+    border-color: var(--spfy-brown-hover-color);
 }
 
 .btn-outline-light {
@@ -144,7 +146,7 @@ a.desc:after {
     color: black;
 }
 .brown {
-    color: #CD7401;
+    color: var(--spfy-button-color-hex);
 }
 
 .mt-6 {
@@ -187,13 +189,13 @@ a.desc:after {
 }
 
 a {
-    color: #CD7401;
+    color: var(--spfy-button-color-hex);
     text-decoration: none;
 }
 
 a:hover,
 a:focus {
-    color: #9c5900;
+    color: var(--spfy-brown-hover-color);
 }
 
 #loginform-rememberme ~ label {
@@ -207,5 +209,12 @@ a:focus {
     .site-signup,
     .site-password-reset{
         padding: 35px 40px 40px 50px
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .page-wrapper {
+        position: relative;
+        top: 75px;
     }
 }

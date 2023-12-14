@@ -74,6 +74,7 @@ class SiteController extends Controller
      */
     public function actionLogin(): Response|string
     {
+        $this->layout = 'mainWithoutHeaderAndFooter';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -100,7 +101,7 @@ class SiteController extends Controller
         $model->username = '';
         $model->password = '';
         return $this->render('login', [
-            'model' => $model,
+            'user' => $model,
         ]);
     }
 

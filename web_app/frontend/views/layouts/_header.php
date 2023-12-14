@@ -22,12 +22,12 @@ $actionName = Yii::$app->controller->action->id;
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="navbar-nav me-auto px-3">
             <div>
-                <div class="mobile-nav nav-item">
-                    <a class="nav-link justify-content-start" aria-current="page" href="#">
+                <div class="mobile-nav nav-item dropdown">
+                    <a class="nav-link justify-content-start" href="#">
                         Products</a>
                     <div class="px-3 drop" aria-labelledby="navbarDropdown">
                         <span class="p-1 dropdown-item"><a>Shoes</a></span>
-                        <span class=" p-1 dropdown-item"><a>Balls</a></span>
+                        <span class="p-1 dropdown-item"><a>Balls</a></span>
                         <span class="p-1 dropdown-item"><a>Accessories</a></span>
                         <span class="p-1 dropdown-item"><a>Clothes</a></span>
                     </div>
@@ -139,8 +139,8 @@ $actionName = Yii::$app->controller->action->id;
                                     shopping_cart
                                 </span>
                                 </a>
-                                <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="top: 25%; left: 90%">
-                                0
+                                <span class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-button-color-hex); top: 25%; left: 90%">
+                               <?= Yii::$app->user->getIdentity()->getCartCount() ?>
                             </span>
                             </div>
                             <div class="nav-item align-self-center">

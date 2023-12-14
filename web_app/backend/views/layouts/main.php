@@ -9,8 +9,8 @@ $this->beginContent('@backend/views/layouts/base.php');?>
         <header id="header">
             <?= $this->render('_header') ?>
         </header>
-        <div class="container" id="outer-container" style="padding-top: 0">
-            <?= $content?>
+        <div class="container-fluid pt-5">
+                <?= $content?>
         </div>
     </main>
 <?php $this->endContent();

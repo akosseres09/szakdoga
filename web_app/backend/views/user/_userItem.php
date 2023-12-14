@@ -1,3 +1,9 @@
 <?php
 
-echo 'a';
+use common\models\User;
+/**
+ * @var User $model
+ */
+
+
+?>
