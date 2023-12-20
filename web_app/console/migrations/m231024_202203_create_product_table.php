@@ -15,16 +15,23 @@ class m231024_202203_create_product_table extends Migration
         $this->createTable('{{%product}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(128)->notNull(),
-            'description' => $this->string(256)->notNull(),
+            'description' => $this->string(1024)->notNull(),
             'price' => $this->integer()->notNull(),
             'rating' => $this->integer(),
-            'number_of_stocks' => $this->integer()->notNull()
+            'number_of_stocks' => $this->integer()->notNull(),
+            'is_activated' => $this->integer(1)->notNull()
         ]);
 
         $this->createIndex(
             '{{%idx-product-name}}',
             '{{%product}}',
             'name'
+        );
+
+        $this->createIndex(
+            '{{%idx-is-activated}}',
+            '{{%product}}',
+            'is_activated'
         );
 
         $this->createIndex(
@@ -47,6 +54,7 @@ class m231024_202203_create_product_table extends Migration
         $this->dropIndex('{{%idx-product-name}}', '{{%product}}');
         $this->dropIndex('{{%idx-product-price}}', '{{%product}}');
         $this->dropIndex('{{%idx-product-number_of_stocks}}', '{{%product}}');
+        $this->dropIndex('{{%idx-is-activated}}', '{{%product}}');
 
         $this->dropTable('{{%product}}');
     }

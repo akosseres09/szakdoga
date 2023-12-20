@@ -210,9 +210,9 @@ a {
     text-decoration: none;
 }
 
-a:not(.btn):hover,
-a:not(.btn):focus {
-    color: var(--spfy-brown-hover-color);
+a:hover,
+a:focus {
+    background-color: var(--spfy-brown-hover-color);
 }
 
 #loginform-rememberme ~ label {

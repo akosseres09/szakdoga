@@ -173,8 +173,8 @@ a {
     text-decoration: none;
 }
 
-a:not(.btn):hover,
-a:not(.btn):focus
+a:hover,
+a:focus
 {
     color: var(--spfy-brown-hover-color);
 }
@@ -223,8 +223,13 @@ a.add-new-btn:active {
 }
 
 .add-new-btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
     cursor: pointer;
+    color: var(--spfy-white);
+}
+
+.new-prod-form-btn {
+    min-width: 157px;
 }
 
 @media screen and (max-width: 1067px) {
