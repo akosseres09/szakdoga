@@ -43,7 +43,6 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/' => '/user/users',
-                '/site/index' => '/user/users'
             ],
         ],
         'assetManager' => [

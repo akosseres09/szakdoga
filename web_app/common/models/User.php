@@ -37,6 +37,16 @@ class User extends ActiveRecord implements IdentityInterface
     const ADMIN = 1;
     const USER = 0;
 
+    const STATUSES = [
+        self::STATUS_ACTIVE => 'Active',
+        self::STATUS_INACTIVE => 'Inactive'
+    ];
+
+    const ROLES = [
+        self::ADMIN => 'Admin',
+        self::USER => 'User'
+    ];
+
 
     /**
      * {@inheritdoc}
@@ -71,6 +81,19 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
             [['created_at', 'updated_at', 'last_login_at'], 'integer']
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'Id',
+            'username' => 'Username',
+            'email' => 'Email',
+            'is_admin' => 'Role',
+            'status' => 'Status',
+            'created_at' => 'Registered',
+            'updated_at' => 'Updated'
         ];
     }
 
@@ -260,6 +283,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function getCartCount(): int
     {
         return 0;
+    }
+
+    function getRole(): string
+    {
+        return self::ROLES[$this->is_admin];
+    }
+
+    function getStatus(): string
+    {
+        return self::STATUSES[$this->status];
     }
 
 }

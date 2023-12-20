@@ -16,22 +16,47 @@ $this->title = 'Sportify - Admin - Users';
 echo GridView::widget([
     'dataProvider' => $users,
     'columns' => [
-        'ID',
-        'username',
+        'id',
+        [
+            'attribute' => 'username',
+            'value' => function ($model) {
+                $you = Yii::$app->user->id === $model->id ? ' (you)' : '';
+                return $model->username . $you;
+        },
+        ],
         'email',
-        'is_admin',
-        'status',
-        'created_at:datetime',
-        'updated_at:datetime',
+        [
+            'attribute' => 'is_admin',
+            'value' => function ($model) {
+                return $model->getRole();
+            }
+        ],
+        [
+            'attribute' => 'status',
+            'value' => function ($model) {
+                return $model->getStatus();
+            }
+        ],
+        [
+            'attribute' => 'created_at',
+            'value' => function ($model) {
+                return Yii::$app->formatter->asDate($model->created_at, 'Y-M-d H:i:s');
+            }
+        ],
+        [
+            'attribute' => 'updated_at',
+            'value' => function ($model) {
+                return Yii::$app->formatter->asDate($model->updated_at, 'Y-M-d H:i:s');
+            }
+        ],
         [
             'class' => 'yii\grid\DataColumn',
             'header' => 'Edit',
             'content' => function ($model) {
+                $edit = Html::a('Edit', ['/users/edit/'.$model->id], ['class' => 'btn btn-primary me-2', 'data' => ['method' => 'POST']]);
+                $delete = Html::a('Delete', ['/users/delete/'.$model->id], ['class' => 'btn btn-outline-light m-delete', 'data' => ['method' => 'POST']]);
                 return
-                    Yii::$app->user->id !== $model->id ?
-                    Html::a('Edit', [''], ['class' => 'btn btn-primary me-2']) .
-                    Html::a('Delete', [''], ['class' => 'btn btn-outline-light mt-2 mt-lg-0'])
-                        : Html::a('Edit', [''], ['class' => 'btn btn-primary me-2']);
+                    Yii::$app->user->id !== $model->id ? $edit . $delete : $edit;
             }
         ]
     ],

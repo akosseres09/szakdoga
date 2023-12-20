@@ -1,8 +1,14 @@
 :root{
+    --spfy-white: #fff;
+    --spfy-black: #000;
+    --spfy-grey: #808080;
+    --spfy-red: #f00;
     --spfy-button-color-hex: #CD7401;
     --spfy-brown-color-rgba: rgba(205, 116, 1, 0.2);
     --spfy-brown-hover-color: #9c5900;
-
+    --spfy-footer-color: #f5f5f5;
+    --spfy-not-set-color: #c55;
+    --spfy-hint-block-color: #999;
 }
 
 main > .container {
@@ -10,7 +16,7 @@ main > .container {
 }
 
 .footer {
-    background-color: #f5f5f5;
+    background-color: var(--spfy-footer-color);
     font-size: .9em;
     height: 60px;
 }
@@ -21,7 +27,7 @@ main > .container {
 }
 
 .not-set {
-    color: #c55;
+    color: var(--spfy-not-set-color);
     font-style: italic;
 }
 
@@ -60,7 +66,7 @@ a.desc:after {
 .hint-block {
     display: block;
     margin-top: 5px;
-    color: #999;
+    color: var(--spfy-hint-block-color);
 }
 
 .error-summary {
@@ -103,36 +109,48 @@ a.desc:after {
     background-color: var(--spfy-button-color-hex);
     border-color: var(--spfy-button-color-hex);
     transition: transform 0.2s ;
-    color: white;
+    color: var(--spfy-white);
 }
+
 .btn-primary:hover,
 .btn-primary:focus {
     transform: scale(1.05);
+    color: var(--spfy-white);
     background-color: var(--spfy-brown-hover-color);
     border-color: var(--spfy-brown-hover-color);
 }
 
+.btn-primary:active {
+    border-color: var(--spfy-button-color-hex) !important;
+    background-color: var(--spfy-button-color-hex) !important;
+    color: var(--spfy-white) !important;
+}
+
 .btn-outline-light {
-    border-color: grey;
+    border-color: var(--spfy-grey);
     border-radius: 50px;
     padding: 8px 25px;
     background-color: unset;
-    color: black;
+    color: var(--spfy-black);
     transition: transform 0.2s;
 }
 
 .btn-outline-light:hover,
 .btn-outline-light:focus {
     transform: scale(1.05);
-    border-color: black;
+    border-color: var(--spfy-black);
     background-color: unset;
-    color: black;
+    color: var(--spfy-black);
+}
+
+.btn-outline-light:active {
+    border-color: var(--spfy-grey)!important;
 }
 
 .site-login,
 .site-signup,
 .site-password-reset{
-    background-color: white;
+    background-color: var(--spfy-white);
     border-radius: 20px;
 }
 
@@ -155,9 +173,14 @@ a {
     text-decoration: none;
 }
 
-a:hover,
-a:focus {
+a:not(.btn):hover,
+a:not(.btn):focus
+{
     color: var(--spfy-brown-hover-color);
+}
+
+a.add-new-btn:active {
+    color: var(--spfy-grey);
 }
 
 #loginform-rememberme ~ label {
@@ -178,5 +201,34 @@ a:focus {
     .page-wrapper {
         position: relative;
         top: 75px;
+    }
+}
+
+.m-delete {
+    margin-top: 0
+}
+
+.add-new-btn {
+    right: 50px;
+    bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: darkgrey;
+    color: var(--spfy-white);
+    border-radius: 100%;
+    transition: transform 0.2s;
+}
+
+.add-new-btn:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1067px) {
+    .m-delete {
+        margin-top: 10px;
     }
 }

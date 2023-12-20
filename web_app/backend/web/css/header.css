@@ -12,9 +12,11 @@
 }
 
 .dropdown-item:hover{
-    background-color: lightseagreen;
+    background-color: var(--spfy-brown-hover-color);
+    color: var(--spfy-white);
     cursor: pointer;
     border-radius: 10px;
+    transition: background-color 0.2s;
 }
 
 .flex-1 {
@@ -29,7 +31,7 @@
 
 .cart-number-container {
     background-color: red;
-    color: white;
+    color: var(--spfy-white);
     width: 20px;
     height: 20px;
     border-radius: 100%;

@@ -1,12 +1,6 @@
 
 .label-bs {
-    font-size: 18px
-}
-.input-bs {
-    padding: 5px 10px;
-    border: 2px solid lightseagreen;
-    border-radius: 10px;
-    font-weight: bolder;
+    font-size: 1.125rem
 }
 
 .write > a {
@@ -19,7 +13,7 @@
         border-right: none !important;
     }
     #shipping-container{
-        margin-top: 30px;
+        margin-top: 1.875rem;
     }
 }
 

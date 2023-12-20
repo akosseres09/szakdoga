@@ -12,7 +12,7 @@ Yii::$app->name = 'Sportify';
 $actionName = Yii::$app->controller->action->id;
 
 ?>
-<nav id="mobile-header" class="shop-nav d-none navbar navbar-light bg-light">
+<nav id="mobile-header" class="d-none navbar navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?= Url::to(['/'])?>"><?= Yii::$app->name?></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,12 +24,21 @@ $actionName = Yii::$app->controller->action->id;
             <div>
                 <div class="mobile-nav nav-item dropdown">
                     <a class="nav-link justify-content-start" href="#">
-                        Products</a>
+                        Products
+                    </a>
                     <div class="px-3 drop" aria-labelledby="navbarDropdown">
-                        <span class="p-1 dropdown-item"><a>Shoes</a></span>
-                        <span class="p-1 dropdown-item"><a>Balls</a></span>
-                        <span class="p-1 dropdown-item"><a>Accessories</a></span>
-                        <span class="p-1 dropdown-item"><a>Clothes</a></span>
+                        <span>
+                            <a class="p-1 dropdown-item" href="#">Shoes</a>
+                        </span>
+                        <span>
+                            <a class="p-1 dropdown-item" href="#">Balls</a>
+                        </span>
+                        <span>
+                            <a class="p-1 dropdown-item" href="#">Accessories</a>
+                        </span>
+                        <span>
+                            <a class="p-1 dropdown-item" href="#">Clothes</a>
+                        </span>
                     </div>
                 </div>
                 <div class="mobile-nav nav-item dropdown">

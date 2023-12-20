@@ -9,7 +9,6 @@ use yii\web\View;
 use yii\widgets\ActiveForm;
 
 $this->beginContent('@frontend/views/layouts/main.php');
-ShopAsset::register($this);
 ?>
 
 <div class="row pt-5">
