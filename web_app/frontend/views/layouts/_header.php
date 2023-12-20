@@ -148,7 +148,7 @@ $actionName = Yii::$app->controller->action->id;
                                     shopping_cart
                                 </span>
                                 </a>
-                                <span class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-button-color-hex); top: 25%; left: 90%">
+                                <span class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-main-color); top: 25%; left: 90%">
                                <?= Yii::$app->user->getIdentity()->getCartCount() ?>
                             </span>
                             </div>

@@ -3,7 +3,9 @@
     --spfy-black: #000;
     --spfy-grey: #808080;
     --spfy-red: #f00;
-    --spfy-button-color-hex: #CD7401;
+    --spfy-main-color: #CD7401;
+    --spfy-secondary-color: #00A68c;
+    --spfy-terciary-color: #006f5a;
     --spfy-brown-color-rgba: rgba(205, 116, 1, 0.2);
     --spfy-brown-hover-color: #9c5900;
     --spfy-footer-color: #f5f5f5;
@@ -123,8 +125,8 @@ a.desc:after {
 .btn-primary{
     border-radius: 50px;
     padding: 8px 25px ;
-    background-color: var(--spfy-button-color-hex);
-    border-color: var(--spfy-button-color-hex);
+    background-color: var(--spfy-main-color);
+    border-color: var(--spfy-main-color);
     transition: transform 0.2s ;
     color: white;
 }
@@ -137,33 +139,49 @@ a.desc:after {
 }
 
 .btn-primary:active {
-    border-color: var(--spfy-button-color-hex) !important;
-    background-color: var(--spfy-button-color-hex) !important;
+    border-color: var(--spfy-main-color) !important;
+    background-color: var(--spfy-main-color) !important;
     color: var(--spfy-white) !important;
 }
 
 .btn-outline-light {
-    border-color: var(--spfy-grey);
+    position: relative;
+    overflow: hidden;
+    border-color: var(--spfy-secondary-color);
     border-radius: 50px;
     padding: 8px 25px;
     background-color: unset;
-    color: var(--spfy-black);
+    color: var(--spfy-secondary-color);
     transition: transform 0.2s;
 }
 
 .btn-outline-light:hover,
 .btn-outline-light:focus {
     transform: scale(1.05);
-    border-color: var(--spfy-black);
+    border-color: var(--spfy-secondary-color);
     background-color: unset;
-    color: var(--spfy-black);
+    color: var(--spfy-white);
+}
+.btn-outline-light:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: var(--spfy-secondary-color);
+    transition: left 0.3s ease-in-out;
+    z-index: -1000;
 }
 
+.btn-outline-light:hover:before {
+    left: 0;
+}
 .btn-outline-light:active {
     border-color: var(--spfy-grey)!important;
 }
 .brown {
-    color: var(--spfy-button-color-hex);
+    color: var(--spfy-main-color);
 }
 
 .mt-6 {
@@ -206,13 +224,13 @@ a.desc:after {
 }
 
 a {
-    color: var(--spfy-button-color-hex);
+    color: var(--spfy-main-color);
     text-decoration: none;
 }
 
 a:hover,
 a:focus {
-    background-color: var(--spfy-brown-hover-color);
+    color: var(--spfy-brown-hover-color);
 }
 
 #loginform-rememberme ~ label {

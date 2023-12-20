@@ -22,6 +22,13 @@ class Product extends ActiveRecord
     const ACTIVE = 1;
     const INACTIVE = 0;
 
+    const STATUSES = [
+        self::INACTIVE => 'Inactive',
+        self::ACTIVE => 'Acitve'
+    ];
+    const OUT_OF_STOCK = 'Out of Stock';
+    const ON_STOCK = 'On Stock';
+
     public static function tableName(): string
     {
         return 'product';
@@ -48,5 +55,15 @@ class Product extends ActiveRecord
             ['is_activated', 'default', 'value' => self::INACTIVE],
             ['is_activated', 'in', 'range' => [self::INACTIVE, self::ACTIVE]]
         ];
+    }
+
+    public function getActiveStatus(): string
+    {
+        return self::STATUSES[$this->is_activated];
+    }
+
+    public function getAvailability(): string
+    {
+        return $this->number_of_stocks === 0 ? self::OUT_OF_STOCK : self::ON_STOCK;
     }
 }

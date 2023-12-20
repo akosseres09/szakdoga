@@ -12,7 +12,7 @@
 }
 
 .dropdown-item:hover{
-    background-color: var(--spfy-button-color-hex);
+    background-color: var(--spfy-main-color);
     color: white;
     cursor: pointer;
     border-radius: 10px;
