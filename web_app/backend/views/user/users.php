@@ -12,6 +12,9 @@ use yii\web\View;
 
 $this->title = 'Sportify - Admin - Users';
 
+echo $this->render('/site/common/_alert');
+
+echo '<h1 class="text-center mb-4">Users</h1>';
 
 echo GridView::widget([
     'dataProvider' => $users,
@@ -53,14 +56,14 @@ echo GridView::widget([
             'class' => 'yii\grid\DataColumn',
             'header' => 'Edit',
             'content' => function ($model) {
-                $edit = Html::a('Edit', ['/users/edit/'.$model->id], ['class' => 'btn btn-primary me-2', 'data' => ['method' => 'POST']]);
-                $delete = Html::a('Delete', ['/users/delete/'.$model->id], ['class' => 'btn btn-outline-light m-delete', 'data' => ['method' => 'POST']]);
+                $edit = Html::a('Edit', ['/user/edit/'.$model->id], ['class' => 'btn btn-primary me-2']);
+                $delete = Html::a('Delete', ['/user/delete/'.$model->id], ['class' => 'btn btn-outline-light m-delete', 'data' => ['method' => 'POST']]);
                 return
                     Yii::$app->user->id !== $model->id ? $edit . $delete : $edit;
             }
         ]
     ],
-    'options' => ['class' => 'mx-5 table-responsive'],
+    'options' => ['class' => 'mx-5'],
     'tableOptions' => ['class' => 'table table-striped text-center align-middle'],
     'pager' => [
         'class' => LinkPager::class

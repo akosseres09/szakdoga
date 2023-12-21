@@ -4,26 +4,25 @@
  * @var Product $product
  */
 
-$this->title = 'Add Product to Sportify';
-
 use common\models\Product;
+use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\web\View;use yii\widgets\ActiveForm;
+use yii\web\View;
+
 
 $fieldOptions = [
     'labelOptions' => ['class' => 'mb-1 mt-3']
 ]
 
-
 ?>
+
 <div class="modal-dialog">
     <?php $form = ActiveForm::begin([
-        'action' => '/product/add'
+        'action' => '/product/edit/'.$product->id
     ]) ?>
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Create a Product</h5>
+            <h5 class="modal-title">Edit Product: <?= $product->name ?></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -41,9 +40,12 @@ $fieldOptions = [
             <div class="row">
                 <?= $form->field($product, 'description', $fieldOptions)->textarea(['maxlength' => 1024, 'required' => true]) ?>
             </div>
+            <div class="row">
+                <?= $form->field($product, 'is_activated')->checkbox()->label('Activate') ?>
+            </div>
             <div class="row justify-content-center">
                 <div class="col-auto">
-                    <?= Html::submitButton('Create Product', [
+                    <?= Html::submitButton('Edit Product', [
                         'class' => 'btn btn-primary mt-5'
                     ]) ?>
                 </div>

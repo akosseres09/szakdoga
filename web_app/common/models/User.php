@@ -7,6 +7,7 @@ use Yii;
 use yii\base\Exception;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -76,6 +77,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['auth_key', 'username', 'password_hash','email'], 'required'],
             [['auth_key'], 'string', 'max' => 32],
             [['email'], 'email'],
+            [['email', 'password_hash', 'username', 'password_reset_token', 'verification_token'],'string', 'max' => 255],
             [['is_admin'], 'default', 'value' => self::USER],
             [['is_admin'], 'in', 'range' => [self::USER, self::ADMIN]],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
@@ -83,8 +85,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['created_at', 'updated_at', 'last_login_at'], 'integer']
         ];
     }
-
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'Id',
@@ -97,12 +98,12 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    public function getBilling(): \yii\db\ActiveQuery
+    public function getBilling(): ActiveQuery
     {
         return $this->hasOne(BillingInformation::class, ['user_id' => 'id']);
     }
 
-    public function getShipping(): \yii\db\ActiveQuery
+    public function getShipping(): ActiveQuery
     {
         return $this->hasOne(ShippingInformation::class, ['user_id' => 'id']);
     }
@@ -110,7 +111,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public static function findIdentity($id): User|IdentityInterface|null
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }

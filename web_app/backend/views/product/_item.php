@@ -12,11 +12,25 @@ $status = $model->getAvailability() === Product::ON_STOCK ? 'badge-available' : 
 ?>
 
 <div class="card-title pb-2 border-bottom d-flex justify-content-between gap-2 align-items-center">
-    <div class="product-name fw-bold fs-5">
-        <?= $model->name ?>
+    <div>
+        <div class="product-name fw-bold fs-5">
+            <?= $model->name ?>
+        </div>
+        <div class="product-status badge badge-<?=$active?>">
+            <?= ucfirst($active) ?>
+        </div>
     </div>
-    <div class="product-status badge badge-<?=$active?>">
-        <?= ucfirst($active) ?>
+    <div>
+        <a class="editProductItemBtn" data-bs-toggle="modal" data-bs-target="#productEditModal" href="<?= Url::to(['/product/edit/'.$model->id]) ?>" style="color: grey">
+            <span class="material-symbols-outlined">
+                edit
+            </span>
+        </a>
+        <a href="<?= Url::to(['/product/delete/'.$model->id]) ?>" data-method="POST" style="color: red">
+            <span class="material-symbols-outlined">
+                delete
+            </span>
+        </a>
     </div>
 </div>
 <div class="card-body ">

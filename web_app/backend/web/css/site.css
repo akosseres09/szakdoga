@@ -3,7 +3,7 @@
     --spfy-black: #000;
     --spfy-grey: #808080;
     --spfy-red: #f00;
-    --spfy-light-gray: rgba(128,128,128, 0.4);
+    --spfy-light-gray: rgba(128,128,128, 0.2);
     --spfy-main-color: #CD7401;
     --spfy-secondary-color: #00A68c;
     --spfy-terciary-color: #006f5a;
@@ -253,6 +253,7 @@ a.add-new-btn:active {
 }
 
 .product-container {
+    max-width: 315px;
     flex: 1 1 250px;
     background-color: var(--spfy-light-gray) ;
     border-radius: 10px;
@@ -266,6 +267,7 @@ a.add-new-btn:active {
 .product-container .badge-inactive {
     background-color: red;
 }
+
 
 .product-container .badge-available {
     background-color: var(--spfy-main-color);
@@ -289,7 +291,68 @@ a.add-new-btn:active {
     background-color: transparent;
 }
 
-@media screen and (max-width: 1067px) {
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+@media screen and (max-width: 1010px) {
     .m-delete {
         margin-top: 10px;
     }

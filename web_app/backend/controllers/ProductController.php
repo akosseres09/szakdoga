@@ -5,7 +5,9 @@ namespace backend\controllers;
 use common\models\Product;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\rest\Controller;
 use yii\web\Response;
 
@@ -18,10 +20,16 @@ class ProductController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['products', 'add'],
+                        'actions' => ['products', 'add', 'edit', 'delete'],
                         'allow' => true,
                         'roles' => ['@']
                     ]
+                ]
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST']
                 ]
             ]
         ];
@@ -32,7 +40,7 @@ class ProductController extends Controller
         $products = new ActiveDataProvider([
             'query' => Product::find(),
             'sort' => ['defaultOrder' => [
-                'is_activated' => SORT_ASC,
+                'is_activated' => SORT_DESC,
             ]],
             'pagination' => [
                 'pageSize' => 15
@@ -56,8 +64,46 @@ class ProductController extends Controller
             return $this->redirect(['/product/products']);
         }
 
-        return $this->render('add', [
+        return $this->renderPartial('add', [
             'product' => $product
         ]);
+    }
+
+    public function actionEdit($id): Response|string
+    {
+        $product = Product::findOne($id);
+        $request = \Yii::$app->request;
+
+        if ($product === null) {
+           return $this->redirect('/product/products');
+        }
+
+        if ($request->isPost && $product->load($request->post())) {
+            if ($product->save()) {
+                \Yii::$app->session->setFlash('Success', 'Successfully Edited the Product!');
+            } else {
+              \Yii::$app->session->setFlash('Error', 'Failed to Edit the Product!');
+            }
+            return $this->redirect('/product/products');
+        }
+
+        return $this->renderPartial('edit', ['product' => $product]);
+    }
+
+    public function actionDelete($id): Response
+    {
+        $product = Product::findOne($id);
+
+        if ($product === null) {
+            return $this->redirect('/product/products');
+        }
+
+        try {
+            $product->delete();
+            \Yii::$app->session->setFlash('Success', 'Successfully Deleted Product!');
+        } catch (\Throwable $t) {
+            \Yii::$app->session->setFlash('Error', 'Failed to Delete Product! ' . $t->getMessage());
+        }
+        return $this->redirect('/product/products');
     }
 }

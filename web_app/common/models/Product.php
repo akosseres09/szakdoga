@@ -24,7 +24,7 @@ class Product extends ActiveRecord
 
     const STATUSES = [
         self::INACTIVE => 'Inactive',
-        self::ACTIVE => 'Acitve'
+        self::ACTIVE => 'Active'
     ];
     const OUT_OF_STOCK = 'Out of Stock';
     const ON_STOCK = 'On Stock';
@@ -52,6 +52,8 @@ class Product extends ActiveRecord
             [['name'], 'string', 'max' => 128],
             ['description', 'string', 'max' => 1024],
             ['rating', 'in', 'range' => [0,1,2,3,4,5]],
+            [['number_of_stocks'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number', 'message' => 'Stock number must be 0 or positive!'],
+            [['price'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number', 'message' => 'Price must be 0 or positive!'],
             ['is_activated', 'default', 'value' => self::INACTIVE],
             ['is_activated', 'in', 'range' => [self::INACTIVE, self::ACTIVE]]
         ];
