@@ -14,6 +14,9 @@ use yii\db\ActiveRecord;
  * @property int $rating
  * @property int $number_of_stocks
  * @property bool $is_activated
+ *
+ * @property Type[]|null types
+ * @property Rating[]|null ratings
  */
 
 
@@ -57,6 +60,21 @@ class Product extends ActiveRecord
             ['is_activated', 'default', 'value' => self::INACTIVE],
             ['is_activated', 'in', 'range' => [self::INACTIVE, self::ACTIVE]]
         ];
+    }
+
+    public function getAllRatingsToProduct(): array
+    {
+        return [];
+    }
+
+    public function getAllTypes(): array
+    {
+        return [];
+    }
+
+    public function getAllTypesToProduct(): array
+    {
+        return [];
     }
 
     public function getActiveStatus(): string
