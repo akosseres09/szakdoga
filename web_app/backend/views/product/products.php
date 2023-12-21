@@ -1,13 +1,13 @@
 <?php
 
-use yii\data\ArrayDataProvider;
+use yii\data\ActiveDataProvider;
 use yii\web\View;
-use yii\widgets\LinkPager;
+use yii\bootstrap5\LinkPager;
 use yii\widgets\ListView;
 
 /**
  * @var View $this
- * @var $products ArrayDataProvider
+ * @var $products ActiveDataProvider
  */
 
 $this->title = 'Products Admin  »  Sportify';

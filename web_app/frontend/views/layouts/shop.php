@@ -62,7 +62,7 @@ $this->beginContent('@frontend/views/layouts/main.php');
     </div>
     <div class="col-lg-9 shop-container-search-bar">
         <div class="shop-container">
-
+            <?= $content ?>
         </div>
     </div>
 </div>

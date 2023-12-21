@@ -3,6 +3,7 @@
 namespace common\models;
 
 
+use common\models\query\ProductQuery;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -63,6 +64,11 @@ class Product extends ActiveRecord
         ];
     }
 
+    public static function find(): ProductQuery
+    {
+        return new ProductQuery(get_called_class());
+    }
+
     public function getAllRatingsToProduct(): ActiveQuery
     {
         return $this->hasMany(Rating::class, ['product_id' => $this->id]);
@@ -82,4 +88,6 @@ class Product extends ActiveRecord
     {
         return $this->number_of_stocks === 0 ? self::OUT_OF_STOCK : self::ON_STOCK;
     }
+
+
 }

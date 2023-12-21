@@ -44,7 +44,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'landing/main' => '/'
+                'landing/main' => '/',
+                'shop/view/<id>' => 'shop/view'
             ],
         ],
         'assetManager' => [

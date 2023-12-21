@@ -2,6 +2,7 @@
     --spfy-white: #fff;
     --spfy-black: #000;
     --spfy-grey: #808080;
+    --spfy-light-gray: rgba(128,128,128, 0.2);
     --spfy-red: #f00;
     --spfy-main-color: #CD7401;
     --spfy-secondary-color: #00A68c;
@@ -236,6 +237,56 @@ a:focus {
 #loginform-rememberme ~ label {
     color: #2d2d2d;
     font-weight: 600;
+}
+
+.product-container {
+    max-width: 315px;
+    flex: 1 1 250px;
+    background-color: var(--spfy-light-gray) ;
+    border-radius: 10px;
+    padding: 15px 30px;
+}
+
+.product-container .badge-active {
+    background-color: green;
+}
+
+.product-container .badge-inactive {
+    background-color: red;
+}
+
+
+.product-container .badge-available {
+    background-color: var(--spfy-main-color);
+}
+
+.product-container .badge-unavailable {
+    background-color: var(--spfy-red);
+}
+
+.product-item-link {
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.product-item-link:hover {
+    transition: transform 0.5s;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.card {
+    border: none;
+}
+
+.product-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-footer {
+    background-color: transparent;
 }
 
 
