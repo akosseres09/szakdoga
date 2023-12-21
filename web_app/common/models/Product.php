@@ -4,6 +4,7 @@ namespace common\models;
 
 
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -62,19 +63,14 @@ class Product extends ActiveRecord
         ];
     }
 
-    public function getAllRatingsToProduct(): array
+    public function getAllRatingsToProduct(): ActiveQuery
     {
-        return [];
+        return $this->hasMany(Rating::class, ['product_id' => $this->id]);
     }
 
-    public function getAllTypes(): array
+    public function getAllTypesToProduct(): ActiveQuery
     {
-        return [];
-    }
-
-    public function getAllTypesToProduct(): array
-    {
-        return [];
+        return $this->hasMany(Type::class, ['product_id' => $this->id]);
     }
 
     public function getActiveStatus(): string

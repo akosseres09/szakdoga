@@ -21,7 +21,7 @@ class BillingInformation extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'billing_information';
+        return '{{%billing_information}}';
     }
 
     public function rules(): array

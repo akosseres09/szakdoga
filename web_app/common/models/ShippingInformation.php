@@ -21,7 +21,7 @@ class ShippingInformation extends ActiveRecord
 
     public static function tableName(): string
     {
-        return 'shipping_information';
+        return '{{%shipping_information}}';
     }
 
     public function behaviors(): array

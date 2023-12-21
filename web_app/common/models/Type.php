@@ -18,7 +18,7 @@ class Type extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'type';
+        return '{{%type}}';
     }
 
     public function rules(): array
