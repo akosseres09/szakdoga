@@ -287,6 +287,10 @@ a.add-new-btn:active {
     background-color: var(--spfy-red);
 }
 
+.badge-brown {
+    background-color: var(--spfy-main-color);
+}
+
 .card {
     border: none;
 }

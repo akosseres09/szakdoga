@@ -24,7 +24,6 @@ class m231222_124806_create_product_table extends Migration
             'is_activated' => $this->integer(1)->notNull(),
             'is_kid' => $this->integer(1)->notNull(),
             'gender' => $this->integer(1)->notNull(),
-            'type' => $this->integer(3)->notNull()
         ]);
 
         $this->createIndex('{{%idx-product-brand_id}}',
@@ -80,17 +79,13 @@ class m231222_124806_create_product_table extends Migration
             '{{%product}}',
             'number_of_stocks');
 
-        $this->createIndex('{{%idx-product-type}}',
-            '{{%product}}',
-            'type');
-
         $this->createIndex('{{%idx-product-is_kid}}',
             '{{%product}}',
-            'type');
+            'is_kid');
 
         $this->createIndex('{{%idx-product-gender}}',
             '{{%product}}',
-            'type');
+            'gender');
     }
 
     /**
@@ -113,7 +108,6 @@ class m231222_124806_create_product_table extends Migration
         $this->dropIndex('{{%idx-product-price}}', '{{%product}}');
         $this->dropIndex('{{%idx-product-number_of_stocks}}', '{{%product}}');
         $this->dropIndex('{{%idx-is-activated}}', '{{%product}}');
-        $this->dropIndex('{{%idx-product-type}}','{{%product}}');
         $this->dropIndex('{{%idx-product-gender}}','{{%product}}');
         $this->dropIndex('{{%idx-product-is_kid}}','{{%product}}');
 

@@ -25,13 +25,7 @@ echo ListView::widget([
     'emptyText' => 'No result found',
     'emptyTextOptions' => ['class' => 'fs-5 fw-bold'],
     'itemView' => '_item',
-    'itemOptions' => function ($model) {
-        return [
-            'class' => 'card product-container product-item-link',
-            'tag' => 'a',
-            'href' => 'http://sportify.test/shop/view/'.$model->id
-        ];
-    },
+    'itemOptions' => ['class' => 'card product-container product-item-link'],
     'summary' => '{begin}-{end}/{totalCount}',
     'layout' => '<div class="container-fluid position-relative">
                     <div class="container">

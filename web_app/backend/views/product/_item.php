@@ -12,42 +12,38 @@ $status = $model->getAvailability() === Product::ON_STOCK ? 'badge-available' : 
 
 ?>
 
-
-<!--<div class="card-body text-center ">-->
-<!--    <img class="my-2" alt="Pics" src="--><?php //=Url::to(['/default_pic.jpg'])?><!--" style="border-radius: 15px; width: 150px; height: auto">-->
-<!--</div>-->
-<!--<div class="card-footer">-->
-<!--    <div class="product-name">-->
-<!--        --><?php //= $model->name ?>
-<!--    </div>-->
-<!--    <div class="price">-->
-<!--        <div class="fs-4 fw-bold">-->
-<!--            $--><?php //= $model->price ?>
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
 <div class="card-title pb-2 border-bottom gap-2 ">
-    <div>
-        <div class="product-name fw-bold fs-5">
-            <?=$model->brand->name . $model->name ?>
-        </div>
-        <div class="product-status badge badge-<?=$active?>">
-            <?= ucfirst($active) ?>
+    <div class="row">
+        <div class="col p-0 fw-bold product-name">
+            <a class="product-name" href="http://sportify.test/shop/view/<?=$model->id?>">
+                <?=$model->brand->name . ' ' . $model->name ?>
+            </a>
         </div>
     </div>
-<!--    <div>-->
-<!--        <a class="editProductItemBtn" data-bs-toggle="modal" data-bs-target="#productEditModal" href="--><?php //= Url::to(['/product/edit/'.$model->id]) ?><!--" style="color: grey">-->
-<!--            <span class="material-symbols-outlined">-->
-<!--                edit-->
-<!--            </span>-->
-<!--        </a>-->
-<!--        <a href="--><?php //= Url::to(['/product/delete/'.$model->id]) ?><!--" data-method="POST" style="color: red">-->
-<!--            <span class="material-symbols-outlined">-->
-<!--                delete-->
-<!--            </span>-->
-<!--        </a>-->
-<!--    </div>-->
+    <div class="row pt-1">
+        <div class="col-auto me-1 product-status badge badge-<?=$active?>">
+            <?= ucfirst($active) ?>
+        </div>
+        <div class="col-auto badge badge-brown">
+            <?= $model->type->product_type ?>
+        </div>
+    </div>
+    <div class="row pt-2">
+        <div class="col-2 text-left">
+            <a class="editProductItemBtn" data-bs-toggle="modal" data-bs-target="#productEditModal" href="<?= Url::to(['/product/edit/'.$model->id]) ?>" style="color: grey">
+                <span class="material-symbols-outlined">
+                    edit
+                </span>
+            </a>
+        </div>
+        <div class="col-2">
+            <a href="<?= Url::to(['/product/delete/'.$model->id]) ?>" data-method="POST" style="color: red">
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span>
+            </a>
+        </div>
+    </div>
 </div>
 <div class="card-body text-center">
     <img class="my-2" alt="Pics" src="<?=Url::to(['/default_pic.jpg'])?>" style="border-radius: 15px; width: 75%; height: auto">

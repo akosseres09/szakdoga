@@ -38,6 +38,20 @@ $fieldOptions = [
                 </div>
             </div>
             <div class="row">
+                <div class="col-lg">
+                    <?= $form->field($product, 'is_kid', $fieldOptions)->dropDownList([
+                        1 => 'Adult',
+                        0 => 'Kid'
+                    ], ['required' => true])->label('Kid or Adult') ?>
+                </div>
+                <div class="col">
+                    <?= $form->field($product, 'gender', $fieldOptions)->dropDownList([
+                        1 => 'Male',
+                        0 => 'Female'
+                    ])?>
+                </div>
+            </div>
+            <div class="row">
                 <?= $form->field($product, 'description', $fieldOptions)->textarea(['maxlength' => 1024, 'required' => true]) ?>
             </div>
             <div class="row">
