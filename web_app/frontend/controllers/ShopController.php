@@ -47,7 +47,7 @@ class ShopController extends Controller
     {
         $this->layout = 'shop';
         $dataProvider = new ActiveDataProvider([
-            'query' => Product::find()->ofActive(),
+            'query' => Product::find(),
             'pagination' => [
                 'pageSize' => $pageSize
             ]

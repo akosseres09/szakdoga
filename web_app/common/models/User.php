@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\query\UserQuery;
 use frontend\tests\UnitTester;
 use Yii;
 use yii\base\Exception;
@@ -106,6 +107,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function getShipping(): ActiveQuery
     {
         return $this->hasOne(ShippingInformation::class, ['user_id' => 'id']);
+    }
+
+    public static function find(): UserQuery
+    {
+        return new UserQuery(get_called_class());
     }
 
     /**

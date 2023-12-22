@@ -239,28 +239,12 @@ a:focus {
     font-weight: 600;
 }
 
-.product-container {
-    max-width: 315px;
-    flex: 1 1 250px;
-    background-color: var(--spfy-light-gray) ;
-    border-radius: 10px;
-    padding: 15px 30px;
-}
 
-.product-container .badge-active {
-    background-color: green;
-}
-
-.product-container .badge-inactive {
-    background-color: red;
-}
-
-
-.product-container .badge-available {
+.badge-available {
     background-color: var(--spfy-main-color);
 }
 
-.product-container .badge-unavailable {
+.badge-unavailable {
     background-color: var(--spfy-red);
 }
 
@@ -289,6 +273,17 @@ a:focus {
     background-color: transparent;
 }
 
+.items-grid-container {
+    display: grid;
+    column-gap: 35px;
+    grid-template-columns: repeat(4,1fr);
+    row-gap: 40px
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: var(--spfy-black);
+}
+
 
 @media screen and (max-width: 480px ) {
     .site-login,
@@ -302,5 +297,28 @@ a:focus {
     .page-wrapper {
         position: relative;
         top: 75px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .items-grid-container {
+        grid-template-columns: repeat(3,1fr);
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .items-grid-container {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .carousel-inner img {
+        width: 50%;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .items-grid-container {
+        grid-template-columns: repeat(1,1fr);
     }
 }

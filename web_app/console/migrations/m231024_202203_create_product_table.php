@@ -19,7 +19,9 @@ class m231024_202203_create_product_table extends Migration
             'price' => $this->integer()->notNull(),
             'rating' => $this->integer(),
             'number_of_stocks' => $this->integer()->notNull(),
-            'is_activated' => $this->integer(1)->notNull()
+            'is_activated' => $this->integer(1)->notNull(),
+            'is_kid' => $this->integer(1)->notNull(),
+            'gender' => $this->integer(1)->notNull()
         ]);
 
         $this->createIndex(
