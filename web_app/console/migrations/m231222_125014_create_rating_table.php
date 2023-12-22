@@ -4,12 +4,8 @@ use yii\db\Migration;
 
 /**
  * Handles the creation of table `{{%rating}}`.
- * Has foreign keys to the tables:
- *
- * - `{{%User}}`
- * - `{{%Product}}`
  */
-class m231024_202535_create_rating_table extends Migration
+class m231222_125014_create_rating_table extends Migration
 {
     /**
      * {@inheritdoc}

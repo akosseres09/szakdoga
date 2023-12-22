@@ -2,18 +2,13 @@
 
 namespace common\models;
 
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use common\models\query\TypeQuery;
 use yii\db\ActiveRecord;
 
 /**
  * @property int $id
- * @property int $product_id
- * @property string $type
- *
- * @property Product $product
+ * @property string $product_type
  */
-
 class Type extends ActiveRecord
 {
     public static function tableName(): string
@@ -24,25 +19,19 @@ class Type extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['product_id', 'type'], 'required'],
-            [['type'], 'string', 'max' => 32]
+            [['product_type'], 'required'],
+            [['product_type'], 'string', 'max' => 128]
         ];
     }
 
-    public function behaviors(): array
+    public function behaviors()
     {
-        return [
-            [
-                'class' => TimestampBehavior::class,
-                'createdAtAttribute' => false,
-                'updatedAtAttribute' => false
-            ],
-            [
-                'class' => BlameableBehavior::class,
-                'createdByAttribute' => false,
-                'updatedByAttribute' => false
-            ]
-        ];
+        return [];
+    }
+
+    public static function find(): TypeQuery
+    {
+        return new TypeQuery(get_called_class());
     }
 
 }

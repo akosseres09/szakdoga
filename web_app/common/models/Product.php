@@ -10,6 +10,8 @@ use yii\db\ActiveRecord;
 
 /**
  * @property int $id
+ * @property int $brand_id
+ * @property int type_id
  * @property string $name
  * @property string $description
  * @property int $price
@@ -19,8 +21,7 @@ use yii\db\ActiveRecord;
  * @property int $is_kid
  * @property int $gender
  *
- * @property Type[]|null types
- * @property Rating[]|null ratings
+ *
  */
 
 
@@ -59,7 +60,7 @@ class Product extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'description', 'price', 'number_of_stocks', 'is_kid', 'gender'], 'required'],
+            [['name', 'description', 'price', 'number_of_stocks', 'is_kid', 'gender', 'type_id', 'brand_id'], 'required'],
             [['name'], 'string', 'max' => 128],
             ['description', 'string', 'max' => 1024],
             ['rating', 'in', 'range' => [0,1,2,3,4,5]],
@@ -73,19 +74,33 @@ class Product extends ActiveRecord
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'brand_id' => 'Brand Name',
+            'type_id' => 'Type',
+        ];
+    }
+
     public static function find(): ProductQuery
     {
         return new ProductQuery(get_called_class());
     }
 
-    public function getAllRatingsToProduct(): ActiveQuery
+    public function getType(): ActiveQuery
     {
-        return $this->hasMany(Rating::class, ['product_id' => $this->id]);
+        return $this->hasOne(Type::class, ['id' => 'type_id']);
     }
 
-    public function getAllTypesToProduct(): ActiveQuery
+    public function getBrand(): ActiveQuery
     {
-        return $this->hasMany(Type::class, ['product_id' => $this->id]);
+        return $this->hasOne(Brand::class, ['id' => 'brand_id']);
+    }
+
+    public function getRating(): ActiveQuery
+    {
+        return $this->hasMany(Rating::class, ['id' => 'product_id']);
     }
 
     public function getActiveStatus(): string

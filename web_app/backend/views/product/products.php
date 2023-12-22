@@ -1,6 +1,7 @@
 <?php
 
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 use yii\web\View;
 use yii\bootstrap5\LinkPager;
 use yii\widgets\ListView;
@@ -22,17 +23,24 @@ echo ListView::widget([
         'class' => LinkPager::class
     ],
     'emptyText' => 'No result found',
-    'emptyTextOptions' => ['class' => 'fs-4 fw-bold'],
+    'emptyTextOptions' => ['class' => 'fs-5 fw-bold'],
     'itemView' => '_item',
+    'itemOptions' => function ($model) {
+        return [
+            'class' => 'card product-container product-item-link',
+            'tag' => 'a',
+            'href' => 'http://sportify.test/shop/view/'.$model->id
+        ];
+    },
     'summary' => '{begin}-{end}/{totalCount}',
-    'itemOptions' => ['class' => 'card product-container'],
     'layout' => '<div class="container-fluid position-relative">
                     <div class="container">
-                        <div class="d-flex justify-content-center justify-content-lg-start flex-wrap gap-3">{items}</div>
+                        <div class="items-grid-container">{items}</div>
                         {pager}
                     </div>
                     <div class="text-center mt-2">{summary}</div>
                 </div>'
+
 ]);
 ?>
 <a class="position-fixed add-new-btn" id="addModalToggler" data-bs-target="#addModal" data-bs-toggle="modal">

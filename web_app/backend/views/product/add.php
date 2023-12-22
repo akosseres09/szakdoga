@@ -2,19 +2,21 @@
 /**
  * @var View $this
  * @var Product $product
+ * @var Brand[] $brands
+ * @var Type[] $types
  */
 
 $this->title = 'Add Product to Sportify';
 
+use common\models\Brand;
 use common\models\Product;
+use common\models\Type;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\web\View;use yii\widgets\ActiveForm;
 
 $fieldOptions = [
     'labelOptions' => ['class' => 'mb-1 mt-3']
-]
-
+];
 
 ?>
 <div class="modal-dialog">
@@ -36,6 +38,28 @@ $fieldOptions = [
                 </div>
                 <div class="col-lg-3">
                     <?= $form->field($product, 'number_of_stocks', $fieldOptions)->textInput(['type' => 'number', 'min' => 0, 'required' => true])?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg">
+                    <?= $form->field($product, 'is_kid', $fieldOptions)->dropDownList([
+                        1 => 'Adult',
+                        0 => 'Kid'
+                    ], ['required' => true])->label('Kid or Adult') ?>
+                </div>
+                <div class="col">
+                    <?= $form->field($product, 'gender', $fieldOptions)->dropDownList([
+                        0 => 'Female',
+                        1 => 'Male'
+                    ])?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <?= $form->field($product, 'type_id', $fieldOptions)->dropDownList($types) ?>
+                </div>
+                <div class="col">
+                    <?= $form->field($product, 'brand_id', $fieldOptions)->dropDownList($brands) ?>
                 </div>
             </div>
             <div class="row">

@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
+use common\models\Brand;
 use common\models\Product;
+use common\models\Type;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
-use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
 use yii\web\Response;
 
@@ -55,6 +56,8 @@ class ProductController extends Controller
     {
         $request = \Yii::$app->request;
         $product = new Product();
+        $types = ArrayHelper::map(Type::find()->all(), 'id', 'product_type');
+        $brands = ArrayHelper::map(Brand::find()->all(), 'id', 'name');
         if ($request->isPost && $product->load($request->post())) {
             if ($product->save()) {
                 \Yii::$app->session->setFlash('success', 'Successfully Created a new Product!');
@@ -65,7 +68,9 @@ class ProductController extends Controller
         }
 
         return $this->renderPartial('add', [
-            'product' => $product
+            'product' => $product,
+            'types' => $types,
+            'brands' => $brands
         ]);
     }
 
@@ -73,6 +78,8 @@ class ProductController extends Controller
     {
         $product = Product::findOne($id);
         $request = \Yii::$app->request;
+        $types = Type::find();
+        $brands = Brand::find();
 
         if ($product === null) {
            return $this->redirect('/product/products');
@@ -87,7 +94,11 @@ class ProductController extends Controller
             return $this->redirect('/product/products');
         }
 
-        return $this->renderPartial('edit', ['product' => $product]);
+        return $this->renderPartial('edit', [
+            'product' => $product,
+            'types' => $types,
+            'brands' => $brands
+        ]);
     }
 
     public function actionDelete($id): Response
