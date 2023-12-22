@@ -78,7 +78,7 @@ class UserController extends Controller
             return $this->redirect('/user/users');
         }
 
-        return $this->render('edit', ['user' => $user]);
+        return $this->renderPartial('edit', ['user' => $user]);
     }
 
     public function actionDelete($id): Response

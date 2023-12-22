@@ -56,7 +56,10 @@ echo GridView::widget([
             'class' => 'yii\grid\DataColumn',
             'header' => 'Edit',
             'content' => function ($model) {
-                $edit = Html::a('Edit', ['/user/edit/'.$model->id], ['class' => 'btn btn-primary me-2']);
+                $edit = Html::a('Edit', ['/user/edit/'.$model->id], ['class' => 'editUserBtn btn btn-primary me-2', 'data' => [
+                    'bs-toggle' => 'modal',
+                    'bs-target' => '#editUserModal'
+                ]]);
                 $delete = Html::a('Delete', ['/user/delete/'.$model->id], ['class' => 'btn btn-outline-light m-delete', 'data' => ['method' => 'POST']]);
                 return
                     Yii::$app->user->id !== $model->id ? $edit . $delete : $edit;
@@ -71,3 +74,10 @@ echo GridView::widget([
     'layout' => '<div class="table-responsive">{items}</div>{pager}',
 
 ]);
+?>
+
+<div id="editUserModal" class="modal modal-md fade">
+    <div class="modal-dialog">
+
+    </div>
+</div>

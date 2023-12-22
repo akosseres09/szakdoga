@@ -21,7 +21,9 @@ use yii\db\ActiveRecord;
  * @property int $is_kid
  * @property int $gender
  *
- *
+ * @property Type $type
+ * @property Brand $brand
+ * @property Rating[]|null $ratings
  */
 
 

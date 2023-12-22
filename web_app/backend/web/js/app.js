@@ -2,7 +2,8 @@ const addModal = document.getElementById('addModal');
 const addModalTogglerBtn = document.getElementById('addModalToggler');
 const editProductItemBtn = document.querySelectorAll('.editProductItemBtn');
 const editModal = document.getElementById('productEditModal');
-
+const editUserModal = document.getElementById('editUserModal');
+const editUserBtn = document.querySelectorAll('.editUserBtn');
 // Handles the disappearance of the flashes
 setTimeout(function() {
     $('.alert').fadeOut();
@@ -28,5 +29,14 @@ if (editProductItemBtn && editProductItemBtn){
             e.preventDefault();
             getDataFromUrl(btn.href, editModal);
         });
+    });
+}
+
+if (editUserModal && editUserBtn){
+    editUserBtn.forEach(btn => {
+       btn.addEventListener('click', function (e) {
+           e.preventDefault();
+           getDataFromUrl(btn.href ,editUserModal);
+       });
     });
 }
