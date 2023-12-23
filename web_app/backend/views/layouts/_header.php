@@ -46,18 +46,18 @@ $actionName = Yii::$app->controller->action->id;
                             Profile
                         </a>
                         <div class="px-3 drop" aria-labelledby="navbarDropdown">
-                        <span>
-                            <a class="dropdown-item p-1" href="<?= Url::to(['/user/settings']) ?>">Settings</a>
-                        </span>
                             <span>
-                            <?= Html::a('Logout', ['/site/logout'], [
-                                'class' => 'dropdown-item p-1',
-                                'data' => [
-                                    'method' => 'post',
-                                ],
-                            ]);
-                            ?>
-                       </span>
+                                <a class="dropdown-item p-1" href="<?= Url::to(['/user/settings']) ?>">Settings</a>
+                            </span>
+                            <span>
+                                <?= Html::a('Logout', ['/site/logout'], [
+                                    'class' => 'dropdown-item p-1',
+                                    'data' => [
+                                        'method' => 'post',
+                                    ],
+                                ]);
+                                ?>
+                            </span>
                         </div>
                     </div>
                 <?php endif; ?>

@@ -4,11 +4,9 @@
  * @var $content string
  */
 
-use frontend\assets\LandingAsset;
 use yii\helpers\Url;
 
 $this->beginContent('@frontend/views/layouts/base.php');
-LandingAsset::register($this);
 ?>
 <header id="header">
     <!-- MOBILE HEADER -->
@@ -44,7 +42,7 @@ LandingAsset::register($this);
         </div>
     </nav>
     <!-- DESKTOP HEADER -->
-    <nav id="desktop-header" class="navbar navbar-expand-lg navbar-light bg-light position-fixed w-100 shadow">
+    <nav id="desktop-header" class="navbar navbar-expand-lg navbar-light bg-light position-fixed w-100 shadow" style="z-index: 1">
         <div class="container-fluid">
             <div class="container">
                 <div class="navbar-collapse d-flex justify-content-evenly" id="navbarSupportedContent">

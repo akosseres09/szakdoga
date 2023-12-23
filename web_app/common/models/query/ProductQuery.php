@@ -54,5 +54,4 @@ class ProductQuery extends ActiveQuery
        return $this->andWhere(['is_kid' => Product::NOT_KID]);
     }
 
-
 }

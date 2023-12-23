@@ -30,11 +30,13 @@ $this->title = 'The Best Choice In Sports » Sportify '; ?>
     },
     'summary' => '{begin}-{end}/{totalCount}',
     'layout' => '<div class="container-fluid position-relative">
-                    <div class="container">
+                    <div class="text-center mb-5">{summary}</div>
+                    <div class="container mb-5">
                         <div class="items-grid-container">{items}</div>
+                    </div>
+                    <div class="d-flex justify-content-center">
                         {pager}
                     </div>
-                    <div class="text-center mt-2">{summary}</div>
                 </div>'
 
 ]);

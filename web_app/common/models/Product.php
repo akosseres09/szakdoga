@@ -115,5 +115,20 @@ class Product extends ActiveRecord
         return $this->number_of_stocks === 0 ? self::OUT_OF_STOCK : self::ON_STOCK;
     }
 
+    public function hasOnStock(): bool
+    {
+        return $this->number_of_stocks !== 0;
+    }
+
+    public function isShoe(): bool
+    {
+        return in_array($this->type, Type::find()->ofShoes()->all()) ;
+    }
+
+    public function isKid(): bool
+    {
+        return $this->is_kid === self::KID;
+    }
+
 
 }

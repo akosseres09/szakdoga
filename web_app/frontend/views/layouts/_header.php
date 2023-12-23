@@ -64,7 +64,7 @@ $actionName = Yii::$app->controller->action->id;
                     <?php endif; ?>
                 <?php else :?>
                     <div class="nav-item">
-                        <a class="nav-link justify-content-start" aria-current="page" href="#">
+                        <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/cart/cart']) ?>">
                             Cart
                         </a>
                     </div>
@@ -102,7 +102,7 @@ $actionName = Yii::$app->controller->action->id;
     <div class="container-fluid">
         <div class="container">
             <div class="navbar-collapse d-flex justify-content-evenly" id="navbarSupportedContent">
-            <a class="navbar-brand" href="<?= Url::to(['/'])?>"><?= Yii::$app->name?></a>
+                <a class="navbar-brand" href="<?= Url::to(['/'])?>"><?= Yii::$app->name?></a>
                 <div class="navbar-nav me-auto mb-2 mb-lg-0 d-flex gap-2 flex-1">
                     <div class="d-flex gap-3 align-items-center flex-1">
                         <div class="nav-item dropdown">
@@ -143,12 +143,12 @@ $actionName = Yii::$app->controller->action->id;
                     <?php else :?>
                         <div class="d-flex gap-3">
                             <div class="nav-item position-relative">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="<?= Url::to(['/cart/cart']) ?>">
                                 <span class="material-symbols-outlined">
                                     shopping_cart
                                 </span>
                                 </a>
-                                <span class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-main-color); top: 25%; left: 90%">
+                                <span id="cartCount" class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-main-color); top: 25%; left: 90%">
                                <?= Yii::$app->user->getIdentity()->getCartCount() ?>
                             </span>
                             </div>

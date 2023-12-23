@@ -4,7 +4,6 @@
  * @var string $content
  */
 
-use frontend\assets\ShopAsset;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -62,7 +61,7 @@ $this->beginContent('@frontend/views/layouts/main.php');
         <?= Html::submitButton('Filter', ['class' => 'btn btn-primary mt-3']) ?>
         <?php ActiveForm::end() ?>
     </div>
-    <div class="col-lg-9 shop-container-search-bar">
+    <div class="col-lg-9 shop-container-search-bar py-3" style="border-radius: 10px;background-color: var(--spfy-background-color)">
         <div class="shop-container">
             <?= $content ?>
         </div>

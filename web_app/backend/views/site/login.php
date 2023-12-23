@@ -22,8 +22,8 @@ $fieldOptions = [
         <div class="site-signup">
             <div class="row">
                 <h1 class="row text-center pb-2">
-                    <a class="col-sm" href="<?= Url::to(['/']) ?>">Sportify</a>
-                    <span class="col-sm w-100 px-5">Login</span>
+                    <a class="col-12" href="<?= Url::to(['/']) ?>">Sportify</a>
+                    <span class="col-sm w-100 px-5">Admin Login</span>
                 </h1>
             </div>
             <div class="w-100 border-bottom"></div>
@@ -39,16 +39,7 @@ $fieldOptions = [
                     <div class="row pt-2">
                         <?= $form->field($user, 'rememberMe', $fieldOptions)->checkbox() ?>
                     </div>
-                    <div class="row pt-2">
-                        <div class="col">
-                            Don't have an account? <?= Html::a('Sign up', ['site/signup']) ?>
-                        </div>
-                    </div>
-                    <div class="row pt-2">
-                        <div class="col">
-                            <?= Html::a('Forgot your password?', ['site/request-password-reset']) ?>
-                        </div>
-                    </div>
+
                     <div class="row pt-4">
                         <div class="text-center">
                             <?= Html::submitButton('Login', ['class' => 'btn btn-primary text-white', 'name' => 'login-button']) ?>

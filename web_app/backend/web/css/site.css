@@ -5,8 +5,14 @@
     --spfy-red: #f00;
     --spfy-light-gray: rgba(128,128,128, 0.2);
     --spfy-main-color: #CD7401;
-    --spfy-secondary-color: #00A68c;
-    --spfy-terciary-color: #006f5a;
+    --spfy-primary-light: #fe9003;
+    --spfy-primary-dark: #9a5701;
+    --spfy-secondary-color: #7ccd01;
+    --spfy-secondary-light: #9afe03;
+    --spfy-secondary-dark: #5d9a01;
+    --spfy-foreground-color: #fbfbfb;
+    --spfy-background-color: #f0f0f0;
+    --spfy-border-color: #dfdfdf;
     --spfy-brown-color-rgba: rgba(205, 116, 1, 0.2);
     --spfy-brown-hover-color: #9c5900;
     --spfy-footer-color: #f5f5f5;

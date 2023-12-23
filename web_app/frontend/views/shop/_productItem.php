@@ -13,7 +13,7 @@ $status = $model->getAvailability() === Product::ON_STOCK ? 'badge-available' : 
 ?>
 
 <div class="card-body text-center ">
-    <img class="my-2" alt="Pics" src="<?=Url::to(['/storage/profile-pics/default_pic.jpg'])?>" style="border-radius: 15px; width: 150px; height: auto">
+    <img class="my-2" alt="Pics" src="<?=Url::to(['/storage/profile-pics/default_pic.jpg'])?>" style="border-radius: 15px; width: 80%; height: auto">
 </div>
 <div class="card-footer">
     <div class="product-name">

@@ -5,7 +5,7 @@ namespace common\models\query;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
-class TypeQuery extends ActiveQuery
+class CartQuery extends ActiveQuery
 {
     public function all($db = null): array
     {
@@ -17,13 +17,8 @@ class TypeQuery extends ActiveQuery
         return parent::one($db);
     }
 
-    public function ofType($type_name): TypeQuery
+    public function ofUser($id)
     {
-        return $this->andWhere(['product_type' => $type_name]);
-    }
-
-    public function ofShoes(): TypeQuery
-    {
-        return $this->andWhere(['like', 'product_type', '%Shoes%', false]);
+        return $this->andWhere(['user_id' => $id]);
     }
 }
