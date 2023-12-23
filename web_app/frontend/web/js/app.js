@@ -5,6 +5,7 @@ const deleteBtn = document.querySelectorAll('.btn-close');
 const cartForm = document.getElementById('place-in-cart-form');
 const cartModal = document.getElementById('addToCartModal');
 const cartCount = document.getElementById('cartCount');
+const loader = document.getElementById('loader-overlay');
 
 if (sizeItems && sizeInput) {
     sizeItems.forEach(item => {
@@ -51,14 +52,30 @@ function getDataFromUrl(url, intoItem) {
 }
 
 function sendDataToUrl(url, formSendData = {}, intoItem){
+    // showLoader();
     fetch(url, formSendData)
         .then(res => res.text())
         .then(res => {
             intoItem.innerHTML = res;
             let count= parseInt(cartCount.innerText) || 0;
             cartCount.innerText = count + 1;
+            // hideLoader();
         })
         .catch(err => console.log(err));
+}
+
+function showLoader(){
+    if (loader) {
+        loader.classList.remove('d-none');
+        loader.style.opacity = '1';
+    }
+}
+
+function hideLoader(){
+    if (loader) {
+        loader.style.opacity = '0';
+        loader.classList.add('d-none')
+    }
 }
 
 setTimeout(function() {

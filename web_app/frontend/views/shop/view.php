@@ -127,3 +127,7 @@ $this->title = $product->name . ' - Sportify';
 
     </div>
 </div>
+
+<div id="loader-overlay" class="d-none">
+    <div id="loader"></div>
+</div>
