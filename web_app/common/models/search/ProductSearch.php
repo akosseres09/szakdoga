@@ -14,6 +14,7 @@ class ProductSearch extends Product
     public $minPrice;
     public $maxPrice;
     public $kidOrAdult;
+    public $genderName;
     const SEARCH_ON_STOCK = 1;
     const SEARCH_OFF_STOCK = 0;
     public function rules(): array
@@ -24,7 +25,8 @@ class ProductSearch extends Product
             [['brandName'], 'each', 'rule' => ['string']],
             [['typeName'], 'each', 'rule' => ['string']],
             [['name'], 'string', 'max' => 128],
-            [['kidOrAdult'], 'each', 'rule' => ['string']]
+            [['kidOrAdult'], 'each', 'rule' => ['string']],
+            [['genderName'], 'each', 'rule' => ['string']]
         ];
     }
 
@@ -49,7 +51,7 @@ class ProductSearch extends Product
         ->andFilterWhere(['like', 'brand.name', $this->brandName])
             ->andFilterWhere(['like', 'type.product_type', $this->typeName])
             ->andFilterWhere(['=', 'is_kid', $this->kidOrAdult])
-            ->andFilterWhere(['=', 'gender', $this->gender])
+            ->andFilterWhere(['=', 'gender', $this->genderName])
             ->andFilterWhere(['>=', 'price', $this->minPrice])
             ->andFilterWhere(['<=', 'price', $this->maxPrice]);
 

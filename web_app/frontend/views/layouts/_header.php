@@ -14,7 +14,7 @@ $actionName = Yii::$app->controller->action->id;
 ?>
 <nav id="mobile-header" class="d-none navbar navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<?= Url::to(['/'])?>"><?= Yii::$app->name?></a>
+        <a class="navbar-brand" href="<?= Url::to(['/shop/products'])?>"><?= Yii::$app->name?></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -102,7 +102,7 @@ $actionName = Yii::$app->controller->action->id;
     <div class="container-fluid">
         <div class="container">
             <div class="navbar-collapse d-flex justify-content-evenly" id="navbarSupportedContent">
-                <a class="navbar-brand" href="<?= Url::to(['/'])?>"><?= Yii::$app->name?></a>
+                <a class="navbar-brand" href="<?= Url::to(['/shop/products'])?>"><?= Yii::$app->name?></a>
                 <div class="navbar-nav me-auto mb-2 mb-lg-0 d-flex gap-2 flex-1">
                     <div class="d-flex gap-3 align-items-center flex-1">
                         <div class="nav-item dropdown">

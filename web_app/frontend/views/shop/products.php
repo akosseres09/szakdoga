@@ -94,7 +94,7 @@ $this->title = 'The Best Choice In Sports » Sportify '; ?>
         </h2>
         <div id="GenderFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <?= $form->field($searchModel, 'kidOrAdult', $accOptions)->checkboxList([
+                <?= $form->field($searchModel, 'genderName', $accOptions)->checkboxList([
                     Product::GENDER_MALE => 'Male',
                     Product::GENDER_FEMALE => 'Female'
                 ]) ?>

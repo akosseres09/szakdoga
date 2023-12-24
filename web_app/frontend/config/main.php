@@ -50,7 +50,7 @@ return [
             'rules' => [
                 'landing/main' => '/',
                 'shop/view/<id>' => 'shop/view',
-                'cart/delete-from-cart/<id>' => 'cart/delete-from-cart'
+                'cart/delete-from-cart/<id>' => 'cart/delete-from-cart',
             ],
         ],
         'assetManager' => [
