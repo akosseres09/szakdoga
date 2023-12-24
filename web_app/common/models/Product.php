@@ -4,12 +4,19 @@ namespace common\models;
 
 
 use common\models\query\ProductQuery;
+use Imagine\Gd\Image;
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
+use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
 
 /**
  * @property int $id
+ * @property string $folder_id
  * @property int $brand_id
  * @property int type_id
  * @property string $name
@@ -43,6 +50,11 @@ class Product extends ActiveRecord
     const KID = 0;
     const NOT_KID = 1;
 
+    /**
+     * @var UploadedFile[]
+     */
+    public array $images = [];
+
     public static function tableName(): string
     {
         return 'product';
@@ -62,8 +74,9 @@ class Product extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'description', 'price', 'number_of_stocks', 'is_kid', 'gender', 'type_id', 'brand_id'], 'required'],
+            [['name', 'description', 'price', 'number_of_stocks', 'is_kid', 'gender', 'type_id', 'brand_id', 'folder_id'], 'required'],
             [['name'], 'string', 'max' => 128],
+            [['folder_id'], 'string', 'max' => 11],
             ['description', 'string', 'max' => 1024],
             ['rating', 'in', 'range' => [0,1,2,3,4,5]],
             [['number_of_stocks'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number', 'message' => 'Stock number must be 0 or positive!'],
@@ -72,7 +85,8 @@ class Product extends ActiveRecord
             ['is_activated', 'in', 'range' => [self::INACTIVE, self::ACTIVE]],
             [['is_kid'], 'in', 'range' => [self::KID, self::NOT_KID]],
             [['is_kid'], 'default', 'value' => self::NOT_KID],
-            [['gender'], 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE]]
+            [['gender'], 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE]],
+            [['images'], 'image','extensions' => 'png, jpg, jpeg','maxFiles' => 5]
         ];
     }
 
@@ -130,5 +144,32 @@ class Product extends ActiveRecord
         return $this->is_kid === self::KID;
     }
 
+    public function getImages($first = false): bool|array
+    {
+        $array = scandir(\Yii::getAlias('@frontend/web/storage/images/'.$this->folder_id));
+        return $first ? array_slice($array,2, 1) : array_slice($array,2, count($array) - 2);
+    }
+
+    public function upload(): bool
+    {
+        if($this->images) {
+            $imagePath = \Yii::getAlias('@frontend/web/storage/images/'.$this->folder_id);
+
+            if (!file_exists($imagePath)) {
+                mkdir($imagePath, 0777, true);
+            }
+
+            foreach ($this->images as $image) {
+                $filePath = $imagePath . '/' . $image->baseName . '.' . $image->extension;
+                \yii\imagine\Image::getImagine()->open($image->tempName)
+                    ->thumbnail(new Box(600,600))
+                    ->save($filePath);
+            }
+        }else {
+            return false;
+        }
+
+        return true;
+    }
 
 }

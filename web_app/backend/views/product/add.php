@@ -17,11 +17,13 @@ use yii\web\View;use yii\widgets\ActiveForm;
 $fieldOptions = [
     'labelOptions' => ['class' => 'mb-1 mt-3']
 ];
-
 ?>
 <div class="modal-dialog">
     <?php $form = ActiveForm::begin([
-        'action' => '/product/add'
+        'options' => [
+            'enctype' => 'multipart/form-data'
+        ],
+        'action' => '/product/add',
     ]) ?>
     <div class="modal-content">
         <div class="modal-header">
@@ -63,6 +65,17 @@ $fieldOptions = [
                 </div>
             </div>
             <div class="row">
+                <div class="col">
+                    <label class="mt-4">Upload files </label>
+                    <?= $form->field($product, 'images[]', [
+                        'labelOptions' => ['class' => 'd-none'],
+                        'inputOptions' => ['class' => 'mt-2']
+                    ])->fileInput(['multiple' => true, 'accept' => 'image/png, image/jpg, image/jpeg'])?>
+                </div>
+            </div>
+            <div class="row" id="uploadedImagesContainer">
+            </div>
+            <div class="row">
                 <?= $form->field($product, 'description', $fieldOptions)->textarea(['maxlength' => 1024, 'required' => true]) ?>
             </div>
             <div class="row justify-content-center">
@@ -76,3 +89,6 @@ $fieldOptions = [
     </div>
     <?php ActiveForm::end() ?>
 </div>
+<script>
+
+</script>

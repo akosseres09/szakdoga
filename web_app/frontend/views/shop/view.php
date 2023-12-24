@@ -11,6 +11,7 @@ use yii\web\View;
 use yii\bootstrap5\ActiveForm;
 
 $this->title = $product->name . ' - Sportify';
+$images = $product->getImages();
 ?>
 
 <?= $this->render('/site/common/_alert') ?>
@@ -26,15 +27,11 @@ $this->title = $product->name . ' - Sportify';
             <div class="col-lg-8 col-12">
                 <div id="productPicsCarousel" class="carousel slide" data-bs-touch="true">
                     <div class="carousel-inner">
-                        <div class="carousel-item active text-center">
-                            <img src="/storage/profile-pics/default_pic.jpg" >
-                        </div>
-                        <div class="carousel-item text-center">
-                            <img src="/storage/profile-pics/default_pic.jpg" >
-                        </div>
-                        <div class="carousel-item text-center">
-                            <img src="/storage/profile-pics/default_pic.jpg" >
-                        </div>
+                        <?php foreach ($images as $index => $image) {?>
+                            <div class="carousel-item text-center <?= $index === 0 ? 'active' : ''?>">
+                                <img src="/storage/images/<?=$product->folder_id . '/' . $image?>">
+                            </div>
+                        <?php  }?>
                     </div>
 
                    <div class="d-block d-lg-none">
@@ -51,9 +48,9 @@ $this->title = $product->name . ' - Sportify';
                    </div>
                     <div class="d-none d-md-block">
                         <div class="carousel-indicators mt-4" style="position:relative;">
-                            <button type="button" data-bs-target="#productPicsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#productPicsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#productPicsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <?php foreach ($images as $index => $image) { ?>
+                                <button type="button" data-bs-target="#productPicsCarousel" data-bs-slide-to="<?=$index?>" <?= $index === 0 ? 'class="active"' : ''?> aria-current="true" aria-label="Slide <?=$index?>"></button>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

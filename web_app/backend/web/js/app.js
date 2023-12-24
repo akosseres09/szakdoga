@@ -4,7 +4,7 @@ const editProductItemBtn = document.querySelectorAll('.editProductItemBtn');
 const editModal = document.getElementById('productEditModal');
 const editUserModal = document.getElementById('editUserModal');
 const editUserBtn = document.querySelectorAll('.editUserBtn');
-// Handles the disappearance of the flashes
+
 setTimeout(function() {
     $('.alert').fadeOut();
 }, 4000);

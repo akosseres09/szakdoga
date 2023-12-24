@@ -10,6 +10,8 @@ use yii\web\View;
 $active = strtolower($model->getActiveStatus());
 $status = $model->getAvailability() === Product::ON_STOCK ? 'badge-available' : 'badge-unavailable';
 
+$array = $model->getImages(true);
+$link = Yii::$app->params['frontendImagesUrl'].$model->folder_id.'/';
 ?>
 
 <div class="card-title pb-2 border-bottom gap-2 ">
@@ -38,15 +40,15 @@ $status = $model->getAvailability() === Product::ON_STOCK ? 'badge-available' : 
         </div>
         <div class="col-2">
             <a href="<?= Url::to(['/product/delete/'.$model->id]) ?>" data-method="POST" style="color: red">
-                    <span class="material-symbols-outlined">
-                        delete
-                    </span>
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
             </a>
         </div>
     </div>
 </div>
 <div class="card-body text-center">
-    <img class="my-2" alt="Pics" src="<?=Url::to(['/default_pic.jpg'])?>" style="border-radius: 15px; width: 75%; height: auto">
+    <img class="my-2" alt="Pics" src="<?=$link.$array[0]?>" style="border-radius: 15px; width: 75%; height: auto">
 </div>
 <div class="card-footer">
     <div class="d-flex justify-content-between align-items-center">

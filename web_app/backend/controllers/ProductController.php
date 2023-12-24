@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\components\File;
 use common\models\Brand;
 use common\models\Product;
 use common\models\Type;
@@ -11,6 +12,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 class ProductController extends Controller
 {
@@ -58,11 +60,27 @@ class ProductController extends Controller
         $product = new Product();
         $types = ArrayHelper::map(Type::find()->all(), 'id', 'product_type');
         $brands = ArrayHelper::map(Brand::find()->all(), 'id', 'name');
+        $transaction = \Yii::$app->db->beginTransaction();
         if ($request->isPost && $product->load($request->post())) {
-            if ($product->save()) {
-                \Yii::$app->session->setFlash('success', 'Successfully Created a new Product!');
-            } else {
-                \Yii::$app->session->setFlash('error', 'Failed to create this product!');
+            try {
+                $product->folder_id = \Yii::$app->security->generateRandomString(11);
+                $product->images = UploadedFile::getInstances($product, 'images');
+
+                if ($product->save()) {
+                    if($product->upload()) {
+                        \Yii::$app->session->setFlash('Success', 'Successfully Uploaded Images and Created Product!');
+                    }else {
+                        \Yii::$app->session->setFlash('Error', 'Failed to create files!');
+                    }
+                } else {
+                    \Yii::$app->session->setFlash('Error', 'Failed to create this product!');
+                }
+                $transaction->commit();
+            }catch (\Exception $e){
+                \Yii::$app->session->setFlash('Error', $e->getMessage());
+                $transaction->rollBack();
+                File::rrmdir(\Yii::getAlias('@frontend/web/storage/images/'.$product->folder_id));
+                return $this->redirect(['/product/products']);
             }
             return $this->redirect(['/product/products']);
         }
@@ -109,7 +127,12 @@ class ProductController extends Controller
             return $this->redirect('/product/products');
         }
 
+
         try {
+            $pathName = \Yii::getAlias('@frontend/web/storage/images/'.$product->folder_id);
+            if (file_exists($pathName)){
+                File::rrmdir($pathName);
+            }
             $product->delete();
             \Yii::$app->session->setFlash('Success', 'Successfully Deleted Product!');
         } catch (\Throwable $t) {
