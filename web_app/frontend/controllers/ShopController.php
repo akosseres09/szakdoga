@@ -2,12 +2,17 @@
 
 namespace frontend\controllers;
 
+use common\models\Brand;
 use common\models\Cart;
 use common\models\Product;
+use common\models\search\ProductSearch;
+use common\models\Type;
 use yii\captcha\CaptchaAction;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
@@ -59,16 +64,23 @@ class ShopController extends Controller
     public function actionProducts($pageSize = 20): string
     {
         $this->layout = 'shop';
-        $dataProvider = new ActiveDataProvider([
-            'query' => Product::find()->ofActive(),
-            'pagination' => [
-                'pageSize' => $pageSize
-            ]
-        ]);
+        $request = \Yii::$app->request;
+        $searchModel = new ProductSearch();
+        $types = ArrayHelper::map(Type::find()->all(), 'product_type', 'product_type');
+        $brands = ArrayHelper::map(Brand::find()->all(), 'name', 'name');
+        $max = Product::find()->ofActive()->max('price');
+        $dataProvider = $searchModel->search($request->queryParams);
 
+
+//        VarDumper::dump($request->queryParams, 5, true);
+//        die();
 
         return $this->render('products',[
-            'dataProvider' => $dataProvider
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'brands' => $brands,
+            'types' => $types,
+            'max' => $max
         ]);
     }
 
