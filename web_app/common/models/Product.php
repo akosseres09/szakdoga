@@ -21,6 +21,8 @@ use yii\web\UploadedFile;
  * @property int type_id
  * @property string $name
  * @property string $description
+ * @property string $description_title
+ * @property string $details
  * @property int $price
  * @property int $rating
  * @property int $number_of_stocks
@@ -74,10 +76,10 @@ class Product extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'description', 'price', 'number_of_stocks', 'is_kid', 'gender', 'type_id', 'brand_id', 'folder_id'], 'required'],
-            [['name'], 'string', 'max' => 128],
+            [['name', 'description', 'description_title', 'price', 'number_of_stocks', 'is_kid', 'gender', 'type_id', 'brand_id', 'folder_id', 'details'], 'required'],
+            [['name', 'description_title'], 'string', 'max' => 128],
             [['folder_id'], 'string', 'max' => 11],
-            ['description', 'string', 'max' => 1024],
+            [['description', 'details'], 'string', 'max' => 1024],
             ['rating', 'in', 'range' => [0,1,2,3,4,5]],
             [['number_of_stocks'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number', 'message' => 'Stock number must be 0 or positive!'],
             [['price'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number', 'message' => 'Price must be 0 or positive!'],

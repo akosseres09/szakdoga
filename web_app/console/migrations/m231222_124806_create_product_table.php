@@ -14,17 +14,19 @@ class m231222_124806_create_product_table extends Migration
     {
         $this->createTable('{{%product}}', [
             'id' => $this->primaryKey(),
-            'folder_id' => $this->string(11)->notNull(),
-            'brand_id' => $this->integer()->notNull(),
-            'type_id' => $this->integer()->notNull(),
             'name' => $this->string(128)->notNull(),
+            'description_title' => $this->string(128)->notNull(),
             'description' => $this->string(1024)->notNull(),
             'price' => $this->integer()->notNull(),
-            'rating' => $this->integer(),
+            'details' => $this->string(1024)->notNull(),
             'number_of_stocks' => $this->integer()->notNull(),
             'is_activated' => $this->integer(1)->notNull(),
             'is_kid' => $this->integer(1)->notNull(),
             'gender' => $this->integer(1)->notNull(),
+            'folder_id' => $this->string(11)->notNull(),
+            'brand_id' => $this->integer()->notNull(),
+            'type_id' => $this->integer()->notNull(),
+            'rating' => $this->integer(),
         ]);
 
         $this->createIndex('{{%idx-product-brand_id}}',

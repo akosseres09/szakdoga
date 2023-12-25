@@ -314,6 +314,18 @@ a:focus {
     color: var(--spfy-white);
 }
 
+.carousel-control-next > span,
+.carousel-control-prev > span {
+    background-color: black;
+    border-radius: 20px;
+}
+
+.accordion-item {
+    border-right: none;
+    border-left: none;
+    /*height: 60px;*/
+}
+
 
 @media screen and (max-width: 480px ) {
     .site-login,

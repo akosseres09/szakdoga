@@ -18,7 +18,7 @@ $fieldOptions = [
     'labelOptions' => ['class' => 'mb-1 mt-3']
 ];
 ?>
-<div class="modal-dialog">
+<div class="modal-dialog modal-dialog-scrollable">
     <?php $form = ActiveForm::begin([
         'options' => [
             'enctype' => 'multipart/form-data'
@@ -76,7 +76,13 @@ $fieldOptions = [
             <div class="row" id="uploadedImagesContainer">
             </div>
             <div class="row">
+                <?= $form->field($product, 'description_title', $fieldOptions)->textInput(['maxlength' => 128, 'required' => true]) ?>
+            </div>
+            <div class="row">
                 <?= $form->field($product, 'description', $fieldOptions)->textarea(['maxlength' => 1024, 'required' => true]) ?>
+            </div>
+            <div class="row">
+                <?= $form->field($product, 'details', $fieldOptions)->textarea(['maxlength' => 1024, 'required' => true]) ?>
             </div>
             <div class="row justify-content-center">
                 <div class="col-auto">
@@ -89,6 +95,3 @@ $fieldOptions = [
     </div>
     <?php ActiveForm::end() ?>
 </div>
-<script>
-
-</script>
