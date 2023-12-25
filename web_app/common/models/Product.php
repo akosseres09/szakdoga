@@ -162,7 +162,7 @@ class Product extends ActiveRecord
             foreach ($this->images as $image) {
                 $filePath = $imagePath . '/' . $image->baseName . '.' . $image->extension;
                 \yii\imagine\Image::getImagine()->open($image->tempName)
-                    ->thumbnail(new Box(600,600))
+                    ->resize(new Box(500,500))
                     ->save($filePath);
             }
         }else {
@@ -170,6 +170,11 @@ class Product extends ActiveRecord
         }
 
         return true;
+    }
+
+    public function isActivated(): bool
+    {
+        return $this->is_activated;
     }
 
 }

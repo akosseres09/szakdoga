@@ -105,7 +105,7 @@ $images = $product->getImages();
                     <div class="col d-flex">
                         <?php if (!$product->hasOnStock() && $product->isShoe()) {?>
                             <button class="btn btn-outline-light">Notify me when On Stock</button>
-                        <?php } else { ?>
+                        <?php } else if($product->isActivated()) { ?>
                                 <div class="col d-flex align-items-start">
                                     <button type="submit" data-bs-target="#addToCartModal" data-bs-toggle="modal" class="btn btn-primary">Place in Cart</button>
                                 </div>
