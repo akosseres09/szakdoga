@@ -5,13 +5,17 @@
  * @var Cart $cart
  */
 
+use common\components\WishlistHelper;
 use common\models\Cart;
 use common\models\Product;
+use yii\helpers\Url;
 use yii\web\View;
 use yii\bootstrap5\ActiveForm;
 
 $this->title = $product->name . ' - Sportify';
 $images = $product->getImages();
+$inWishlist = WishlistHelper::isInWishlist(Yii::$app->user->id, $product->id);
+
 ?>
 
 <?= $this->render('/site/common/_alert') ?>
@@ -106,13 +110,25 @@ $images = $product->getImages();
                         <?php if (!$product->hasOnStock() && $product->isShoe()) {?>
                             <button class="btn btn-outline-light">Notify me when On Stock</button>
                         <?php } else if($product->isActivated()) { ?>
-                                <div class="col d-flex align-items-start">
-                                    <button type="submit" data-bs-target="#addToCartModal" data-bs-toggle="modal" class="btn btn-primary">Place in Cart</button>
-                                </div>
-                                <div class="col d-flex align-items-center">
-                                    <span class="material-symbols-outlined wishlist-btn">
-                                        favorite
-                                    </span>
+                                <div class="row">
+                                    <div class="col-10 d-flex align-items-start">
+                                        <button type="submit" data-bs-target="#viewModal" data-bs-toggle="modal" class="btn btn-primary">Place in Cart</button>
+                                    </div>
+                                    <div class="col-2 d-flex align-items-center">
+                                        <?php if($inWishlist) { ?>
+                                            <a href="<?= Url::to(['/shop/remove-from-wishlist/'.$product->id]) ?>" class="wishlist-link">
+                                                <span class="material-symbols-outlined wishlist-btn active">
+                                                    favorite
+                                                </span>
+                                            </a>
+                                        <?php } else { ?>
+                                            <a href="<?= Url::to(['/shop/add-to-wishlist/'.$product->id]) ?>" class="wishlist-link">
+                                                <span class="material-symbols-outlined wishlist-btn">
+                                                    favorite
+                                                </span>
+                                            </a>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                         <?php } ?>
                     </div>
@@ -121,7 +137,6 @@ $images = $product->getImages();
             <input type="hidden" name="product_id" value="<?= $product->id ?>">
             <?php ActiveForm::end() ?>
         </div>
-
         <div class="row mt-4">
             <div class="col-lg-8">
                 <div class="accordion" id="ratings">
@@ -184,7 +199,7 @@ $images = $product->getImages();
     </div>
 </div>
 
-<div id="addToCartModal" class="modal">
+<div id="viewModal" class="modal">
     <div class="modal-dialog">
 
     </div>

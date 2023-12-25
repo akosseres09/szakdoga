@@ -1,7 +1,9 @@
 <?php
 
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 use yii\web\View;
+use yii\widgets\LinkPager;
 use yii\widgets\ListView;
 
 /**
@@ -22,7 +24,12 @@ $this->title = 'Cart - Sportify';
                 <?=
                     ListView::widget([
                         'dataProvider' => $cartItems,
-                        'itemView' => '_cartItem'
+                        'itemView' => '_cartItem',
+                        'pager' => [
+                            'class' => LinkPager::class
+                        ],
+                        'emptyText' => '<h3 class="text-center mt-1">Your Cart is Empty! <a href='. Url::to(['/shop/products']) .'>Let\'s Go Shopping</a></h3>',
+                        'summary' => '{begin}-{end}/{totalCount}',
                     ]);
                 ?>
             </div>

@@ -32,6 +32,7 @@ use yii\web\IdentityInterface;
  * @property BillingInformation|null $billingInformation
  * @property ShippingInformation|null $shippingInformation
  * @property Cart[]|null $carts
+ * @property Wishlist[]|null $wishlistItems
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -110,9 +111,14 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(ShippingInformation::class, ['user_id' => 'id']);
     }
 
-    public function getCart()
+    public function getCart(): ActiveQuery
     {
         return $this->hasMany(Cart::class, ['user_id' => 'id']);
+    }
+
+    public function getWishlist(): ActiveQuery
+    {
+        return $this->hasMany(Wishlist::class, ['user_id' => 'id']);
     }
 
     public static function find(): UserQuery
@@ -298,14 +304,21 @@ class User extends ActiveRecord implements IdentityInterface
         return count($this->cart);
     }
 
-    function getRole(): string
+    public function getWishlistCount()
+    {
+        return count($this->wishlist);
+    }
+
+    public function getRole(): string
     {
         return self::ROLES[$this->is_admin];
     }
 
-    function getStatus(): string
+    public function getStatus(): string
     {
         return self::STATUSES[$this->status];
     }
+
+
 
 }

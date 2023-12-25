@@ -3,10 +3,14 @@ const sizeInput = document.getElementById('cart-size');
 const deleteModal = document.getElementById('deleteModal');
 const deleteBtn = document.querySelectorAll('.btn-close');
 const cartForm = document.getElementById('place-in-cart-form');
-const cartModal = document.getElementById('addToCartModal');
+const viewModal = document.getElementById('viewModal');
 const cartCount = document.getElementById('cartCount');
 const loader = document.getElementById('loader-overlay');
+const wishlistLink = document.querySelector('.wishlist-link');
+const wishlistBtn = document.querySelector('.wishlist-btn');
 
+
+// Handles Picking a size on the View page
 if (sizeItems && sizeInput) {
     sizeItems.forEach(item => {
        item.addEventListener('click', () => {
@@ -20,7 +24,7 @@ if (sizeItems && sizeInput) {
     });
 }
 
-
+// handles deleting an item from the cart
 if (deleteModal && deleteBtn) {
     deleteBtn.forEach(btn => {
        btn.addEventListener('click', function (e) {
@@ -30,36 +34,49 @@ if (deleteModal && deleteBtn) {
     });
 }
 
-if (cartForm && cartModal) {
+// handles the submission of the view page form
+if (cartForm && viewModal) {
     cartForm.addEventListener('submit', function (e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
         const form = e.target;
-        console.log(form);
         const formData = new FormData(form);
 
-        sendDataToUrl(form.action, {method: 'POST', body: formData}, cartModal);
+        sendDataToUrl(form.action, {method: 'POST', body: formData}, viewModal);
 
         return false;
     });
 }
 
-function getDataFromUrl(url, intoItem) {
-    fetch(url).then(res => res.text())
+if (wishlistBtn) {
+    wishlistBtn.addEventListener('click', () => {
+       wishlistBtn.classList.toggle('active');
+    });
+}
+
+
+function getDataFromUrl(url, intoItem, data = {}) {
+    fetch(url, data).then(res => res.text())
         .then(res => intoItem.innerHTML = res)
         .catch(err => console.log(err));
+}
+
+function updateCartCounter() {
+    let count= parseInt(cartCount.innerText) || 0;
+    cartCount.innerText = count + 1;
 }
 
 function sendDataToUrl(url, formSendData = {}, intoItem){
     // showLoader();
     fetch(url, formSendData)
-        .then(res => res.text())
+        .then(res => res.json())
         .then(res => {
-            intoItem.innerHTML = res;
-            let count= parseInt(cartCount.innerText) || 0;
-            cartCount.innerText = count + 1;
-            // hideLoader();
+            intoItem.innerHTML = res.html;
+            if (res.success) {
+                updateCartCounter();
+            }
+            hideLoader();
         })
         .catch(err => console.log(err));
 }

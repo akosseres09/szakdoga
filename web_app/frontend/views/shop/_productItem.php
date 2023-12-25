@@ -18,7 +18,7 @@ $imageName = $model->getImages(true);
 </div>
 <div class="card-footer">
     <div class="product-name">
-        <?= $model->name ?>
+        <?=$model->brand->name . ' ' . $model->name ?>
     </div>
     <div class="price">
         <div class="fs-4 fw-bold">

@@ -22,8 +22,7 @@ echo ListView::widget([
     'pager' => [
         'class' => LinkPager::class
     ],
-    'emptyText' => 'No result found',
-    'emptyTextOptions' => ['class' => 'fs-5 fw-bold'],
+    'emptyText' => '<h1 class="fs-5 fw-bold text-center">No Products in the Database</h1>',
     'itemView' => '_item',
     'itemOptions' => ['class' => 'card product-container product-item-link'],
     'summary' => '{begin}-{end}/{totalCount}',

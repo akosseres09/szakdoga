@@ -6,6 +6,7 @@ use common\components\File;
 use common\models\Brand;
 use common\models\Product;
 use common\models\Type;
+use common\models\Wishlist;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;

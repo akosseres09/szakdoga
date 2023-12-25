@@ -52,7 +52,13 @@ $fieldOptions = [
                 </div>
             </div>
             <div class="row">
+                <?= $form->field($product, 'description_title', $fieldOptions)->textInput(['maxlength' => 128, 'required' => true]) ?>
+            </div>
+            <div class="row">
                 <?= $form->field($product, 'description', $fieldOptions)->textarea(['maxlength' => 1024, 'required' => true]) ?>
+            </div>
+            <div class="row">
+                <?= $form->field($product, 'details', $fieldOptions)->textarea(['maxlength' => 1024, 'required' => true]) ?>
             </div>
             <div class="row">
                 <?= $form->field($product, 'is_activated')->checkbox()->label('Activate') ?>

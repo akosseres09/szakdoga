@@ -2,11 +2,13 @@
 
 namespace frontend\controllers;
 
+use common\components\WishlistHelper;
 use common\models\Brand;
 use common\models\Cart;
 use common\models\Product;
 use common\models\search\ProductSearch;
 use common\models\Type;
+use common\models\Wishlist;
 use yii\captcha\CaptchaAction;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -24,17 +26,12 @@ class ShopController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['products', 'view', 'add-to-cart'],
+                'only' => ['products', 'view'],
                 'rules' => [
                     [
                         'actions' => ['products', 'view'],
                         'allow' => true,
                         'roles' => ['?', '@']
-                    ],
-                    [
-                        'actions' => ['add-to-cart', 'delete-from-cart'],
-                        'allow' => true,
-                        'roles' => ['@']
                     ]
                 ]
             ],
@@ -99,7 +96,7 @@ class ShopController extends Controller
         ]);
     }
 
-    public function actionAddToCart(): Response|string
+    public function actionAddToCart(): array|Response
     {
         $request = \Yii::$app->request;
         $id = $request->post('product_id');
@@ -109,24 +106,76 @@ class ShopController extends Controller
         }
 
         $cart = new Cart();
+        $data = [];
 
         if ($request->isPost && $cart->load($request->post())) {
             $cart->user_id = \Yii::$app->user->id;
             $cart->product_id = $id;
             $cart->price = $product->price;
             if($cart->save()){
-                return $this->renderPartial('_cartModal',[
+                $data = [
+                    'success' => true,
+                    'html' => $this->renderPartial('/cart/_cartModal',[
                     'product' => $product,
                     'success' => true
-                ]);
+                    ])
+                ];
             } else {
-                return $this->renderPartial('_cartModal',[
-                    'product' => $product,
-                    'success' => false
-                ]);
+                $data = [
+                    'success' => false,
+                    'html' => $this->renderPartial('/cart/_cartModal',[
+                        'product' => $product,
+                        'errors' => $cart->getErrors(),
+                        'success' => false
+                    ])
+                ];
             }
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            return $data;
         }
         return $this->redirect('/shop/view/'.$id);
     }
 
+    public function actionAddToWishlist($id): Response
+    {
+        $product = Product::findOne($id);
+
+        if ($product === null) {
+            return $this->redirect('/shop/products');
+        }
+
+        try {
+            $wish = new Wishlist();
+            $wish->user_id = \Yii::$app->user->id;
+            $wish->product_id = $id;
+            if ($wish->save()) {
+                \Yii::$app->session->setFlash('Success', 'Wishlisted Item!');
+            } else {
+                \Yii::$app->session->setFlash('Error', 'Failed to wishlist item!');
+            }
+        }catch (\Exception ) {
+            \Yii::$app->session->setFlash('Error', 'Something went wrong!');
+        }
+        return $this->redirect('/shop/view/'.$product->id);
+    }
+
+    public function actionRemoveFromWishlist($id): Response
+    {
+        $product = Product::findOne($id);
+        $user = \Yii::$app->user;
+
+        if ($product === null) {
+           return $this->redirect('/shop/products');
+        }
+
+        try {
+            $wish = Wishlist::find()->ofUser($user->id)->ofProduct($product->id)->one();
+            $wish->delete();
+            \Yii::$app->session->setFlash('Success', 'Deleted Item from Wishlist!');
+        }catch (\Throwable $t) {
+            \Yii::$app->session->setFlash('Error', 'Failed to Delete Item From Wishlist!');
+        }
+        return $this->redirect('/shop/view/'.$product->id);
+
+    }
 }

@@ -149,15 +149,18 @@ $actionName = Yii::$app->controller->action->id;
                                 </span>
                                 </a>
                                 <span id="cartCount" class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-main-color); top: 25%; left: 90%">
-                               <?= Yii::$app->user->getIdentity()->getCartCount() ?>
-                            </span>
-                            </div>
-                            <div class="nav-item align-self-center">
-                                <a class="nav-link" href="#">
-                                <span class="material-symbols-outlined">
-                                    favorite
+                                    <?= Yii::$app->user->getIdentity()->getCartCount() ?>
                                 </span>
+                            </div>
+                            <div class="nav-item align-self-center position-relative">
+                                <a class="nav-link" href="#">
+                                    <span class="material-symbols-outlined">
+                                        favorite
+                                    </span>
                                 </a>
+                                <span id="wishListCount" class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-main-color); top: 25%; left: 90%">
+                                    <?= Yii::$app->user->getIdentity()->getWishlistCount() ?>
+                                </span>
                             </div>
                             <div class="nav-item dropdown" id="profile" style="padding-right: 30px">
                                 <a class="nav-link dropdown-toggle d-flex" aria-current="page" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

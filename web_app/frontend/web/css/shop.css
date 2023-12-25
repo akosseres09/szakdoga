@@ -107,10 +107,20 @@
     transition: all .2s
 }
 
-.wishlist-btn:hover {
+.wishlist-btn.active {
+    color: var(--spfy-white);
+    background-color: var(--spfy-secondary-color)
+}
+
+.wishlist-btn:not(.active):hover {
     color: var(--spfy-white);
     cursor: pointer;
     background-color: var(--spfy-secondary-color)
+}
+
+.wishlist-btn.active:hover {
+    color: var(--spfy-black);
+    background-color: transparent;
 }
 
 @keyframes spin {

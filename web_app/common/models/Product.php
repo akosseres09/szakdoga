@@ -121,6 +121,11 @@ class Product extends ActiveRecord
         return $this->hasMany(Rating::class, ['id' => 'product_id']);
     }
 
+    public function getWishlist(): ActiveQuery
+    {
+        return $this->hasMany(Wishlist::class, ['product_id' => 'id']);
+    }
+
     public function getActiveStatus(): string
     {
         return self::STATUSES[$this->is_activated];

@@ -3,6 +3,7 @@
  * @var View $this
  * @var Product $product
  * @var bool $success
+ * @var $errors
  */
 
 use common\models\Product;
@@ -28,13 +29,19 @@ use yii\web\View;
                         <span>$<?= $product->price ?></span>
                     </div>
                 </div>
-            <?php } else { ?>
-                <span>Something Went Wrong When Adding Product to Cart</span>
-            <?php } ?>
+            <?php } else {
+                foreach ($errors as $error) { ?>
+                    <span> <?= $error[0] ?> </span>
+                <?php }
+            } ?>
         </div>
         <div class="modal-footer">
-            <a href="<?= Url::to(['/cart/cart']) ?>" class="btn btn-primary">Go to Cart</a>
-            <a href="<?= Url::to(['/shop/products']) ?>" class="btn btn-outline-light">Back to Shop</a>
+            <?php if ($success) { ?>
+                <a href="<?= Url::to(['/cart/cart']) ?>" class="btn btn-primary">Go to Cart</a>
+                <a href="<?= Url::to(['/shop/products']) ?>" class="btn btn-outline-light">Back to Shop</a>
+            <?php  } else { ?>
+                <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+            <?php } ?>
         </div>
     </div>
 

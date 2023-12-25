@@ -5,7 +5,7 @@ namespace common\models\query;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
-class UserQuery extends ActiveQuery
+class WishlistQuery extends ActiveQuery
 {
     public function all($db = null): array
     {
@@ -17,8 +17,15 @@ class UserQuery extends ActiveQuery
         return parent::one($db);
     }
 
-    public function ofWhislistItem($id): UserQuery
+    public function ofUser($id): WishlistQuery
     {
-        return $this->joinWith('wishlist')->andWhere(['wishlist.product_id' => $id]);
+        return $this->andWhere(['user_id' => $id]);
     }
+
+    public function ofProduct($id): WishlistQuery
+    {
+        return $this->andWhere(['product_id' => $id]);
+    }
+
+
 }
