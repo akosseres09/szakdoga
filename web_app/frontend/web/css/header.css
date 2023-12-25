@@ -1,5 +1,5 @@
 .dropdown-menu {
-    padding: 5px;
+    padding: 0.3125rem;
 }
 
 .dropdown-menu > .dropdown-item > a {
@@ -12,9 +12,11 @@
 }
 
 .dropdown-item:hover{
-    background-color: lightseagreen;
+    background-color: var(--spfy-main-color);
+    color: white;
     cursor: pointer;
     border-radius: 10px;
+    transition: background-color 0.2s;
 }
 
 .flex-1 {
@@ -28,8 +30,8 @@
 }
 
 .cart-number-container {
-    background-color: red;
-    color: white;
+    background-color: var(--spfy-red);
+    color: var(--spfy-white);
     width: 20px;
     height: 20px;
     border-radius: 100%;

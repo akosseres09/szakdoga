@@ -3,7 +3,9 @@
 namespace backend\controllers;
 
 use common\models\LoginForm;
+use common\models\User;
 use Yii;
+use yii\base\Model;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -17,7 +19,7 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
@@ -46,7 +48,7 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function actions()
+    public function actions(): array
     {
         return [
             'error' => [
@@ -60,7 +62,7 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         return $this->render('index');
     }
@@ -70,23 +72,36 @@ class SiteController extends Controller
      *
      * @return string|Response
      */
-    public function actionLogin()
+    public function actionLogin(): Response|string
     {
+        $this->layout = 'mainWithoutHeaderAndFooter';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
-        $this->layout = 'blank';
-
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post())) {
+            $user = User::findByUsername($model->username);
+            if ($user && $user->is_admin) {
+                if (!$user->validate()) {
+                    Yii::$app->session->setFlash('LoginError', 'No user with this username or password!');
+                }
+                if(!$model->login()){
+                    Yii::$app->session->setFlash('LoginError', 'No user with this username or password!');
+                }
+                return $this->redirect(['/']);
+            }else {
+                if (!$user) {
+                    Yii::$app->session->setFlash('LoginError', 'No user with this name or password!');
+                } else {
+                    Yii::$app->session->setFlash('LoginError', 'You are not an admin!');
+                }
+            }
         }
-
+        $model->username = '';
         $model->password = '';
-
         return $this->render('login', [
-            'model' => $model,
+            'user' => $model,
         ]);
     }
 
@@ -95,7 +110,7 @@ class SiteController extends Controller
      *
      * @return Response
      */
-    public function actionLogout()
+    public function actionLogout(): Response
     {
         Yii::$app->user->logout();
 

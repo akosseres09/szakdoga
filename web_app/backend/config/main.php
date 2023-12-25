@@ -42,6 +42,12 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => '/user/users',
+                'user/delete/<id>' => 'user/delete',
+                'user/edit/<id>' => 'user/edit',
+                'user/change-role/<id>' => 'user/change-role',
+                'product/edit/<id>' => 'product/edit',
+                'product/delete/<id>' => 'product/delete'
             ],
         ],
         'assetManager' => [

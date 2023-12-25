@@ -5,7 +5,9 @@ namespace frontend\controllers;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
+use yii\base\Exception;
 use yii\base\InvalidArgumentException;
+use yii\captcha\CaptchaAction;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -15,6 +17,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\ErrorAction;
 use yii\web\Response;
 
 /**
@@ -25,15 +28,15 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'login', 'request-reset-password'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'login', 'request-reset-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -60,10 +63,11 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => ErrorAction::class,
+                'layout' => 'mainWithoutHeaderAndFooter'
             ],
             'captcha' => [
-                'class' => \yii\captcha\CaptchaAction::class,
+                'class' => CaptchaAction::class,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
@@ -76,6 +80,7 @@ class SiteController extends Controller
      */
     public function actionIndex(): string
     {
+        $this->layout = 'landingPage';
         return $this->render('index');
     }
 
@@ -85,7 +90,7 @@ class SiteController extends Controller
 
     public function actionLogin(): \yii\web\Response|string
     {
-        $this->layout = 'mainWithoutFooter';
+        $this->layout = 'mainWithoutHeaderAndFooter';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -98,7 +103,7 @@ class SiteController extends Controller
         $model->password = '';
 
         return $this->render('login', [
-            'model' => $model,
+            'user' => $model,
         ]);
     }
 
@@ -109,57 +114,34 @@ class SiteController extends Controller
      */
     public function actionLogout(): \yii\web\Response
     {
+        if (Yii::$app->user->isGuest){
+           return $this->goHome();
+        }
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
 
     /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact(): Response|string
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            return $this->refresh();
-        }
-
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout(): string
-    {
-        return $this->render('about');
-    }
-
-    /**
      * Signs user up.
      *
      * @return Response|string
+     * @throws Exception
      */
     public function actionSignup(): Response|string
     {
-        $this->layout = 'mainWithoutFooter';
+        if (!Yii::$app->user->isGuest){
+            $this->goHome();
+        }
+
+        $this->layout = 'mainWithoutHeaderAndFooter';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if($model->signup()){
                 Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-                return $this->goHome();
+                return $this->redirect(['/site/login']);
+            }else {
+                Yii::$app->session->setFlash('error', 'There was a problem with the signup!');
             }
         }
 
@@ -175,6 +157,11 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset(): Response|string
     {
+        if (!Yii::$app->user->isGuest) {
+            $this->goHome();
+        }
+
+        $this->layout = 'mainWithoutHeaderAndFooter';
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -200,6 +187,10 @@ class SiteController extends Controller
      */
     public function actionResetPassword(string $token): Response|string
     {
+        if (!Yii::$app->user->isGuest) {
+            $this->goHome();
+        }
+
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidArgumentException $e) {
@@ -231,13 +222,13 @@ class SiteController extends Controller
         } catch (InvalidArgumentException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-        if (($user = $model->verifyEmail()) && Yii::$app->user->login($user)) {
+        if (($model->verifyEmail())) {
             Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-            return $this->goHome();
+        }else {
+            Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
         }
 
-        Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
-        return $this->goHome();
+        return $this->redirect(['/site/login']);
     }
 
     /**

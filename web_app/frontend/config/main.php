@@ -1,4 +1,7 @@
 <?php
+
+use yii\log\FileTarget;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -12,6 +15,10 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'app' => [
+            'class' => 'yii\web\Application',
+            'name' => 'Sportify'
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
@@ -28,8 +35,9 @@ return [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => \yii\log\FileTarget::class,
+                    'class' => FileTarget::class,
                     'levels' => ['error', 'warning'],
+                    'maxFileSize' => 1024,
                 ],
             ],
         ],
@@ -40,6 +48,11 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'landing/main' => '/',
+                'shop/view/<id>' => 'shop/view',
+                'cart/delete-from-cart/<id>' => 'cart/delete-from-cart',
+                'shop/add-to-wishlist/<id>' => 'shop/add-to-wishlist',
+                'shop/remove-from-wishlist/<id>' => 'shop/remove-from-wishlist'
             ],
         ],
         'assetManager' => [

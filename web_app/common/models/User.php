@@ -2,10 +2,13 @@
 
 namespace common\models;
 
+use common\models\query\UserQuery;
+use frontend\tests\UnitTester;
 use Yii;
 use yii\base\Exception;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -25,6 +28,11 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property integer $last_login_at
  * @property string $password write-only password
+ *
+ * @property BillingInformation|null $billingInformation
+ * @property ShippingInformation|null $shippingInformation
+ * @property Cart[]|null $carts
+ * @property Wishlist[]|null $wishlistItems
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -32,6 +40,16 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 10;
     const ADMIN = 1;
     const USER = 0;
+
+    const STATUSES = [
+        self::STATUS_ACTIVE => 'Active',
+        self::STATUS_INACTIVE => 'Inactive'
+    ];
+
+    const ROLES = [
+        self::ADMIN => 'Admin',
+        self::USER => 'User'
+    ];
 
 
     /**
@@ -62,6 +80,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['auth_key', 'username', 'password_hash','email'], 'required'],
             [['auth_key'], 'string', 'max' => 32],
             [['email'], 'email'],
+            [['email', 'password_hash', 'username', 'password_reset_token', 'verification_token'],'string', 'max' => 255],
             [['is_admin'], 'default', 'value' => self::USER],
             [['is_admin'], 'in', 'range' => [self::USER, self::ADMIN]],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
@@ -69,11 +88,48 @@ class User extends ActiveRecord implements IdentityInterface
             [['created_at', 'updated_at', 'last_login_at'], 'integer']
         ];
     }
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => 'Id',
+            'username' => 'Username',
+            'email' => 'Email',
+            'is_admin' => 'Role',
+            'status' => 'Status',
+            'created_at' => 'Registered',
+            'updated_at' => 'Updated'
+        ];
+    }
+
+    public function getBilling(): ActiveQuery
+    {
+        return $this->hasOne(BillingInformation::class, ['user_id' => 'id']);
+    }
+
+    public function getShipping(): ActiveQuery
+    {
+        return $this->hasOne(ShippingInformation::class, ['user_id' => 'id']);
+    }
+
+    public function getCart(): ActiveQuery
+    {
+        return $this->hasMany(Cart::class, ['user_id' => 'id']);
+    }
+
+    public function getWishlist(): ActiveQuery
+    {
+        return $this->hasMany(Wishlist::class, ['user_id' => 'id']);
+    }
+
+    public static function find(): UserQuery
+    {
+        return new UserQuery(get_called_class());
+    }
 
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public static function findIdentity($id): User|IdentityInterface|null
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
@@ -232,5 +288,37 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return Yii::$app->params['frontendUrl'] . '/storage/profile-pics/default_pic.jpg';
     }
+
+    public function hasBillingInfo(): bool
+    {
+        return $this->getBilling()->exists();
+    }
+
+    public function hasShippingInfo(): bool
+    {
+        return $this->getShipping()->exists();
+    }
+
+    public function getCartCount(): int
+    {
+        return count($this->cart);
+    }
+
+    public function getWishlistCount()
+    {
+        return count($this->wishlist);
+    }
+
+    public function getRole(): string
+    {
+        return self::ROLES[$this->is_admin];
+    }
+
+    public function getStatus(): string
+    {
+        return self::STATUSES[$this->status];
+    }
+
+
 
 }

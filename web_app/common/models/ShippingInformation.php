@@ -21,7 +21,7 @@ class ShippingInformation extends ActiveRecord
 
     public static function tableName(): string
     {
-        return 'shipping_information';
+        return '{{%shipping_information}}';
     }
 
     public function behaviors(): array
@@ -39,7 +39,8 @@ class ShippingInformation extends ActiveRecord
     {
         return [
             [['country', 'state', 'street', 'city', 'postcode'], 'required'],
-            [['country', 'state', 'street', 'city'], 'string'],
+            [['state', 'street', 'city'], 'string', 'max' => 64],
+            [['country'], 'string', 'max' => 128],
             [['postcode'], 'integer'],
             [['postcode'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number', 'message' => 'The postcode must be positive!']
         ];
@@ -50,13 +51,4 @@ class ShippingInformation extends ActiveRecord
         return static::findOne(['user_id' => $user_id]);
     }
 
-    public function hasNull(): bool
-    {
-        if (!$this->id === null || !$this->user_id || !$this->country || !$this->city
-            || !$this->postcode || !$this->street || !$this->state) {
-            return true;
-        }
-
-        return false;
-    }
 }

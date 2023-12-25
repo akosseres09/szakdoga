@@ -39,7 +39,7 @@ $this->title = 'Update Your Profile';
                         <?=
                             Html::a('Save Profile' ,['user/save-user'],[
                                 'class' => [
-                                    'btn btn-success'
+                                    'btn btn-primary'
                                 ],
                                 'data' => [
                                     'method' => 'post'
@@ -51,7 +51,7 @@ $this->title = 'Update Your Profile';
                         <?=
                             Html::a('Cancel', ['/user/account'], [
                                 'class' => [
-                                    'btn btn-danger'
+                                    'btn btn-outline-light'
                                 ]
                             ]);
                         ?>

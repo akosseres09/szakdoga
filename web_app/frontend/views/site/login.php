@@ -1,41 +1,61 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var yii\bootstrap5\ActiveForm $form */
-/** @var LoginForm $model */
+/** @var yii\widgets\ActiveForm $form */
+/** @var LoginForm $user */
 
 use common\models\LoginForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
+use yii\helpers\Url;
 
-$this->title = 'Login';
+$this->title = 'Sportify » Login';
+$fieldOptions = [
+    'labelOptions' => ['class' => 'control-label'],
+    'template' => '<div><span class="pb-5">{label}</span>{input}{hint}{error}</div>'
+]
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div class="my-1 mx-0" style="color:#999;">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
+<div class="container-fluid h-100 new-container">
+    <?= $this->render('/site/common/_alert') ?>
+    <div class="container d-flex justify-content-center">
+        <div class="site-signup">
+            <div class="row">
+                <h1 class="row text-center pb-2">
+                    <a class="col-sm" href="<?= Url::to(['/']) ?>">Sportify</a>
+                    <span class="col-sm w-100 px-5">Login</span>
+                </h1>
+            </div>
+            <div class="w-100 border-bottom"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+                    <div class="row pt-3">
+                        <?= $form->field($user, 'username', $fieldOptions)->textInput(['autofocus' => true]) ?>
+                    </div>
+                    <div class="row pt-2">
+                        <?= $form->field($user, 'password', $fieldOptions)->passwordInput() ?>
+                    </div>
+                    <div class="row pt-2">
+                        <?= $form->field($user, 'rememberMe', $fieldOptions)->checkbox() ?>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col">
+                            Don't have an account? <?= Html::a('Sign up', ['site/signup']) ?>
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col">
+                            <?= Html::a('Forgot your password?', ['site/request-password-reset']) ?>
+                        </div>
+                    </div>
+                    <div class="row pt-4">
+                        <div class="text-center">
+                            <?= Html::submitButton('Login', ['class' => 'btn btn-primary text-white', 'name' => 'login-button']) ?>
+                        </div>
+                    </div>
+                    <?php ActiveForm::end() ?>
                 </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+            </div>
         </div>
     </div>
 </div>

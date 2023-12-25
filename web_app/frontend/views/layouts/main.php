@@ -10,7 +10,7 @@ $this->beginContent('@frontend/views/layouts/base.php');?>
 </header>
 <main role="main" class="flex-shrink-0">
     <div class="container" id="outer-container" style="padding-top: 0">
-        <?= $content?>
+        <?= $content ?>
     </div>
 </main>
 <footer class="footer mt-auto py-3 text-muted">

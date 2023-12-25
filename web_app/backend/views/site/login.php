@@ -1,32 +1,53 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var yii\bootstrap5\ActiveForm $form */
-/** @var \common\models\LoginForm $model */
+/** @var View $this */
+/** @var ActiveForm $form */
+/** @var LoginForm $user */
 
+use common\models\LoginForm;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\helpers\Url;
+use yii\web\View;
 
 $this->title = 'Login';
+$fieldOptions = [
+'labelOptions' => ['class' => 'control-label'],
+'template' => '<div><span class="pb-5">{label}</span>{input}{hint}{error}</div>'
+]
 ?>
-<div class="site-login">
-    <div class="mt-5 offset-lg-3 col-lg-6">
-        <h1><?= Html::encode($this->title) ?></h1>
-
-        <p>Please fill out the following fields to login:</p>
-
-        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-            <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-            <?= $form->field($model, 'password')->passwordInput() ?>
-
-            <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-            <div class="form-group">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+<div class="container-fluid h-100 new-container">
+    <?= $this->render('/site/common/_alert') ?>
+    <div class="container d-flex justify-content-center">
+        <div class="site-signup">
+            <div class="row">
+                <h1 class="row text-center pb-2">
+                    <a class="col-12" href="<?= Url::to(['/']) ?>">Sportify</a>
+                    <span class="col-sm w-100 px-5">Admin Login</span>
+                </h1>
             </div>
+            <div class="w-100 border-bottom"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+                    <div class="row pt-3">
+                        <?= $form->field($user, 'username', $fieldOptions)->textInput(['autofocus' => true]) ?>
+                    </div>
+                    <div class="row pt-2">
+                        <?= $form->field($user, 'password', $fieldOptions)->passwordInput() ?>
+                    </div>
+                    <div class="row pt-2">
+                        <?= $form->field($user, 'rememberMe', $fieldOptions)->checkbox() ?>
+                    </div>
 
-        <?php ActiveForm::end(); ?>
+                    <div class="row pt-4">
+                        <div class="text-center">
+                            <?= Html::submitButton('Login', ['class' => 'btn btn-primary text-white', 'name' => 'login-button']) ?>
+                        </div>
+                    </div>
+                    <?php ActiveForm::end() ?>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

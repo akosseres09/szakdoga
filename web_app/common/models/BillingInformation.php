@@ -21,16 +21,17 @@ class BillingInformation extends ActiveRecord
 {
     public static function tableName(): string
     {
-        return 'billing_information';
+        return '{{%billing_information}}';
     }
 
     public function rules(): array
     {
         return [
             [['country', 'state', 'street', 'city', 'postcode'], 'required'],
-            [['country', 'state', 'street', 'city'], 'string'],
+            [['state', 'street', 'city'], 'string', 'max' => 64],
+            [['country'], 'string', 'max' => 128],
             [['postcode'], 'integer'],
-            [['postcode'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number', 'message' => 'The postcode must be positive!']
+            [['postcode'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number', 'message' => 'The postcode must be positive!'],
         ];
     }
 

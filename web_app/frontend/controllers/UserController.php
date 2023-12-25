@@ -50,16 +50,17 @@ class UserController extends Controller
 
     public function actionAccount(): Response|string
     {
-
-        $user = User::findOne(\Yii::$app->user->id);
-        $shippingInfo = ShippingInformation::findOne($user->id);
+        $user = \Yii::$app->user->getIdentity();
+        $shippingInfo = ShippingInformation::findOne(['user_id' => $user->id]);
         if($shippingInfo === null){
             $shippingInfo = new ShippingInformation();
         }
-        $billingInfo = BillingInformation::findOne($user->id);
+
+        $billingInfo = BillingInformation::findOne(['user_id' => $user->id]);
         if($billingInfo === null){
             $billingInfo = new BillingInformation();
         }
+
         return $this->render('account', [
             'user' => $user,
             'billingInfo' => $billingInfo,
@@ -74,7 +75,7 @@ class UserController extends Controller
 
     public function actionUpdate(): Response|string
     {
-        $user = User::findOne(\Yii::$app->user->id);
+        $user = \Yii::$app->user->getIdentity();
         return $this->render('update', [
             'user' => $user,
         ]);
@@ -82,7 +83,7 @@ class UserController extends Controller
 
     public function actionSaveUser(): Response|string
     {
-        $user = User::findOne(\Yii::$app->user->id);
+        $user = \Yii::$app->user->getIdentity();
         if($this->request->isPost && $user->load(\Yii::$app->request->post())){
             if($user->save()){
                 \Yii::$app->session->setFlash('UpdateSuccess', 'Profile updated successfully!');
@@ -96,35 +97,15 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionAddShipping(): Response|string
-    {
-        $shippingInfo = ShippingInformation::findOne(\Yii::$app->user->id);
-        if($shippingInfo === null){
-            $shippingInfo = new ShippingInformation();
-        }
-        return $this->render('shippingInfoForm',[
-            'shippingInfo' => $shippingInfo
-        ]);
-    }
-
-    public function actionAddBilling(): Response|string
-    {
-        $billingInfo = BillingInformation::findOne(\Yii::$app->user->id);
-        if($billingInfo === null){
-            $billingInfo = new BillingInformation();
-        }
-        return $this->render('billingInfoForm', [
-            'billingInfo' => $billingInfo
-        ]);
-    }
 
     public function actionSaveShipping(): Response
     {
-        $user = User::findOne(\Yii::$app->user->id);
-        $shippingInfo = ShippingInformation::findOne($user->id);
+        $user = \Yii::$app->user->getIdentity();
+        $shippingInfo = ShippingInformation::findOne(['user_id' => $user->id]);
         if($shippingInfo === null){
             $shippingInfo = new ShippingInformation();
         }
+
         if($this->request->isPost && $shippingInfo->load(\Yii::$app->request->post())){
             if($shippingInfo->save()){
                 \Yii::$app->session->setFlash('ShippingSuccess', 'Shipping Information saved successfully!');
@@ -137,11 +118,12 @@ class UserController extends Controller
 
     public function actionSaveBilling(): Response
     {
-        $user = User::findOne(\Yii::$app->user->id);
-        $billingInfo = BillingInformation::findOne($user->id);
+        $user = \Yii::$app->user->getIdentity();
+        $billingInfo = BillingInformation::findOne(['user_id' => $user->id]);
         if ($billingInfo === null) {
            $billingInfo = new BillingInformation();
         }
+
         if($this->request->isPost && $billingInfo->load(\Yii::$app->request->post())){
             if($billingInfo->save()){
                 \Yii::$app->session->setFlash('BillingSuccess', 'Billing Information saved successfully!');
