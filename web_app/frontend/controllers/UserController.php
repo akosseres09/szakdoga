@@ -18,10 +18,10 @@ class UserController extends Controller
        return [
            'access' => [
                'class' => AccessControl::class,
-               'only' => ['settings', 'account', 'save-user', 'save-billing', 'save-shipping'],
+               'only' => ['settings', 'account', 'save-billing', 'save-shipping'],
                'rules' => [
                    [
-                       'actions' => ['settings', 'account', 'save-billing', 'save-user', 'save-shipping', 'add-billing', 'add-shipping'],
+                       'actions' => ['settings', 'account', 'save-billing', 'save-shipping'],
                        'allow' => true,
                        'roles' => ['@']
                    ]
@@ -30,7 +30,7 @@ class UserController extends Controller
            'verbs' => [
                'class' => VerbFilter::class,
                'actions' => [
-                   'save-user' => ['POST'],
+                   'update' => ['GET', 'POST'],
                    'save-shipping' => ['POST'],
                    'save-billing' => ['POST']
                ],
@@ -76,24 +76,18 @@ class UserController extends Controller
     public function actionUpdate(): Response|string
     {
         $user = \Yii::$app->user->getIdentity();
-        return $this->render('update', [
-            'user' => $user,
-        ]);
-    }
-
-    public function actionSaveUser(): Response|string
-    {
-        $user = \Yii::$app->user->getIdentity();
-        if($this->request->isPost && $user->load(\Yii::$app->request->post())){
+        $request = \Yii::$app->request;
+        if ($request->isPost && $user->load($request->post())){
             if($user->save()){
-                \Yii::$app->session->setFlash('UpdateSuccess', 'Profile updated successfully!');
+                \Yii::$app->session->setFlash('Success', 'Profile updated successfully!');
             }else{
-                \Yii::$app->session->setFlash('UpdateError', 'Profile updated failed!');
+                \Yii::$app->session->setFlash('Error', 'Profile updated failed!');
             }
             return $this->redirect(['/user/account']);
         }
-        return $this->render('update', [
-            'user' => $user
+
+        return $this->renderPartial('update', [
+            'user' => $user,
         ]);
     }
 

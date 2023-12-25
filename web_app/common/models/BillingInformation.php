@@ -50,14 +50,4 @@ class BillingInformation extends ActiveRecord
     {
         return static::findOne(['user_id' => $user_id]);
     }
-
-    public function hasNull(): bool
-    {
-        if (!$this->id === null || !$this->user_id || !$this->country || !$this->city
-            || !$this->postcode || !$this->street || !$this->state) {
-            return true;
-        }
-
-        return false;
-    }
 }

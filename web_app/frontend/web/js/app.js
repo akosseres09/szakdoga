@@ -6,8 +6,9 @@ const cartForm = document.getElementById('place-in-cart-form');
 const viewModal = document.getElementById('viewModal');
 const cartCount = document.getElementById('cartCount');
 const loader = document.getElementById('loader-overlay');
-const wishlistLink = document.querySelector('.wishlist-link');
 const wishlistBtn = document.querySelector('.wishlist-btn');
+const updateUserBtn = document.getElementById('updateUserBtn');
+const editUserModal = document.getElementById('userEditModal');
 
 
 // Handles Picking a size on the View page
@@ -52,6 +53,13 @@ if (cartForm && viewModal) {
 if (wishlistBtn) {
     wishlistBtn.addEventListener('click', () => {
        wishlistBtn.classList.toggle('active');
+    });
+}
+
+if (updateUserBtn && editUserModal) {
+    updateUserBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        getDataFromUrl(updateUserBtn.href, editUserModal);
     });
 }
 

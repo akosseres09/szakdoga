@@ -36,3 +36,9 @@ $this->render('/site/common/_alert'); ?>
         ?>
     </div>
 </div>
+
+<div id="userEditModal" class="modal modal-lg">
+    <div class="modal-dialog">
+
+    </div>
+</div>
