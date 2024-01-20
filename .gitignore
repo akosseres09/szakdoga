@@ -1,0 +1,5 @@
+.idea
+
+./sportify_docker/.env
+
+./sportify_docker/dump/db/data/
