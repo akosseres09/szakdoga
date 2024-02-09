@@ -32,7 +32,7 @@ class m231222_125014_create_rating_table extends Migration
             '{{%fk-rating-user_id}}',
             '{{%rating}}',
             'user_id',
-            '{{%User}}',
+            '{{%user}}',
             'id',
             'CASCADE'
         );
@@ -49,7 +49,7 @@ class m231222_125014_create_rating_table extends Migration
             '{{%fk-rating-product_id}}',
             '{{%rating}}',
             'product_id',
-            '{{%Product}}',
+            '{{%product}}',
             'id',
             'CASCADE'
         );

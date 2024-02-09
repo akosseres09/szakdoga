@@ -37,7 +37,7 @@ class m231023_092610_create_billing_information_table extends Migration
             '{{%fk-billing_information-user_id}}',
             '{{%billing_information}}',
             'user_id',
-            '{{%User}}',
+            '{{%user}}',
             'id',
             'CASCADE'
         );
@@ -48,7 +48,7 @@ class m231023_092610_create_billing_information_table extends Migration
      */
     public function safeDown()
     {
-        // drops foreign key for table `{{%User}}`
+        // drops foreign key for table `{{%user}}`
         $this->dropForeignKey(
             '{{%fk-billing_information-user_id}}',
             '{{%billing_information}}'

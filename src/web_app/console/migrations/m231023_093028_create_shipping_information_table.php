@@ -29,12 +29,12 @@ class m231023_093028_create_shipping_information_table extends Migration
             'user_id'
         );
 
-        // add foreign key for table `{{%User}}`
+        // add foreign key for table `{{%user}}`
         $this->addForeignKey(
             '{{%fk-shipping_information-user_id}}',
             '{{%shipping_information}}',
             'user_id',
-            '{{%User}}',
+            '{{%user}}',
             'id',
             'CASCADE'
         );
