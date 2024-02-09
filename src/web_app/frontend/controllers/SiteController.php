@@ -73,20 +73,11 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
     public function actionIndex(): string
     {
         $this->layout = 'landingPage';
         return $this->render('index');
     }
-
-    /**
-     * @return Response|string
-     */
 
     public function actionLogin(): \yii\web\Response|string
     {
@@ -107,11 +98,7 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Logs out the current user.
-     *
-     * @return Response
-     */
+
     public function actionLogout(): \yii\web\Response
     {
         if (Yii::$app->user->isGuest){
@@ -122,12 +109,7 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Signs user up.
-     *
-     * @return Response|string
-     * @throws Exception
-     */
+
     public function actionSignup(): Response|string
     {
         if (!Yii::$app->user->isGuest){
@@ -150,11 +132,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Requests password reset.
-     *
-     * @return Response|string
-     */
     public function actionRequestPasswordReset(): Response|string
     {
         if (!Yii::$app->user->isGuest) {
