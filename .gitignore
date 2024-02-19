@@ -2,4 +2,4 @@
 
 ./sportify_docker/.env
 
-./sportify_docker/dump/db/data/
+sportify_docker/dump
