@@ -116,26 +116,17 @@ class ShopController extends Controller
             if($cart->save()){
                 $data = [
                     'success' => true,
-                    'html' => $this->renderPartial('/cart/_cartModal',[
                     'product' => $product,
-                    'success' => true
-                    ])
                 ];
             } else {
                 $data = [
                     'success' => false,
-                    'errors' => $cart->getErrors(),
-                    'html' => $this->renderPartial('/cart/_cartModal',[
-                        'product' => $product,
-                        'errors' => $cart->getErrors(),
-                        'success' => false
-                    ])
+                    'errors' => $cart->getErrors()
                 ];
             }
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return $data;
         }
-        return $this->redirect('/shop/view/'.$id);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $data;
     }
 
     public function actionAddToWishlist($id): Response|array
