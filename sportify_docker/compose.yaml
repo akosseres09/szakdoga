@@ -13,6 +13,11 @@ services:
         target: /etc/apache2/sites-available/000-default.conf
       - source: php
         target: /usr/local/etc/php/php.ini
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 2
     depends_on:
       - db
 
@@ -27,6 +32,8 @@ services:
       - "3306:3306"
     volumes:
       - $DB_PATH:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$MYSQL_ROOT_PASSWORD"]
 
 configs:
   php:
