@@ -115,7 +115,7 @@ $this->registerCssFile('/css/sweetalert2.min.css');
                         <?php } else if($product->isActivated()) { ?>
                                 <div class="row">
                                     <div class="col-10 d-flex align-items-start">
-                                        <button type="submit" data-bs-target="#viewModal" data-bs-toggle="modal" class="btn btn-primary">Place in Cart</button>
+                                        <button type="submit" class="btn btn-primary">Place in Cart</button>
                                     </div>
                                     <div class="col-2 d-flex align-items-center">
                                         <?php if($inWishlist) { ?>
@@ -199,12 +199,6 @@ $this->registerCssFile('/css/sweetalert2.min.css');
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div id="viewModal" class="modal">
-    <div class="modal-dialog">
-
     </div>
 </div>
 

@@ -1,9 +1,8 @@
-const sizeItems = document.querySelectorAll('.size-item');
-const sizeInput = document.getElementById('cart-size');
+const sizeItems = document.querySelectorAll('.size-item'); // size-picker on view
+const sizeInput = document.getElementById('cart-size'); // cart-size number
 const deleteModal = document.getElementById('deleteModal');
 const deleteBtn = document.querySelectorAll('.btn-close');
 const cartForm = document.getElementById('place-in-cart-form');
-const viewModal = document.getElementById('viewModal');
 const cartCount = document.getElementById('cartCount');
 const wishlistCount = document.getElementById('wishListCount');
 const loader = document.getElementById('loader-overlay');
@@ -37,7 +36,7 @@ if (deleteModal && deleteBtn) {
 }
 
 // handles the submission of the view page form
-if (cartForm && viewModal) {
+if (cartForm) {
     cartForm.addEventListener('submit', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -45,9 +44,39 @@ if (cartForm && viewModal) {
         const form = e.target;
         const formData = new FormData(form);
 
-        sendDataToUrl(form.action, {method: 'POST', body: formData}, viewModal);
+        sendDataToUrl(form.action, {
+            method: 'POST', body: formData
+        }).then(res => res.json())
+            .then(res => {
+                const Toast = Swal.mixin({
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end',
+                    timer: 3500,
+                    timerProgressBar: true
+                });
+                if (res.success) {
+                    updateCartCounter();
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Product Added To Cart'
+                    });
+                } else {
+                    let errorText = '';
+                    for (let error in res.errors) {
+                        errorText += res.errors[error];
+                    }
+                    Swal.fire({
+                        icon: "error",
+                        titleText: 'Oops!',
+                        text: errorText
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
 
-        return false;
     });
 }
 
@@ -63,15 +92,15 @@ if (wishlistBtn) {
                     updateWishlistCounter(res.down);
                     wishlistLink.href = parseLink(wishlistLink.href);
                     Swal.fire({
-                        title: res.title,
+                        titleText: res.title,
                         text: res.text,
                         icon: "success"
                     });
                 } else {
                     Swal.fire({
-                        title: res.title,
+                        titleText: res.title,
                         text: res.text,
-                        icon: "danger"
+                        icon: "error"
                     })
                 }
             })
@@ -110,18 +139,18 @@ function parseLink(link) {
     return splitted.join('/');
 }
 
-function sendDataToUrl(url, formSendData = {}, intoItem){
+function sendDataToUrl(url, formSendData = {}){
     // showLoader();
-    fetch(url, formSendData)
-        .then(res => res.json())
-        .then(res => {
-            intoItem.innerHTML = res.html;
-            if (res.success) {
-                updateCartCounter();
-            }
-            hideLoader();
-        })
-        .catch(err => console.log(err));
+    return fetch(url, formSendData)
+        // .then(res => res.json())
+        // .then(res => {
+        //     intoItem.innerHTML = res.html;
+        //     if (res.success) {
+        //         updateCartCounter();
+        //     }
+        //     hideLoader();
+        // })
+        // .catch(err => console.log(err));
 }
 
 function showLoader(){
