@@ -9,6 +9,9 @@ use common\models\Product;
 use common\models\search\ProductSearch;
 use common\models\Type;
 use common\models\Wishlist;
+use Exception;
+use Throwable;
+use Yii;
 use yii\captcha\CaptchaAction;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -61,16 +64,13 @@ class ShopController extends Controller
     public function actionProducts($pageSize = 20): string
     {
         $this->layout = 'shop';
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
         $searchModel = new ProductSearch();
         $types = ArrayHelper::map(Type::find()->all(), 'product_type', 'product_type');
         $brands = ArrayHelper::map(Brand::find()->all(), 'name', 'name');
         $max = Product::find()->ofActive()->max('price');
         $dataProvider = $searchModel->search($request->queryParams);
 
-
-//        VarDumper::dump($request->queryParams, 5, true);
-//        die();
 
         return $this->render('products',[
             'searchModel' => $searchModel,
@@ -98,7 +98,7 @@ class ShopController extends Controller
 
     public function actionAddToCart(): array|Response
     {
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
         $id = $request->post('product_id');
         $product = Product::findOne($id);
         if ($product === null) {
@@ -109,9 +109,10 @@ class ShopController extends Controller
         $data = [];
 
         if ($request->isPost && $cart->load($request->post())) {
-            $cart->user_id = \Yii::$app->user->id;
+            $cart->user_id = Yii::$app->user->id;
             $cart->product_id = $id;
             $cart->price = $product->price;
+
             if($cart->save()){
                 $data = [
                     'success' => true,
@@ -123,6 +124,7 @@ class ShopController extends Controller
             } else {
                 $data = [
                     'success' => false,
+                    'errors' => $cart->getErrors(),
                     'html' => $this->renderPartial('/cart/_cartModal',[
                         'product' => $product,
                         'errors' => $cart->getErrors(),
@@ -130,13 +132,13 @@ class ShopController extends Controller
                     ])
                 ];
             }
-            \Yii::$app->response->format = Response::FORMAT_JSON;
+            Yii::$app->response->format = Response::FORMAT_JSON;
             return $data;
         }
         return $this->redirect('/shop/view/'.$id);
     }
 
-    public function actionAddToWishlist($id): Response
+    public function actionAddToWishlist($id): Response|array
     {
         $product = Product::findOne($id);
 
@@ -146,36 +148,57 @@ class ShopController extends Controller
 
         try {
             $wish = new Wishlist();
-            $wish->user_id = \Yii::$app->user->id;
+            $wish->user_id = Yii::$app->user->id;
             $wish->product_id = $id;
+            Yii::$app->response->format = Response::FORMAT_JSON;
             if ($wish->save()) {
-                \Yii::$app->session->setFlash('Success', 'Wishlisted Item!');
+                return [
+                    'success' => true,
+                    'down' => false,
+                    'title' => 'Success!',
+                    'text' => 'Product Added To Your Wishlist!'
+                ];
             } else {
-                \Yii::$app->session->setFlash('Error', 'Failed to wishlist item!');
+                return [
+                    'success' => false,
+                    'title' => 'Oops!',
+                    'text' => 'Failed To Add Product To Your Wishlist!'
+                ];
             }
-        }catch (\Exception ) {
-            \Yii::$app->session->setFlash('Error', 'Something went wrong!');
+        }catch (Exception ) {
+            return [
+                'success' => false,
+                'title' => 'Error',
+                'text' => 'Something Went Wrong!'
+            ];
         }
-        return $this->redirect('/shop/view/'.$product->id);
     }
 
-    public function actionRemoveFromWishlist($id): Response
+    public function actionRemoveFromWishlist($id)
     {
-        $product = Product::findOne($id);
-        $user = \Yii::$app->user;
+        $product = Product::findOne(['id' => $id]);
+        $user = Yii::$app->user;
 
         if ($product === null) {
            return $this->redirect('/shop/products');
         }
 
+        Yii::$app->response->format = Response::FORMAT_JSON;
         try {
             $wish = Wishlist::find()->ofUser($user->id)->ofProduct($product->id)->one();
             $wish->delete();
-            \Yii::$app->session->setFlash('Success', 'Deleted Item from Wishlist!');
-        }catch (\Throwable $t) {
-            \Yii::$app->session->setFlash('Error', 'Failed to Delete Item From Wishlist!');
+            return [
+                'success' => true,
+                'down' => true,
+                'title' => 'Success!',
+                'text' => 'Product Removed From Wishlist!'
+            ];
+        }catch (Throwable $t) {
+            return [
+                'success' => false,
+                'title' => 'Failed To Remove Product From Your Wishlist!',
+                'text' => $t->getMessage()
+            ];
         }
-        return $this->redirect('/shop/view/'.$product->id);
-
     }
 }

@@ -5,6 +5,7 @@ const deleteBtn = document.querySelectorAll('.btn-close');
 const cartForm = document.getElementById('place-in-cart-form');
 const viewModal = document.getElementById('viewModal');
 const cartCount = document.getElementById('cartCount');
+const wishlistCount = document.getElementById('wishListCount');
 const loader = document.getElementById('loader-overlay');
 const wishlistBtn = document.querySelector('.wishlist-btn');
 const updateUserBtn = document.getElementById('updateUserBtn');
@@ -16,7 +17,7 @@ if (sizeItems && sizeInput) {
     sizeItems.forEach(item => {
        item.addEventListener('click', () => {
            const active = document.querySelector('.size-picker .size-item.active');
-           if(active !== null) {
+           if (active !== null) {
                active.classList.remove('active');
            }
            item.classList.add('active');
@@ -51,8 +52,30 @@ if (cartForm && viewModal) {
 }
 
 if (wishlistBtn) {
-    wishlistBtn.addEventListener('click', () => {
-       wishlistBtn.classList.toggle('active');
+    wishlistBtn.addEventListener('click', (e) => {
+        wishlistBtn.classList.toggle('active');
+        e.preventDefault();
+        let wishlistLink = document.querySelector('.wishlist-link');
+        fetch(wishlistLink.href)
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    updateWishlistCounter(res.down);
+                    wishlistLink.href = parseLink(wishlistLink.href);
+                    Swal.fire({
+                        title: res.title,
+                        text: res.text,
+                        icon: "success"
+                    });
+                } else {
+                    Swal.fire({
+                        title: res.title,
+                        text: res.text,
+                        icon: "danger"
+                    })
+                }
+            })
+            .catch(err => console.log(err));
     });
 }
 
@@ -73,6 +96,18 @@ function getDataFromUrl(url, intoItem, data = {}) {
 function updateCartCounter() {
     let count= parseInt(cartCount.innerText) || 0;
     cartCount.innerText = count + 1;
+}
+
+function updateWishlistCounter(success) {
+    let count = parseInt(wishlistCount.innerText) || 0;
+    success ? count-- : count++
+    wishlistCount.innerText = count;
+}
+
+function parseLink(link) {
+    let splitted = link.split('/');
+    splitted[4] = splitted[4] === 'add-to-wishlist' ? 'remove-from-wishlist' : 'add-to-wishlist';
+    return splitted.join('/');
 }
 
 function sendDataToUrl(url, formSendData = {}, intoItem){
