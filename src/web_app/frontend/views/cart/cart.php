@@ -13,6 +13,9 @@ use yii\widgets\ListView;
  * @var int $total
  */
 $this->title = 'Cart - Sportify';
+
+$this->registerJsFile('/js/sweetalert2.all.min.js');
+$this->registerCssFile('/css/sweetalert2.min.css');
 ?>
 
 <?= $this->render('/site/common/_alert') ?>
@@ -44,11 +47,5 @@ $this->title = 'Cart - Sportify';
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div id="deleteModal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog">
-
     </div>
 </div>

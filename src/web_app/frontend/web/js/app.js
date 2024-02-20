@@ -1,10 +1,9 @@
 const sizeItems = document.querySelectorAll('.size-item'); // size-picker on view
 const sizeInput = document.getElementById('cart-size'); // cart-size number
-const deleteModal = document.getElementById('deleteModal');
-const deleteBtn = document.querySelectorAll('.btn-close');
+const deleteBtn = document.querySelectorAll('.deleteFromCart'); // delete from cart button
 const cartForm = document.getElementById('place-in-cart-form');
-const cartCount = document.getElementById('cartCount');
-const wishlistCount = document.getElementById('wishListCount');
+const cartCount = document.getElementById('cartCount'); // number of items in cart
+const wishlistCount = document.getElementById('wishListCount'); // number of items in wishlist
 const loader = document.getElementById('loader-overlay');
 const wishlistBtn = document.querySelector('.wishlist-btn');
 const updateUserBtn = document.getElementById('updateUserBtn');
@@ -25,12 +24,32 @@ if (sizeItems && sizeInput) {
     });
 }
 
-// handles deleting an item from the cart
-if (deleteModal && deleteBtn) {
+// handles deleting an item from the cart via fetch
+if (deleteBtn) {
     deleteBtn.forEach(btn => {
        btn.addEventListener('click', function (e) {
            e.preventDefault();
-           getDataFromUrl(btn.href, deleteModal);
+           e.stopPropagation();
+           e.stopImmediatePropagation();
+
+           const form = document.getElementById('deleteCartForm');
+           const data = new FormData(form);
+           Swal.fire({
+               title: "Delete This Item From Your cart?",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonText: "Yes, Delete!",
+               cancelButtonText: "No, Rather Not!",
+           }).then(res => {
+               if (res.isConfirmed) {
+                   fetch(form.action, {
+                       method: "POST",
+                       body: data
+                   }).then(() => {
+                       window.location.reload();
+                   }).catch(err => console.log(err))
+               }
+           });
        });
     });
 }
@@ -51,7 +70,7 @@ if (cartForm) {
                 const Toast = Swal.mixin({
                     showConfirmButton: false,
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-start',
                     timer: 3500,
                     timerProgressBar: true
                 });
@@ -115,7 +134,6 @@ if (updateUserBtn && editUserModal) {
     });
 }
 
-
 function getDataFromUrl(url, intoItem, data = {}) {
     fetch(url, data).then(res => res.text())
         .then(res => intoItem.innerHTML = res)
@@ -140,17 +158,7 @@ function parseLink(link) {
 }
 
 function sendDataToUrl(url, formSendData = {}){
-    // showLoader();
     return fetch(url, formSendData)
-        // .then(res => res.json())
-        // .then(res => {
-        //     intoItem.innerHTML = res.html;
-        //     if (res.success) {
-        //         updateCartCounter();
-        //     }
-        //     hideLoader();
-        // })
-        // .catch(err => console.log(err));
 }
 
 function showLoader(){

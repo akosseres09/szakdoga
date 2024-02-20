@@ -22,7 +22,7 @@ class m231223_123217_create_cart_table extends Migration
             'product_id' => $this->integer()->notNull(),
             'price' => $this->integer()->notNull(),
             'quantity' => $this->integer()->notNull(),
-            'size' => $this->string(16)
+            'size' => $this->string(16)->notNull()
         ]);
 
         // creates index for column `user_id`

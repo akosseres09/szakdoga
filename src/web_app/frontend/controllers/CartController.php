@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Cart;
+use Yii;
 use yii\captcha\CaptchaAction;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -18,14 +19,21 @@ class CartController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
+                'only' => ['cart', 'delete-from-cart'],
                 'rules' => [
                     [
-                        'actions' => ['cart','delete-from-cart'],
+                        'actions' => ['cart', 'delete-from-cart'],
                         'allow' => true,
-                        'roles' => ['@']
-                    ]
+                        'roles' => ['?', '@']
+                    ],
                 ]
             ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete-from-cart' => ['POST']
+                ]
+            ]
         ];
     }
 
@@ -45,7 +53,7 @@ class CartController extends Controller
 
     public function actionCart(): string
     {
-        $user_id = \Yii::$app->user->id;
+        $user_id = Yii::$app->user->id;
         $query = Cart::find()->ofUser($user_id);
         $count = $query->sum('quantity');
 
@@ -68,28 +76,29 @@ class CartController extends Controller
         ]);
     }
 
-
-    public function actionDeleteFromCart($id): Response|string
+    public function actionDeleteFromCart(): array
     {
+        $id = Yii::$app->request->post('id');
         $cart = Cart::findOne($id);
+        $success = false;
 
         if ($cart === null) {
-            return $this->redirect('/cart/cart');
+            return [
+                'success' => false
+            ];
         }
 
-       if (\Yii::$app->request->isPost) {
-           try {
-               $cart->delete();
-           }catch (\Throwable $t) {
-               \Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
-           }
-
-           return $this->redirect('/cart/cart');
-       }else {
-           return $this->renderPartial('_deleteModal', [
-               'item' => $cart
-           ]);
-       }
-
+        if (Yii::$app->request->isPost) {
+            try {
+                $cart->delete();
+                $success = true;
+            }catch (\Throwable $t) {
+                Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
+            }
+        }
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'success' => $success
+        ];
     }
 }

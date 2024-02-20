@@ -12,7 +12,7 @@ use yii\db\ActiveRecord;
  * @property int $product_id
  * @property int $price
  * @property int $quantity
- * @property string|null $size
+ * @property string $size
  */
 class Cart extends ActiveRecord
 {
@@ -36,17 +36,18 @@ class Cart extends ActiveRecord
             [['quantity'], 'default', 'value' => self::QUANTITY_ONE],
             [['quantity'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number'],
             [['price'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number'],
-            [['size'], 'required', 'when' => function () {
-                    return Product::findOne($this->product_id)->isShoe();
-            }, 'message' => 'You must choose a size!'],
-    //            [['size'], 'in', 'range' => self::KID_SIZES,'strict' => false, 'when' => function () {
-    //                $prod = Product::findOne($this->product_id);
-    //                return $prod->isKid() && $prod->isShoe();
-    //            }],
-    //            [['size'], 'in', 'range' => self::ADULT_SIZES,'strict' => false ,'when' => function(){
-    //                $prod = Product::findOne($this->product_id);
-    //                return !$prod->isKid() && $prod->isShoe();
-    //            }]
+            [['size'], 'required', 'message' => 'You must choose a size!'],
+//            [['size'], 'required', 'when' => function () {
+//                    return Product::findOne($this->product_id)->isShoe();
+//            }, 'message' => 'You must choose a size!'],
+//            [['size'], 'in', 'range' => self::KID_SIZES,'strict' => false, 'when' => function () {
+//                $prod = Product::findOne($this->product_id);
+//                return $prod->isKid() && $prod->isShoe();
+//            }],
+//            [['size'], 'in', 'range' => self::ADULT_SIZES,'strict' => false ,'when' => function(){
+//                $prod = Product::findOne($this->product_id);
+//                return !$prod->isKid() && $prod->isShoe();
+//            }]
         ];
     }
 

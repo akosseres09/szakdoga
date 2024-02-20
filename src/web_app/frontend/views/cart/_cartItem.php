@@ -16,7 +16,13 @@ use yii\widgets\ActiveForm;
             <a href="<?= Url::to(['/shop/view/'.$model->product_id]) ?>">
                 <?=$model->product->brand->name . ' ' . $model->product->name ?>
             </a>
-            <a type="button" data-bs-toggle="modal" href="/cart/delete-from-cart/<?=$model->id?>" data-bs-target="#deleteModal" class="btn-close" aria-label="Close"></a>
+            <?php $form = ActiveForm::begin([
+                'action' => '/cart/delete-from-cart',
+                'id' => 'deleteCartForm'
+            ]) ?>
+            <input type="hidden" name="id" value="<?=$model->id?>">
+            <button type="submit" class="btn-close deleteFromCart"></button>
+            <?php ActiveForm::end(); ?>
         </span>
         <img src="/storage/profile-pics/default_pic.jpg" style="width: 15%;">
     </div>
