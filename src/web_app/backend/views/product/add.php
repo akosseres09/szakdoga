@@ -45,14 +45,14 @@ $fieldOptions = [
             <div class="row">
                 <div class="col-lg">
                     <?= $form->field($product, 'is_kid', $fieldOptions)->dropDownList([
-                        1 => 'Adult',
-                        0 => 'Kid'
+                        Product::NOT_KID => 'Adult',
+                        Product::KID => 'Kid'
                     ], ['required' => true])->label('Kid or Adult') ?>
                 </div>
                 <div class="col">
                     <?= $form->field($product, 'gender', $fieldOptions)->dropDownList([
-                        1 => 'Male',
-                        0 => 'Female'
+                        Product::GENDER_MALE => 'Male',
+                        Product::GENDER_FEMALE => 'Female'
                     ])?>
                 </div>
             </div>
@@ -70,7 +70,7 @@ $fieldOptions = [
                     <?= $form->field($product, 'images[]', [
                         'labelOptions' => ['class' => 'd-none'],
                         'inputOptions' => ['class' => 'mt-2']
-                    ])->fileInput(['multiple' => true, 'accept' => 'image/png, image/jpg, image/jpeg'])?>
+                    ])->fileInput(['multiple' => true, 'accept' => 'image/png, image/jpg, image/jpeg, image/webp'])?>
                 </div>
             </div>
             <div class="row" id="uploadedImagesContainer">

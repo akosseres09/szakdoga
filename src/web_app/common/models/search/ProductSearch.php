@@ -4,7 +4,7 @@ namespace common\models\search;
 
 use common\models\Product;
 use yii\data\ActiveDataProvider;
-use yii\helpers\VarDumper;
+use yii\db\Expression;
 
 
 class ProductSearch extends Product
@@ -46,18 +46,13 @@ class ProductSearch extends Product
             return $dataProvider;
         }
 
-
-        $query->andFilterWhere(['like', 'product.name', $this->name])
-        ->andFilterWhere(['like', 'brand.name', $this->brandName])
-            ->andFilterWhere(['like', 'type.product_type', $this->typeName])
-            ->andFilterWhere(['=', 'is_kid', $this->kidOrAdult])
-            ->andFilterWhere(['=', 'gender', $this->genderName])
-            ->andFilterWhere(['>=', 'price', $this->minPrice])
-            ->andFilterWhere(['<=', 'price', $this->maxPrice]);
-
-
-//        VarDumper::dump($dataProvider->getModels(), 10, true);
-//        die();
+        $query->andFilterWhere(['like', new Expression('CONCAT(brand.name, " ", product.name)'), $this->name])
+            ->andFilterWhere(['IN', 'type.product_type', $this->typeName])
+            ->andFilterWhere(['IN', 'brand.name', $this->brandName])
+            ->andFilterWhere(['IN', 'product.is_kid', $this->kidOrAdult])
+            ->andFilterWhere(['IN', 'product.gender', $this->genderName])
+            ->andFilterWhere(['>=', 'product.price', $this->minPrice])
+            ->andFilterWhere(['<=', 'product.price', $this->maxPrice]);
 
         return $dataProvider;
     }
