@@ -5,7 +5,7 @@
  * @var ProductSearch $searchModel
  * @var Type[] $types
  * @var Brand[] $brands
- * @var int $max
+ * @var int $paramCount
  */;
 
 use common\models\Brand;
@@ -34,15 +34,40 @@ $accOptions = [
     'template' => '{input}{error}'
 ];
 
-$this->title = 'The Best Choice In Sports » Sportify '; ?>
+$this->title = 'The Best Choice In Sports » Sportify ';
+
+$this->registerJs(<<<JS
+    let form = $('#shop-filter-form');
+    
+    form.on('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        
+        let formData = form.serializeArray();
+        let params = {};
+        formData.forEach((field) => {
+            let fieldName = field.name.replace('ProductSearch[', '').replace(']', '');
+            params[fieldName] = field.value;
+        });
+        
+        window.location.href = '/shop/products?' + $.param(params);
+    });
+JS, View::POS_END
+);
+
+?>
 
 <?php $form = ActiveForm::begin([
     'id' => 'shop-filter-form',
-    'action' => '/shop/products',
-    'method' => 'GET'
+    'action' => Url::to(['/shop/products']),
+    'method' => 'get'
 ]); ?>
 <?= $form->field($searchModel, 'name', $options)->textInput(['type' => 'search', 'placeHolder' => 'Search']) ?>
-<div class="accordion accordion-flush" id="formFilterAccordion">
+<?php if ($paramCount > 0 ) { ?>
+    <span class="fw-bold ps-2 brown">You currently have <?=$paramCount?> active Filters</span>
+<?php } ?>
+<div class="accordion accordion-flush mt-3" id="formFilterAccordion">
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#TypeFilter" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
@@ -115,14 +140,19 @@ $this->title = 'The Best Choice In Sports » Sportify '; ?>
                         <?= $form->field($searchModel, 'minPrice')->textInput(['type' => 'number'])->label('Min') ?>
                     </div>
                     <div class="col-6">
-                        <?= $form->field($searchModel, 'maxPrice')->textInput(['type' => 'number', 'value' => $max])->label('Max') ?>
+                        <?= $form->field($searchModel, 'maxPrice')->textInput(['type' => 'number'])->label('Max') ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<?= Html::submitButton('Filter', ['class' => 'btn btn-primary mt-3']) ?>
+<div class="d-flex justify-content-center gap-3 align-items-center">
+    <?= Html::submitButton('Filter', ['class' => 'btn btn-primary mt-3' ]) ?>
+    <?php if ($paramCount > 0) { ?>
+        <?= Html::a(Html::button('Reset Filters', ['class' => 'btn btn-outline-light mt-3']), ['/shop/products']) ?>
+    <?php } ?>
+</div>
 <?php ActiveForm::end() ?>
 </div>
 <div class="col-lg-9 mt-5 mt-lg-0 shop-container-search-bar py-3" style="border-radius: 10px;background-color: var(--spfy-background-color)">

@@ -4,14 +4,10 @@ namespace common\models;
 
 
 use common\models\query\ProductQuery;
-use Imagine\Gd\Image;
-use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
-use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 /**
@@ -88,7 +84,7 @@ class Product extends ActiveRecord
             [['is_kid'], 'in', 'range' => [self::KID, self::NOT_KID]],
             [['is_kid'], 'default', 'value' => self::NOT_KID],
             [['gender'], 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE]],
-            [['images'], 'image','extensions' => 'png, jpg, jpeg','maxFiles' => 5]
+            [['images'], 'image','extensions' => 'png, jpg, jpeg, webp','maxFiles' => 5]
         ];
     }
 

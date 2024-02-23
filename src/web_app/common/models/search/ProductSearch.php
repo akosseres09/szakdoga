@@ -30,7 +30,7 @@ class ProductSearch extends Product
         ];
     }
 
-    public function search($params): ActiveDataProvider
+    public function search($params, $pageSize): ActiveDataProvider
     {
         $query = Product::find()->ofActive();
         $query->joinWith(['brand', 'type']);
@@ -38,7 +38,7 @@ class ProductSearch extends Product
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 20
+                'pageSize' => $pageSize
             ]
         ]);
 

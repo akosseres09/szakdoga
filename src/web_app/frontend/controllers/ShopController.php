@@ -2,7 +2,6 @@
 
 namespace frontend\controllers;
 
-use common\components\WishlistHelper;
 use common\models\Brand;
 use common\models\Cart;
 use common\models\Product;
@@ -13,11 +12,9 @@ use Exception;
 use Throwable;
 use Yii;
 use yii\captcha\CaptchaAction;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
@@ -68,16 +65,26 @@ class ShopController extends Controller
         $searchModel = new ProductSearch();
         $types = ArrayHelper::map(Type::find()->all(), 'product_type', 'product_type');
         $brands = ArrayHelper::map(Brand::find()->all(), 'name', 'name');
-        $max = Product::find()->ofActive()->max('price');
-        $dataProvider = $searchModel->search($request->queryParams);
 
+        $requestParameters = [];
+        $paramCount = 0;
+
+        foreach ($request->queryParams as $index => $param) {
+            if ($param !== '') {
+                $paramCount++;
+            }
+
+            $requestParameters['ProductSearch'][$index] = $param;
+        }
+
+        $dataProvider = $searchModel->search($requestParameters, $pageSize);
 
         return $this->render('products',[
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'brands' => $brands,
             'types' => $types,
-            'max' => $max
+            'paramCount' => $paramCount
         ]);
     }
 
@@ -165,7 +172,7 @@ class ShopController extends Controller
         }
     }
 
-    public function actionRemoveFromWishlist($id)
+    public function actionRemoveFromWishlist($id): Response|array
     {
         $product = Product::findOne(['id' => $id]);
         $user = Yii::$app->user;
