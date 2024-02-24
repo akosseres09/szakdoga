@@ -43,13 +43,13 @@ echo GridView::widget([
         [
             'attribute' => 'created_at',
             'value' => function ($model) {
-                return Yii::$app->formatter->asDate($model->created_at, 'Y-M-d H:i:s');
+                return Yii::$app->formatter->asDate($model->created_at, 'php:Y-m-d H:i:s');
             }
         ],
         [
             'attribute' => 'updated_at',
             'value' => function ($model) {
-                return Yii::$app->formatter->asDate($model->updated_at, 'Y-M-d H:i:s');
+                return Yii::$app->formatter->asDate($model->updated_at, 'php:Y-m-d H:i:s');
             }
         ],
         [
