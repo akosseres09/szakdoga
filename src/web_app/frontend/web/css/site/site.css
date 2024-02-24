@@ -131,6 +131,7 @@ a.desc:after {
     transform: scale(1.05);
     background-color: var(--spfy-brown-hover-color);
     border-color: var(--spfy-brown-hover-color);
+    color: var(--spfy-white);
 }
 
 .btn-primary:active {
@@ -155,7 +156,7 @@ a.desc:after {
     transform: scale(1.05);
     border-color: var(--spfy-secondary-color);
     background-color: unset;
-    color: var(--spfy-white);
+    color: var(--spfy-black);
 }
 
 .btn-outline-light:before {

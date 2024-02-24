@@ -96,6 +96,7 @@ class UserController extends Controller
     {
         $user = \Yii::$app->user->getIdentity();
         $shippingInfo = ShippingInformation::findOne(['user_id' => $user->id]);
+
         if($shippingInfo === null){
             $shippingInfo = new ShippingInformation();
         }
@@ -114,6 +115,7 @@ class UserController extends Controller
     {
         $user = \Yii::$app->user->getIdentity();
         $billingInfo = BillingInformation::findOne(['user_id' => $user->id]);
+
         if ($billingInfo === null) {
            $billingInfo = new BillingInformation();
         }

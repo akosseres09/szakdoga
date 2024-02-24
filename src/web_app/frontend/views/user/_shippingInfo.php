@@ -17,7 +17,7 @@ $user = Yii::$app->user->getIdentity();
             <h4 class="text-right">Shipping Information</h4>
         </div>
         <?php $form = ActiveForm::begin([
-            'id' => 'billing-info-form',
+            'id' => 'shipping-info-form',
             'action' => '/user/save-shipping'
         ]); ?>
         <div class="row justify-content-center">
