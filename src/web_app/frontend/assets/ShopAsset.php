@@ -13,7 +13,9 @@ class ShopAsset extends AssetBundle
         'css/shop/shop.css'
     ];
 
-    public $js = [];
+    public $js = [
+        'js/shop/shop.js'
+    ];
 
     public $depends = [
         'yii\web\YiiAsset',

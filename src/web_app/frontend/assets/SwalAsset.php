@@ -14,7 +14,8 @@ class SwalAsset extends AssetBundle
     ];
 
     public $js = [
-        'js/sweetalert2.all.min.js'
+        'js/sweetalert2.all.min.js',
+        'js/swal.js'
     ];
 
 }

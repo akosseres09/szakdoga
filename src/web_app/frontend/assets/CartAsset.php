@@ -14,7 +14,7 @@ class CartAsset extends AssetBundle
     ];
 
     public $js = [
-
+        'js/cart/cart.js'
     ];
 
     public $depends = [
