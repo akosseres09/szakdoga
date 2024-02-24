@@ -19,19 +19,12 @@ class CartController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['cart', 'delete-from-cart'],
                 'rules' => [
                     [
-                        'actions' => ['cart', 'delete-from-cart'],
+                        'actions' => ['cart', 'delete-from-cart', 'payment-info', 'move-to-wishlist'],
                         'allow' => true,
-                        'roles' => ['?', '@']
+                        'roles' => ['@']
                     ],
-                ]
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete-from-cart' => ['POST']
                 ]
             ]
         ];
@@ -76,9 +69,8 @@ class CartController extends Controller
         ]);
     }
 
-    public function actionDeleteFromCart(): array
+    public function actionDeleteFromCart($id): array
     {
-        $id = Yii::$app->request->post('id');
         $cart = Cart::findOne($id);
         $success = false;
 
@@ -88,14 +80,14 @@ class CartController extends Controller
             ];
         }
 
-        if (Yii::$app->request->isPost) {
-            try {
-                $cart->delete();
+        try {
+            if ($cart->delete()) {
                 $success = true;
-            }catch (\Throwable $t) {
-                Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
             }
+        }catch (\Throwable $t) {
+            Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
         }
+
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             'success' => $success
@@ -113,5 +105,10 @@ class CartController extends Controller
         }
 
         return $this->render('payment-info');
+    }
+
+    public function actionMoveToWishlist($id)
+    {
+
     }
 }

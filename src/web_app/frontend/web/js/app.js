@@ -1,6 +1,6 @@
 const sizeItems = document.querySelectorAll('.size-item'); // size-picker on view
 const sizeInput = document.getElementById('cart-size'); // cart-size number
-const deleteBtn = document.querySelectorAll('.deleteFromCart'); // delete from cart button
+const deleteBtn = document.querySelectorAll('.delete-from-cart'); // delete from cart button
 const cartForm = document.getElementById('place-in-cart-form');
 const cartCount = document.getElementById('cartCount'); // number of items in cart
 const wishlistCount = document.getElementById('wishListCount'); // number of items in wishlist
@@ -37,12 +37,7 @@ if (sizeItems && sizeInput) {
 if (deleteBtn) {
     deleteBtn.forEach(btn => {
        btn.addEventListener('click', function (e) {
-           e.preventDefault();
-           e.stopPropagation();
-           e.stopImmediatePropagation();
-
-           const form = document.getElementById('deleteCartForm');
-           const data = new FormData(form);
+           const link = e.target.dataset.href;
            swalWithCustomButtons.fire({
                title: "Delete This Item From Your cart?",
                icon: "warning",
@@ -51,10 +46,8 @@ if (deleteBtn) {
                cancelButtonText: "No, Rather Not!",
            }).then(res => {
                if (res.isConfirmed) {
-                   fetch(form.action, {
-                       method: "POST",
-                       body: data
-                   }).then(() => {
+                   fetch(link)
+                   .then(() => {
                        window.location.reload();
                    }).catch(err => console.log(err))
                }

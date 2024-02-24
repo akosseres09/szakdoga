@@ -51,7 +51,9 @@ return [
                 'landing/main' => '/',
                 'shop/view/<id>' => 'shop/view',
                 'shop/add-to-wishlist/<id>' => 'shop/add-to-wishlist',
-                'shop/remove-from-wishlist/<id>' => 'shop/remove-from-wishlist'
+                'shop/remove-from-wishlist/<id>' => 'shop/remove-from-wishlist',
+                'cart/delete-from-cart/<id>' => 'cart/delete-from-cart',
+                'cart/move-to-wishlist/<id>' => 'cart/move-to-wishlist'
             ],
         ],
         'assetManager' => [

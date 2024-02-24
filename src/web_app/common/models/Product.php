@@ -36,7 +36,14 @@ class Product extends ActiveRecord
 {
     const ACTIVE = 1;
     const INACTIVE = 0;
-
+    const GENDERS = [
+      self::GENDER_MALE => 'Male',
+      self::GENDER_FEMALE => 'Female'
+    ];
+    const SIZE = [
+      self::KID => 'Children',
+      self::NOT_KID  => 'Adult'
+    ];
     const STATUSES = [
         self::INACTIVE => 'Inactive',
         self::ACTIVE => 'Active'

@@ -13,6 +13,9 @@ use yii\db\ActiveRecord;
  * @property int $price
  * @property int $quantity
  * @property string $size
+ *
+ * @property User $user
+ * @property Product $product
  */
 class Cart extends ActiveRecord
 {

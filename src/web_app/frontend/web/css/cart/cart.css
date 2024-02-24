@@ -58,6 +58,52 @@
     color: var(--spfy-white);
 }
 
+.delete-from-cart,
+.move-to-wishlist {
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.delete-from-cart:hover {
+    color: red;
+}
+
+.move-to-wishlist:hover {
+    color: var(--spfy-black)
+}
+
+.cart-page-container .cart-page-left {
+    flex: 1 1;
+}
+
+.cart-page-container .cart-page-right {
+    flex: 0 1 33%;
+}
+
+.cart-page-container {
+    display: flex;
+    align-items: flex-start;
+    align-self: center;
+    gap: 50px;
+    max-width: 100%;
+    width: 100%;
+}
+
+.container.cart {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-icon {
+    background: url("/img/icon-cart.svg") no-repeat;
+}
+
+.icon-xxl {
+    flex: 0 0 50px;
+    height: 50px;
+    width: 50px;
+}
+
 @media screen and (max-width: 992px) {
     .progress-steps {
         font-size: 16px;

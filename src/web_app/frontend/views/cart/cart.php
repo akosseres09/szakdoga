@@ -22,7 +22,8 @@ if (Yii::$app->session->getFlash('emptyCart')) {
     $this->registerJs(<<<JS
         showCartSwal();
 JS, View::POS_END);
-} ?>
+}
+?>
 
 <?= $this->render('/site/common/_alert') ?>
 
@@ -32,29 +33,40 @@ JS, View::POS_END);
 ]) ?>
 
 <div class="container-fluid mt-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <?=
+    <div class="container cart">
+        <div class="cart-page-container">
+            <div class="cart-page-left">
+                <span class="fw-semibold fs-4">Cart</span>
+                <div class="py-2 mt-2" style="background-color: var(--spfy-light-gray); border-radius: 10px">
+                    <?=
                     ListView::widget([
                         'dataProvider' => $cartItems,
                         'itemView' => '_cartItem',
                         'pager' => [
                             'class' => LinkPager::class
                         ],
-                        'emptyText' => '<h3 class="text-center mt-1">Your Cart is Empty! <a href='. Url::to(['/shop/products']) .'>Let\'s Go Shopping</a></h3>',
-                        'summary' => '{begin}-{end}/{totalCount}',
+                        'emptyText' => '<div class="d-flex flex-column justify-content-center align-items-center gap-4 p-5">
+                        <div class="cart-icon icon-xxl"></div>
+                        <span class="fs-4 fw-semibold">Your cart is empty</span>
+                        <span class="fw-light fs-5 text-center" >You didn\'t add any item in your cart yet. Browse the website to find amazing deals!</span>
+                        <a href="/shop/products" class="btn btn-outline-dark px-4 py-2">
+                            <span class="fs-5">Browse Products</span>
+                        </a>
+                    </div>',
+                        'summary' => '',
+                        'viewParams' => [
+                            'total' => $cartItems->totalCount
+                        ]
                     ]);
-                ?>
-            </div>
-            <div class="col-lg-4">
-                <div class="row">
-                    <h2 class="text-center">
-                        Total
-                    </h2>
+                    ?>
                 </div>
+            </div>
+            <div class="cart-page-right">
                 <div class="row">
-                    
+                    <span class="fw-semibold fs-4">Summary</span>
+                    <div class="">
+
+                    </div>
                 </div>
             </div>
         </div>
