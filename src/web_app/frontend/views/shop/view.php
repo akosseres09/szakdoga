@@ -8,6 +8,7 @@
 use common\components\WishlistHelper;
 use common\models\Cart;
 use common\models\Product;
+use frontend\assets\ShopAsset;
 use yii\helpers\Url;
 use yii\web\View;
 use yii\bootstrap5\ActiveForm;
@@ -18,6 +19,8 @@ $inWishlist = WishlistHelper::isInWishlist(Yii::$app->user->id, $product->id);
 
 $this->registerJsFile('/js/sweetalert2.all.min.js');
 $this->registerCssFile('/css/sweetalert2.min.css');
+
+ShopAsset::register($this)
 
 ?>
 
@@ -42,14 +45,20 @@ $this->registerCssFile('/css/sweetalert2.min.css');
                     </div>
 
                    <div class="d-block d-lg-none">
-                       <button class="carousel-control-prev" type="button" data-bs-target="#productPicsCarousel" data-bs-slide="prev">
-                           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                           <span class="visually-hidden">Previous</span>
+                       <button class="carousel-control-prev" type="button" data-bs-target="#productPicsCarousel" data-bs-slide="prev"
+                               style="width: initial !important;">
+                           <span class="d-flex align-items-center justify-content-center carousel-control-container">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                           </span>
                        </button>
 
-                       <button class="carousel-control-next" type="button" data-bs-target="#productPicsCarousel" data-bs-slide="next">
-                           <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                           <span class="visually-hidden">Next</span>
+                       <button class="carousel-control-next" type="button" data-bs-target="#productPicsCarousel" data-bs-slide="next"
+                                style="width: initial !important;">
+                           <span class="d-flex justify-content-center align-items-center carousel-control-container">
+                               <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                               <span class="visually-hidden">Next</span>
+                           </span>
                        </button>
 
                    </div>
@@ -200,8 +209,4 @@ $this->registerCssFile('/css/sweetalert2.min.css');
             </div>
         </div>
     </div>
-</div>
-
-<div id="loader-overlay" class="d-none">
-    <div id="loader"></div>
 </div>

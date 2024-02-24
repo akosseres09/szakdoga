@@ -2,7 +2,12 @@
 
 /** @var yii\web\View $this */
 
+use frontend\assets\LandingAsset;
+
 $this->title = 'Sportify » The best Choice ';
+
+LandingAsset::register($this);
+
 ?>
 
 

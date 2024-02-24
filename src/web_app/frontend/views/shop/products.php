@@ -12,6 +12,7 @@ use common\models\Brand;
 use common\models\Product;
 use common\models\search\ProductSearch;
 use common\models\Type;
+use frontend\assets\ShopAsset;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\LinkPager;
 use yii\data\ArrayDataProvider;
@@ -19,6 +20,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
 use yii\widgets\ListView;
+
+ShopAsset::register($this);
 
 $options = [
     'inputOptions' => [
