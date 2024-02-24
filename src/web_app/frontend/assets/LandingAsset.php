@@ -10,7 +10,7 @@ class LandingAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        'css/landing.css'
+        'css/landing/landing.css'
     ];
 
     public $js = [];

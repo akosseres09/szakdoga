@@ -10,7 +10,7 @@ class ShopAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        'css/shop.css'
+        'css/shop/shop.css'
     ];
 
     public $js = [];

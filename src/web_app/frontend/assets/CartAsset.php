@@ -10,7 +10,7 @@ class CartAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        'css/cart.css'
+        'css/cart/cart.css'
     ];
 
     public $js = [
