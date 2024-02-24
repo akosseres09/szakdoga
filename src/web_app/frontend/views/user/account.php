@@ -9,9 +9,10 @@
 use common\models\BillingInformation;
 use common\models\ShippingInformation;
 use common\models\User;
+use frontend\assets\AccountAsset;
 use yii\web\View;
 
-$this->registerCssFile('@web/css/account.css');
+AccountAsset::register($this);
 $this->title = 'Your Account';
 ?>
 
