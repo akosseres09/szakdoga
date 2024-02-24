@@ -50,7 +50,6 @@ class CartController extends Controller
     {
         $user_id = Yii::$app->user->id;
         $query = Cart::find()->ofUser($user_id);
-        $count = $query->sum('quantity');
 
         $cartItems = new ActiveDataProvider([
             'query' => $query,
@@ -66,7 +65,7 @@ class CartController extends Controller
 
         return $this->render('cart', [
             'cartItems' => $cartItems,
-            'q' => $count,
+            'totalCount' => $cartItems->totalCount,
             'total' => $total
         ]);
     }

@@ -78,6 +78,8 @@
 
 .cart-page-container .cart-page-right {
     flex: 0 1 33%;
+    position: sticky;
+    top: 50px
 }
 
 .cart-page-container {
@@ -104,6 +106,82 @@
     width: 50px;
 }
 
+.cart-page-grey-container,
+.cart-page-grey-container-summary {
+    background-color: var(--spfy-light-gray);
+    border-radius: 10px
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+    font-size: 18px;
+}
+
+.go-to-payment-info, .go-to-payment-info:disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600 ;
+    background-color: var(--spfy-main-color);
+    color: var(--spfy-white);
+    margin-top: 30px;
+    padding: 12px 0;
+}
+
+.go-to-payment-info:hover,
+.go-to-payment-info:focus,
+.go-to-payment-info:active {
+    background-color: var(--spfy-primary-dark) !important;
+    color: var(--spfy-white) !important;
+}
+
+.go-to-payment-info.btn-disabled {
+    cursor: auto;
+    opacity: 0.8;
+}
+
+.summary-container .choice {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.summary-container .choice:before,
+.summary-container .choice:after {
+    background-color: var(--spfy-primary-light);
+    content: "";
+    height: 1px;
+    position: relative;
+    top: 13px;
+    width: 100%;
+}
+
+.summary-container .choice:before {
+    margin-right: 10px;
+}
+
+.summary-container .choice::after {
+    margin-left: 10px;
+}
+
+.continue-shopping {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.continue-shopping,
+.continue-shopping:focus,
+.continue-shopping:active,
+.continue-shopping:hover {
+    color: inherit;
+}
+
+
 @media screen and (max-width: 992px) {
     .progress-steps {
         font-size: 16px;
@@ -111,6 +189,38 @@
     .progress-steps .step .spacer {
         width: 80px;
         margin-left: 12px;
+    }
+
+    .cart-page-container {
+        flex-direction: column-reverse;
+    }
+
+    .cart-page-left {
+        width: 100%;
+    }
+
+    .cart-page-right > div > span {
+        display: none;
+    }
+
+    .cart-page-grey-container-summary {
+        background-color: var(--spfy-light-gray-summary);
+    }
+
+    .cart-page-right {
+        bottom: 15px;
+        left: 0;
+        margin-left: 0;
+        order: -1;
+        position: sticky;
+        top: auto;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .summary-container .choice,
+    .summary-container .continue-shopping{
+        display: none;
     }
 }
 

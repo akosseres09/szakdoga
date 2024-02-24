@@ -1,5 +1,8 @@
 const deleteBtn = document.querySelectorAll('.delete-from-cart');
 const moveToWishlistBtn = document.querySelectorAll('.move-to-wishlist');
+let price = document.getElementById('official-price');
+let subTotal = document.getElementById('subtotal');
+const goToPaymentInfoBtn = document.querySelector('.go-to-payment-info');
 
 
 // handles deleting an item from the cart via fetch
