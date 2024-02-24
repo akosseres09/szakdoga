@@ -1,5 +1,6 @@
 <?php
 
+use frontend\assets\CartAsset;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use yii\web\View;
@@ -12,13 +13,22 @@ use yii\widgets\ListView;
  * @var int $q
  * @var int $total
  */
+
 $this->title = 'Cart - Sportify';
 
 $this->registerJsFile('/js/sweetalert2.all.min.js');
 $this->registerCssFile('/css/sweetalert2.min.css');
+
+CartAsset::register($this);
+
 ?>
 
 <?= $this->render('/site/common/_alert') ?>
+
+<?= $this->render('_cart-steps', [
+    'cartDone' => false,
+    'paymentInfoDone' => false
+]) ?>
 
 <div class="container-fluid mt-3">
     <div class="container">

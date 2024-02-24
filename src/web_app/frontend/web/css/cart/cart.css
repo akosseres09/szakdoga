@@ -1,0 +1,113 @@
+.progress-steps {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.progress-steps .step {
+    display: flex;
+    align-items: center;
+    color: var(--spfy-grey);
+}
+
+.progress-steps .step.active {
+    color: var(--spfy-primary-light);
+}
+
+.progress-steps .step.active .number {
+    box-shadow: 0 0 0 3px var(--spfy-primary-light);
+    background-color: var(--spfy-primary-light);
+    color: var(--spfy-white)
+}
+
+.progress-steps .step .number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px var(--spfy-grey);
+    font-size: 18px;
+    height: 30px;
+    width: 30px;
+    margin-right: 15px;
+    position: relative;
+}
+
+.progress-steps .step .text {
+    white-space: normal;
+    width: fit-content;
+}
+
+.progress-steps .step .spacer {
+    background-color: var(--spfy-grey);
+    height: 3px;
+    margin-left: 15px;
+    width: 120px;
+}
+
+.progress-steps .step.done .spacer {
+    background-color: var(--spfy-primary-light);
+}
+
+.progress-steps .step.done .number {
+    background-color: var(--spfy-primary-light);
+    box-shadow: 0 0 0 3px var(--spfy-primary-light);
+    color: var(--spfy-white);
+}
+
+@media screen and (max-width: 992px) {
+    .progress-steps {
+        font-size: 16px;
+    }
+    .progress-steps .step .spacer {
+        width: 80px;
+        margin-left: 12px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .progress-steps .step .spacer {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 767px) and (min-width: 661px) {
+    .progress-steps .step:nth-last-child(n+2) .number {
+        width: 38px
+    }
+}
+
+@media screen and (max-width: 660px){
+    .progress-steps .step:nth-last-child(n+2) .number {
+        width: 29px
+    }
+
+    .progress-steps .step .spacer {
+        display: none;
+    }
+
+    .progress-steps {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .progress-steps {
+        margin-left: 50px;
+        align-items: start;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .progress-steps {
+        margin-left: 60px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .progress-steps {
+        margin-left: 30px;
+    }
+}
