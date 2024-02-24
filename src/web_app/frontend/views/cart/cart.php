@@ -16,12 +16,13 @@ use yii\widgets\ListView;
 
 $this->title = 'Cart - Sportify';
 
-$this->registerJsFile('/js/sweetalert2.all.min.js');
-$this->registerCssFile('/css/sweetalert2.min.css');
-
 CartAsset::register($this);
 
-?>
+if (Yii::$app->session->getFlash('emptyCart')) {
+    $this->registerJs(<<<JS
+        showCartSwal();
+JS, View::POS_END);
+} ?>
 
 <?= $this->render('/site/common/_alert') ?>
 

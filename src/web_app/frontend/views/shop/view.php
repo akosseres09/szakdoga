@@ -17,9 +17,6 @@ $this->title = $product->name . ' - Sportify';
 $images = $product->getImages();
 $inWishlist = WishlistHelper::isInWishlist(Yii::$app->user->id, $product->id);
 
-$this->registerJsFile('/js/sweetalert2.all.min.js');
-$this->registerCssFile('/css/sweetalert2.min.css');
-
 ShopAsset::register($this)
 
 ?>

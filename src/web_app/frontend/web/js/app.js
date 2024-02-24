@@ -8,6 +8,15 @@ const loader = document.getElementById('loader-overlay');
 const wishlistBtn = document.querySelector('.wishlist-btn');
 const updateUserBtn = document.getElementById('updateUserBtn');
 const editUserModal = document.getElementById('userEditModal');
+const swalWithCustomButtons = Swal.mixin({
+   customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-light',
+        actions: 'gap-3'
+   },
+    buttonsStyling: false,
+    allowEnterKey: false
+});
 
 
 // Handles Picking a size on the View page
@@ -34,7 +43,7 @@ if (deleteBtn) {
 
            const form = document.getElementById('deleteCartForm');
            const data = new FormData(form);
-           Swal.fire({
+           swalWithCustomButtons.fire({
                title: "Delete This Item From Your cart?",
                icon: "warning",
                showCancelButton: true,
@@ -67,7 +76,7 @@ if (cartForm) {
             method: 'POST', body: formData
         }).then(res => res.json())
             .then(res => {
-                const Toast = Swal.mixin({
+                const Toast = swalWithCustomButtons.mixin({
                     showConfirmButton: false,
                     toast: true,
                     position: 'bottom-start',
@@ -85,7 +94,7 @@ if (cartForm) {
                     for (let error in res.errors) {
                         errorText += res.errors[error];
                     }
-                    Swal.fire({
+                    swalWithCustomButtons.fire({
                         icon: "error",
                         titleText: 'Oops!',
                         text: errorText
@@ -110,13 +119,13 @@ if (wishlistBtn) {
                 if (res.success) {
                     updateWishlistCounter(res.down);
                     wishlistLink.href = parseLink(wishlistLink.href);
-                    Swal.fire({
+                    swalWithCustomButtons.fire({
                         titleText: res.title,
                         text: res.text,
                         icon: "success"
                     });
                 } else {
-                    Swal.fire({
+                    swalWithCustomButtons.fire({
                         titleText: res.title,
                         text: res.text,
                         icon: "error"
@@ -178,3 +187,11 @@ function hideLoader(){
 setTimeout(function() {
     $('.alert').fadeOut();
 }, 5000);
+
+function showCartSwal() {
+    swalWithCustomButtons.fire({
+        title: 'Something went wrong!',
+        text: 'Your cart is empty!',
+        icon: 'error'
+    })
+}

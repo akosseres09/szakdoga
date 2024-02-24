@@ -101,4 +101,17 @@ class CartController extends Controller
             'success' => $success
         ];
     }
+
+    public function actionPaymentInfo(): Response|string
+    {
+        $userId = Yii::$app->user->id;
+        $cartItems = Cart::find()->ofUser($userId)->all();
+
+        if (empty($cartItems)) {
+            Yii::$app->session->setFlash('emptyCart');
+            return $this->redirect('/cart/cart');
+        }
+
+        return $this->render('payment-info');
+    }
 }
