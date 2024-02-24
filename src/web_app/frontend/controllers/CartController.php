@@ -3,11 +3,13 @@
 namespace frontend\controllers;
 
 use common\models\Cart;
+use common\models\Wishlist;
+use Throwable;
 use Yii;
 use yii\captcha\CaptchaAction;
 use yii\data\ActiveDataProvider;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
@@ -84,7 +86,7 @@ class CartController extends Controller
             if ($cart->delete()) {
                 $success = true;
             }
-        }catch (\Throwable $t) {
+        }catch (Throwable) {
             Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
         }
 
@@ -107,8 +109,46 @@ class CartController extends Controller
         return $this->render('payment-info');
     }
 
-    public function actionMoveToWishlist($id)
+    public function actionMoveToWishlist($id): array
     {
+        $item = Cart::findOne($id);
+        $transaction = Yii::$app->db->beginTransaction();
+        $wishlist = new Wishlist();
 
+        $data = [];
+
+        try {
+            $wishlist->product_id = $item->product_id;
+            $wishlist->user_id = $item->user_id;
+
+            if ($wishlist->save()) {
+                if ($item->delete()) {
+                    $transaction->commit();
+                    $data = [
+                        'success' => true
+                    ];
+                } else {
+                    $transaction->rollBack();
+                    $data = [
+                        'success' => false,
+                        'errors' => 'Failed to Add Product to Your Wishlist!'
+                    ];
+                }
+            } else {
+                $transaction->rollBack();
+                $data = [
+                    'success' => false,
+                    'errors' => $wishlist->getErrors()
+                ];
+            }
+        } catch (StaleObjectException|Throwable $e) {
+            $transaction->rollBack();
+            $data = [
+                'success' => false,
+                'errors' => $e->getMessage()
+            ];
+        }
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $data;
     }
 }
