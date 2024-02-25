@@ -46,7 +46,12 @@ class WishlistController extends Controller
         $items = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 5
+                'pageSize' => 0
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'added_at' => SORT_DESC
+                ]
             ]
         ]);
 

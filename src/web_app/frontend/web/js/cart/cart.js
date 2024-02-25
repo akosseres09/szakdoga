@@ -49,7 +49,6 @@ if (moveToWishlistBtn) {
                         window.location.reload();
                     }
                 })
-            console.log(e.target.dataset.href);
         });
     })
 }

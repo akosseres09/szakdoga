@@ -20,6 +20,8 @@ class m231225_151612_create_wishlist_table extends Migration
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull()->unique(),
             'product_id' => $this->integer()->notNull()->unique(),
+            'added_at' => $this->integer(11)->notNull(),
+            'updated_at' => $this->integer(11)->notNull()
         ]);
 
         // creates index for column `user_id`

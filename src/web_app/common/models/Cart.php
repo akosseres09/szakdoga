@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\models\query\CartQuery;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -13,6 +14,8 @@ use yii\db\ActiveRecord;
  * @property int $price
  * @property int $quantity
  * @property string $size
+ * @property int $added_at
+ * @property int $updated_at
  *
  * @property User $user
  * @property Product $product
@@ -29,7 +32,12 @@ class Cart extends ActiveRecord
 
     public function behaviors(): array
     {
-        return [];
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'added_at'
+            ]
+        ];
     }
 
     public function rules(): array
@@ -40,17 +48,6 @@ class Cart extends ActiveRecord
             [['quantity'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number'],
             [['price'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number'],
             [['size'], 'required', 'message' => 'You must choose a size!'],
-//            [['size'], 'required', 'when' => function () {
-//                    return Product::findOne($this->product_id)->isShoe();
-//            }, 'message' => 'You must choose a size!'],
-//            [['size'], 'in', 'range' => self::KID_SIZES,'strict' => false, 'when' => function () {
-//                $prod = Product::findOne($this->product_id);
-//                return $prod->isKid() && $prod->isShoe();
-//            }],
-//            [['size'], 'in', 'range' => self::ADULT_SIZES,'strict' => false ,'when' => function(){
-//                $prod = Product::findOne($this->product_id);
-//                return !$prod->isKid() && $prod->isShoe();
-//            }]
         ];
     }
 

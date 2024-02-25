@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\models\query\WishlistQuery;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -10,6 +11,8 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property int $user_id
  * @property int $product_id
+ * @property int $added_at
+ * @property int $updated_at
  */
 class Wishlist extends ActiveRecord
 {
@@ -24,7 +27,12 @@ class Wishlist extends ActiveRecord
 
     public function behaviors(): array
     {
-        return [];
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'added_at'
+            ]
+        ];
     }
 
     public static function find(): WishlistQuery
@@ -36,7 +44,6 @@ class Wishlist extends ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
-
     public function getProduct(): ActiveQuery
     {
         return $this->hasOne(Product::class, ['id' => 'product_id']);
