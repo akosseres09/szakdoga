@@ -48,7 +48,7 @@ class UserController extends Controller
         ];
     }
 
-    public function actionAccount(): Response|string
+    public function actionAccount(): array|string
     {
         $user = \Yii::$app->user->getIdentity();
         $shippingInfo = ShippingInformation::findOne(['user_id' => $user->id]);
@@ -60,7 +60,16 @@ class UserController extends Controller
         if($billingInfo === null){
             $billingInfo = new BillingInformation();
         }
-
+        if (\Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'data' => $this->renderPartial('_account', [
+                    'user' => $user,
+                    'billingInfo' => $billingInfo,
+                    'shippingInfo' => $shippingInfo
+                ])
+            ];
+        }
         return $this->render('account', [
             'user' => $user,
             'billingInfo' => $billingInfo,
@@ -68,8 +77,14 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionSettings(): string
+    public function actionSettings(): array|string
     {
+        if (\Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'data' => $this->renderPartial('settings')
+            ];
+        }
         return $this->render('settings');
     }
 

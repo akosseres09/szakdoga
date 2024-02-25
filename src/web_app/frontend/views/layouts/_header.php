@@ -23,7 +23,7 @@ $actionName = Yii::$app->controller->action->id;
         <div class="navbar-nav me-auto px-3">
             <div>
                 <div class="mobile-nav nav-item dropdown">
-                    <a class="nav-link justify-content-start" href="#">
+                    <a class="nav-link justify-content-start" href="<?= Url::to(['shop/products']) ?>">
                         Products
                     </a>
                     <div class="px-3 drop" aria-labelledby="navbarDropdown">
@@ -69,7 +69,7 @@ $actionName = Yii::$app->controller->action->id;
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a class="nav-link justify-content-start" aria-current="page" href="#">
+                        <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/users/account?tab=wishlist']) ?>">
                             Wishlist
                         </a>
                     </div>
@@ -153,7 +153,7 @@ $actionName = Yii::$app->controller->action->id;
                                 </span>
                             </div>
                             <div class="nav-item align-self-center position-relative">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="<?= Url::to(['/user/account?tab=wishlist']) ?>">
                                     <span class="material-symbols-outlined">
                                         favorite
                                     </span>
@@ -168,7 +168,7 @@ $actionName = Yii::$app->controller->action->id;
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="transform: translateX(-50%)">
                                     <a class="dropdown-item" href="<?= Url::to(['/user/account']) ?>">Account</a>
-                                    <a class="dropdown-item" href="<?= Url::to(['/user/settings']) ?>">Settings</a>
+                                    <a class="dropdown-item" href="<?= Url::to(['/user/account?tab=settings']) ?>">Settings</a>
                                     <?= Html::a('Logout', ['/site/logout'], [
                                         'class' => 'dropdown-item',
                                         'data' => [
