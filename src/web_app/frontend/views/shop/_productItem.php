@@ -8,7 +8,6 @@ use common\models\Product;
 use yii\helpers\Url;
 use yii\web\View;
 
-$status = $model->getAvailability() === Product::ON_STOCK ? 'badge-available' : 'badge-unavailable';
 $imageName = $model->getImages(true);
 
 ?>
