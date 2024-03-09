@@ -6,7 +6,6 @@ use common\components\File;
 use common\models\Brand;
 use common\models\Product;
 use common\models\Type;
-use common\models\Wishlist;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -33,7 +32,7 @@ class ProductController extends Controller
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'delete' => ['POST']
+                    'delete' => ['POST'],
                 ]
             ]
         ];
@@ -58,7 +57,7 @@ class ProductController extends Controller
     public function actionAdd(): Response|string
     {
         $request = \Yii::$app->request;
-        $product = new Product();
+        $product = new Product(['scenario' => Product::SCENARIO_CREATE]);
         $types = ArrayHelper::map(Type::find()->all(), 'id', 'product_type');
         $brands = ArrayHelper::map(Brand::find()->all(), 'id', 'name');
         $transaction = \Yii::$app->db->beginTransaction();
@@ -96,6 +95,7 @@ class ProductController extends Controller
     public function actionEdit($id): Response|string
     {
         $product = Product::findOne($id);
+        $product->scenario = Product::SCENARIO_EDIT;
         $request = \Yii::$app->request;
         $types = Type::find();
         $brands = Brand::find();

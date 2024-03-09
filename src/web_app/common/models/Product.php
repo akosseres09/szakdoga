@@ -54,6 +54,8 @@ class Product extends ActiveRecord
     const GENDER_FEMALE = 1;
     const KID = 0;
     const NOT_KID = 1;
+    const SCENARIO_EDIT = 'edit';
+    const SCENARIO_CREATE = 'create';
 
     /**
      * @var UploadedFile[]
@@ -80,6 +82,7 @@ class Product extends ActiveRecord
     {
         return [
             [['name', 'description', 'description_title', 'price', 'number_of_stocks', 'is_kid', 'gender', 'type_id', 'brand_id', 'folder_id', 'details'], 'required'],
+            ['images', 'required', 'on' => 'create'],
             [['name', 'description_title'], 'string', 'max' => 128],
             [['folder_id'], 'string', 'max' => 11],
             [['description', 'details'], 'string', 'max' => 1024],
@@ -91,11 +94,33 @@ class Product extends ActiveRecord
             [['is_kid'], 'in', 'range' => [self::KID, self::NOT_KID]],
             [['is_kid'], 'default', 'value' => self::NOT_KID],
             [['gender'], 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE]],
-            [['images'], 'image','extensions' => 'png, jpg, jpeg, webp','maxFiles' => 5]
+            [['images'], 'image','extensions' => 'png, jpg, jpeg, webp','maxFiles' => 5, 'minFiles' => 1]
         ];
     }
 
-    public function attributeLabels()
+    public function scenarios(): array
+    {
+        return array_merge([
+            'edit' => [
+                'name',
+                'description',
+                'description_title',
+                'price',
+                'number_of_stocks',
+                'is_kid',
+                'gender',
+                'type_id',
+                'brand_id',
+                'folder_id',
+                'details',
+                'rating',
+                'is_activated'
+            ]
+        ], parent::scenarios()
+        );
+    }
+
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -154,10 +179,17 @@ class Product extends ActiveRecord
         return $this->is_kid === self::KID;
     }
 
-    public function getImages($first = false): bool|array
+    public function getImages($first = false): array
     {
-        $array = scandir(\Yii::getAlias('@frontend/web/storage/images/'.$this->folder_id));
-        return $first ? array_slice($array,2, 1) : array_slice($array,2, count($array) - 2);
+        try {
+            $array = scandir(\Yii::getAlias('@frontend/web/storage/images/'.$this->folder_id));
+            if (!$array) {
+                $array = [];
+            }
+            return $first ? array_slice($array,2, 1) : array_slice($array,2, count($array) - 2);
+        } catch (\Exception) {
+            return [];
+        }
     }
 
     public function upload(): bool
