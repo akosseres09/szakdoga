@@ -2,12 +2,12 @@
 
 namespace frontend\controllers;
 
+use frontend\components\BaseController;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
-class OrderController extends Controller
+class OrderController extends BaseController
 {
     public function behaviors(): array
     {

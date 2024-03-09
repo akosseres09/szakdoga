@@ -3,14 +3,14 @@
 namespace frontend\controllers;
 
 use common\models\Wishlist;
+use frontend\components\BaseController;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
-class WishlistController extends Controller
+class WishlistController extends BaseController
 {
     public function behaviors(): array
     {

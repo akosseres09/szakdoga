@@ -3,8 +3,8 @@
 namespace common\models;
 
 use common\models\query\UserQuery;
-use frontend\tests\UnitTester;
 use Yii;
+use yii\base\Event;
 use yii\base\Exception;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -51,6 +51,16 @@ class User extends ActiveRecord implements IdentityInterface
         self::USER => 'User'
     ];
 
+    const USER_CACHE_KEY = 'User';
+
+    public function init()
+    {
+        parent::init();
+
+        $this->on(self::EVENT_AFTER_INSERT, [User::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_DELETE, [User::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_UPDATE, [User::class, 'clearCache']);
+    }
 
     /**
      * {@inheritdoc}
@@ -126,12 +136,32 @@ class User extends ActiveRecord implements IdentityInterface
         return new UserQuery(get_called_class());
     }
 
+    public static function clearCache(Event $event): void
+    {
+        $user = $event->sender;
+
+        static::deleteCache(static::getCacheKey($user->id));
+    }
+
+    public static function deleteCache(mixed $key): void
+    {
+        Yii::$app->cache->delete($key);
+    }
+
+    public static function getCacheKey(int $id): string
+    {
+        return self::USER_CACHE_KEY . $id;
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id): User|IdentityInterface|null
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return Yii::$app->cache->getOrSet(static::getCacheKey($id), function () use ($id) {
+            return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        }, 60 * 60 * 4);
     }
 
     /**
@@ -304,7 +334,7 @@ class User extends ActiveRecord implements IdentityInterface
         return count($this->cart);
     }
 
-    public function getWishlistCount()
+    public function getWishlistCount(): int
     {
         return count($this->wishlist);
     }

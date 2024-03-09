@@ -9,17 +9,17 @@ use common\models\search\ProductSearch;
 use common\models\Type;
 use common\models\Wishlist;
 use Exception;
+use frontend\components\BaseController;
 use Throwable;
 use Yii;
 use yii\captcha\CaptchaAction;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
-class ShopController extends Controller
+class ShopController extends BaseController
 {
     public function behaviors(): array
     {
@@ -63,8 +63,9 @@ class ShopController extends Controller
         $this->layout = 'shop';
         $request = Yii::$app->request;
         $searchModel = new ProductSearch();
-        $types = ArrayHelper::map(Type::find()->all(), 'product_type', 'product_type');
-        $brands = ArrayHelper::map(Brand::find()->all(), 'name', 'name');
+
+        $types = ArrayHelper::map(Type::getAll(), 'product_type', 'product_type');
+        $brands = ArrayHelper::map(Brand::getAll(), 'name', 'name');
 
         $requestParameters = [];
         $paramCount = 0;

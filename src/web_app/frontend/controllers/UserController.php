@@ -4,14 +4,13 @@ namespace frontend\controllers;
 
 use common\models\BillingInformation;
 use common\models\ShippingInformation;
-use common\models\User;
+use frontend\components\BaseController;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     public function behaviors(): array
     {

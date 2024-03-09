@@ -43,14 +43,10 @@ JS, View::POS_END);
                         'dataProvider' => $cartItems,
                         'layout' => '{items}',
                         'itemView' => '_cartItem',
-                        'emptyText' => '<div class="d-flex flex-column justify-content-center align-items-center gap-4 p-5">
-                        <div class="cart-icon icon-xxl"></div>
-                        <span class="fs-4 fw-semibold">Your cart is empty</span>
-                        <span class="fw-light fs-5 text-center" >You didn\'t add any item in your cart yet. Browse the website to find amazing deals!</span>
-                        <a href="/shop/products" class="btn btn-outline-dark px-4 py-2">
-                            <span class="fs-5">Browse Products</span>
-                        </a>
-                    </div>',
+                        'emptyText' => $this->render('/common/_empty_text', [
+                            'title' => 'Your cart is empty',
+                            'text' => 'You didn\'t add any item in your cart yet. Browse the website to find amazing deals!'
+                        ]),
                         'summary' => '',
                         'viewParams' => [
                             'total' => $cartItems->totalCount

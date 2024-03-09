@@ -33,7 +33,6 @@ class ProductSearch extends Product
     public function search($params, $pageSize): ActiveDataProvider
     {
         $query = Product::find()->ofActive();
-        $query->joinWith(['brand', 'type']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -44,6 +43,13 @@ class ProductSearch extends Product
 
         if(!($this->load($params)) && $this->validate()) {
             return $dataProvider;
+        }
+
+        if (isset($this->brandName)) {
+            $query->joinWith(['brand']);
+        }
+        if (isset($this->typeName)) {
+            $query->joinWith(['type']);
         }
 
         $query->andFilterWhere(['like', new Expression('CONCAT(brand.name, " ", product.name)'), $this->name])

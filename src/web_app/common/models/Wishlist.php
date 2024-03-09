@@ -3,6 +3,8 @@
 namespace common\models;
 
 use common\models\query\WishlistQuery;
+use Yii;
+use yii\base\Event;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -16,6 +18,15 @@ use yii\db\ActiveRecord;
  */
 class Wishlist extends ActiveRecord
 {
+    const WISHLIST_CACHCE_KEY = 'wishlist';
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_INSERT, [Wishlist::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_DELETE, [Wishlist::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [Wishlist::class, 'clearCache']);
+    }
+
     public function rules(): array
     {
         return [
@@ -33,6 +44,30 @@ class Wishlist extends ActiveRecord
                 'createdAtAttribute' => 'added_at'
             ]
         ];
+    }
+
+    public static function clearCache(Event $event): void
+    {
+        $wishlist = $event->sender;
+
+        static::deleteCache(static::getCacheKey($wishlist->user_id));
+    }
+
+    public static function deleteCache(mixed $key): void
+    {
+        Yii::$app->cache->delete($key);
+    }
+
+    public static function getCacheKey(int $id): string
+    {
+        return self::WISHLIST_CACHCE_KEY . $id;
+    }
+
+    public static function findByUser(int $id)
+    {
+        return Yii::$app->cache->getOrSet(self::getCacheKey($id), function () use ($id) {
+            return Wishlist::find()->ofUser($id);
+        });
     }
 
     public static function find(): WishlistQuery

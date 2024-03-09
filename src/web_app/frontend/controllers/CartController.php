@@ -4,19 +4,19 @@ namespace frontend\controllers;
 
 use common\models\Cart;
 use common\models\Wishlist;
+use frontend\components\BaseController;
 use Throwable;
 use Yii;
 use yii\captcha\CaptchaAction;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
-class CartController extends Controller
+class CartController extends BaseController
 {
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [

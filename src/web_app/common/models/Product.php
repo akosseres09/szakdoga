@@ -5,6 +5,8 @@ namespace common\models;
 
 use common\models\query\ProductQuery;
 use Imagine\Image\Box;
+use Yii;
+use yii\base\Event;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -61,6 +63,15 @@ class Product extends ActiveRecord
      * @var UploadedFile[]
      */
     public array $images = [];
+
+    public function init(): void
+    {
+        parent::init();
+
+        $this->on(self::EVENT_BEFORE_DELETE, [Product::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_INSERT, [Product::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [Product::class, 'clearCache']);
+    }
 
     public static function tableName(): string
     {
@@ -129,6 +140,29 @@ class Product extends ActiveRecord
         ];
     }
 
+    public static function clearCache(Event $event): void
+    {
+        $product = $event->sender;
+
+        static::deleteCache(static::getBrandCacheKey($product->brand_id));
+        static::deleteCache(static::getTypeCacheKey($product->type_id));
+    }
+
+    public static function deleteCache(mixed $key): void
+    {
+        Yii::$app->cache->delete($key);
+    }
+
+    public static function getBrandCacheKey(int $id): string
+    {
+        return Brand::BRAND_CACHE_KEY . $id;
+    }
+
+    public static function getTypeCacheKey(int $id): string
+    {
+        return Type::TYPE_CACHE_KEY . $id;
+    }
+
     public static function find(): ProductQuery
     {
         return new ProductQuery(get_called_class());
@@ -182,7 +216,7 @@ class Product extends ActiveRecord
     public function getImages($first = false): array
     {
         try {
-            $array = scandir(\Yii::getAlias('@frontend/web/storage/images/'.$this->folder_id));
+            $array = scandir(Yii::getAlias('@frontend/web/storage/images/'.$this->folder_id));
             if (!$array) {
                 $array = [];
             }
@@ -195,7 +229,7 @@ class Product extends ActiveRecord
     public function upload(): bool
     {
         if($this->images) {
-            $imagePath = \Yii::getAlias('@frontend/web/storage/images/'.$this->folder_id);
+            $imagePath = Yii::getAlias('@frontend/web/storage/images/'.$this->folder_id);
 
             if (!file_exists($imagePath)) {
                 mkdir($imagePath, 0777, true);
