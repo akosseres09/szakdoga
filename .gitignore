@@ -3,3 +3,5 @@
 sportify_docker/.env
 
 sportify_docker/dump
+
+sportify_docker/redis_dump
