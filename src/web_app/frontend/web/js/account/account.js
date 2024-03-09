@@ -1,14 +1,5 @@
-const updateUserBtn = document.getElementById('updateUserBtn');
-const editUserModal = document.getElementById('userEditModal');
 const userLink = document.querySelectorAll('.user-link');
 const settingsContainer = document.getElementById('settings-container');
-
-if (updateUserBtn && editUserModal) {
-    updateUserBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        getDataFromUrl(updateUserBtn.href, editUserModal);
-    });
-}
 
 if (userLink) {
     userLink.forEach(link => {

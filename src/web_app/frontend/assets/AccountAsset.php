@@ -18,6 +18,8 @@ class AccountAsset extends AssetBundle
     ];
 
     public $depends = [
-      '\frontend\assets\SwalAsset'
+        '\frontend\assets\SwalAsset',
+        '\yii\web\JqueryAsset',
+        'yii\web\YiiAsset'
     ];
 }

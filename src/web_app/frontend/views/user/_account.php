@@ -26,9 +26,3 @@ $this->render('_shippingInfo', [
     'shippingInfo' => $shippingInfo
 ]);
 ?>
-
-<div id="userEditModal" class="modal modal-lg">
-    <div class="modal-dialog">
-
-    </div>
-</div>

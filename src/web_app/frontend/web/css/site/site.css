@@ -157,7 +157,14 @@ a.desc:after {
     transform: scale(1.05);
     border-color: var(--spfy-secondary-color);
     background-color: unset;
+}
+
+.btn-outline-light:focus {
     color: var(--spfy-black);
+}
+
+.btn-outline-light:hover {
+    color: var(--spfy-white)
 }
 
 .btn-outline-light:before {
