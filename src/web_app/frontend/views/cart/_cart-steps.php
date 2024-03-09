@@ -19,11 +19,11 @@
         <span class="number">
             <?= $cartDone && $paymentInfoDone ? '<span class="material-symbols-outlined">check</span>' : '2' ?>
         </span>
-        <span class="text">Payment Information</span>
+        <span class="text">Payment</span>
         <span class="spacer"></span>
     <?= $cartDone && $paymentInfoDone ? '</a>' : '</div>' ?>
     <?= $cartDone && $paymentInfoDone ? '<div class="step active">' : '<div class="step">' ?>
         <span class="number">3</span>
-        <span class="text">Payment</span>
+        <span class="text">Summary</span>
     </div>
 </div>

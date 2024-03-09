@@ -25,7 +25,7 @@ use yii\helpers\Url;
                 <span id="subtotal" class="fw-bold fs-5">$<?= $total ?></span>
             </div>
             <a href="<?= $totalCount === 0 ? '#' : Url::to(['/cart/payment-info']) ?>"
-               class="btn go-to-payment-info <?= $total === 0 ? 'btn-disabled' : '' ?>">Payment Information
+               class="btn go-to-payment-info <?= $total === 0 ? 'btn-disabled' : '' ?>">Payment
                 <span class="ps-2 material-symbols-outlined">chevron_right</span>
             </a>
             <span class="choice">or</span>
