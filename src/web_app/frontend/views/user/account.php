@@ -10,10 +10,12 @@ use common\models\BillingInformation;
 use common\models\ShippingInformation;
 use common\models\User;
 use frontend\assets\AccountAsset;
+use frontend\assets\WishlistAsset;
 use yii\helpers\Url;
 use yii\web\View;
 
 AccountAsset::register($this);
+WishlistAsset::register($this);
 $this->title = 'Your Account';
 $tab = Yii::$app->request->get('tab');
 $tabs = [

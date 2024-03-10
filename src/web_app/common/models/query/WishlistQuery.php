@@ -27,5 +27,10 @@ class WishlistQuery extends ActiveQuery
         return $this->andWhere(['product_id' => $id]);
     }
 
+    public function ofId(int $id): WishlistQuery
+    {
+        return $this->andWhere(['id' => $id]);
+    }
+
 
 }
