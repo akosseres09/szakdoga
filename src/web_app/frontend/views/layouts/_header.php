@@ -149,7 +149,7 @@ $actionName = Yii::$app->controller->action->id;
                                 </span>
                                 </a>
                                 <span id="cartCount" class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-main-color); top: 25%; left: 90%">
-                                    <?= Yii::$app->user->getIdentity()->getCartCount() ?>
+                                    <?= Yii::$app->user->identity->getCartCount() ?>
                                 </span>
                             </div>
                             <div class="nav-item align-self-center position-relative">
@@ -159,7 +159,7 @@ $actionName = Yii::$app->controller->action->id;
                                     </span>
                                 </a>
                                 <span id="wishListCount" class="position-absolute translate-middle badge rounded-pill" style="background-color: var(--spfy-main-color); top: 25%; left: 90%">
-                                    <?= Yii::$app->user->getIdentity()->getWishlistCount() ?>
+                                    <?= Yii::$app->user->identity->getWishlistCount() ?>
                                 </span>
                             </div>
                             <div class="nav-item dropdown" id="profile" style="padding-right: 30px">

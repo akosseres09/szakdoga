@@ -23,7 +23,7 @@ class ShopController extends BaseController
 {
     public function behaviors(): array
     {
-        return [
+        return array_merge([
             'access' => [
                 'class' => AccessControl::class,
                 'only' => ['products', 'view'],
@@ -41,7 +41,7 @@ class ShopController extends BaseController
                     'add-to-cart' => ['POST'],
                 ]
             ]
-        ];
+        ], parent::behaviors());
     }
 
     public function actions(): array

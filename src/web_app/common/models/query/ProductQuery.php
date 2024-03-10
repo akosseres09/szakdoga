@@ -19,6 +19,11 @@ class ProductQuery extends ActiveQuery
         return parent::one($db);
     }
 
+    public function ofId($id): ProductQuery
+    {
+        return $this->andWhere(['id' => $id]);
+    }
+
     public function ofActive(): ProductQuery
     {
         return $this->andWhere(['is_activated' => Product::ACTIVE]);

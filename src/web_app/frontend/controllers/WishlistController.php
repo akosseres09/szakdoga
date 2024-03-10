@@ -14,7 +14,7 @@ class WishlistController extends BaseController
 {
     public function behaviors(): array
     {
-        return [
+        return array_merge([
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
@@ -25,7 +25,7 @@ class WishlistController extends BaseController
                     ]
                 ]
             ]
-        ];
+        ], parent::behaviors());
     }
 
     public function actions(): array

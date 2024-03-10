@@ -11,7 +11,7 @@ class OrderController extends BaseController
 {
     public function behaviors(): array
     {
-        return [
+        return array_merge([
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
@@ -22,7 +22,7 @@ class OrderController extends BaseController
                     ]
                 ]
             ]
-        ];
+        ], parent::behaviors());
     }
 
     public function actions(): array

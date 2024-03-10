@@ -14,7 +14,7 @@ class UserController extends BaseController
 {
     public function behaviors(): array
     {
-       return [
+       return array_merge([
            'access' => [
                'class' => AccessControl::class,
                'only' => ['settings', 'account', 'save-billing', 'save-shipping'],
@@ -34,7 +34,7 @@ class UserController extends BaseController
                    'save-billing' => ['POST']
                ],
            ],
-       ];
+       ], parent::behaviors());
 
     }
 
