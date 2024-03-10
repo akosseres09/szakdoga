@@ -6,6 +6,7 @@
  * @var Type[] $types
  * @var Brand[] $brands
  * @var int $paramCount
+ * @var array $filterTypeCount
  */;
 
 use common\models\Brand;
@@ -53,7 +54,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#TypeFilter" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                Type
+                Type <?= isset($filterTypeCount['typeName']) ? '(' . $filterTypeCount['typeName'] . ')' : '' ?>
             </button>
         </h2>
         <div id="TypeFilter" class="accordion-collapse collapse">
@@ -67,7 +68,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#BrandFilter" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                Brand
+                Brand <?= isset($filterTypeCount['brandName']) ? '(' . $filterTypeCount['brandName'] . ')' : '' ?>
             </button>
         </h2>
         <div id="BrandFilter" class="accordion-collapse collapse">
@@ -81,7 +82,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#SizeFilter" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                Kid/Adult
+                Kid/Adult <?= isset($filterTypeCount['KidOrAdult']) ? '(' . $filterTypeCount['KidOrAdult'] . ')' : '' ?>
             </button>
         </h2>
         <div id="SizeFilter" class="accordion-collapse collapse">
@@ -96,7 +97,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#GenderFilter" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                Gender
+                Gender <?= isset($filterTypeCount['genderName']) ? '(' . $filterTypeCount['genderName'] . ')' : '' ?>
             </button>
         </h2>
         <div id="GenderFilter" class="accordion-collapse collapse">
@@ -112,7 +113,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#PriceFilter" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                Price
+                Price <?= isset($filterTypeCount['maxPrice']) || isset($filterTypeCount['minPrice'])  ? '(' . $filterTypeCount['minPrice'] + $filterTypeCount['maxPrice'] . ')' : '' ?>
             </button>
         </h2>
         <div id="PriceFilter" class="accordion-collapse collapse">

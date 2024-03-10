@@ -68,14 +68,17 @@ class ShopController extends BaseController
         $brands = ArrayHelper::map(Brand::getAll(), 'name', 'name');
 
         $paramCount = 0;
-        foreach ($request->queryParams as $param) {
+        $filterTypeCount = [];
+        foreach ($request->queryParams as $key => $param) {
             if ($param !== '') {
                 $paramCount++;
+                $filterTypeCount[$key] = count($param);
             }
         }
         $dataProvider = $searchModel->search($request->queryParams, $pageSize);
 
-        return $this->render('products',[
+        return $this->render('products', [
+            'filterTypeCount' => $filterTypeCount,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'brands' => $brands,

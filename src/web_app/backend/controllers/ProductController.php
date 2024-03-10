@@ -58,8 +58,8 @@ class ProductController extends Controller
     {
         $request = \Yii::$app->request;
         $product = new Product(['scenario' => Product::SCENARIO_CREATE]);
-        $types = ArrayHelper::map(Type::find()->all(), 'id', 'product_type');
-        $brands = ArrayHelper::map(Brand::find()->all(), 'id', 'name');
+        $types = ArrayHelper::map(Type::getAll(), 'id', 'product_type');
+        $brands = ArrayHelper::map(Brand::getAll(), 'id', 'name');
         $transaction = \Yii::$app->db->beginTransaction();
         if ($request->isPost && $product->load($request->post())) {
             try {
