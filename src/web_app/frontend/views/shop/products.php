@@ -38,27 +38,6 @@ $accOptions = [
 ];
 
 $this->title = 'The Best Choice In Sports » Sportify ';
-
-$this->registerJs(<<<JS
-    let form = $('#shop-filter-form');
-    
-    form.on('submit', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        
-        let formData = form.serializeArray();
-        let params = {};
-        formData.forEach((field) => {
-            let fieldName = field.name.replace('ProductSearch[', '').replace(']', '');
-            params[fieldName] = field.value;
-        });
-        
-        window.location.href = '/shop/products?' + $.param(params);
-    });
-JS, View::POS_END
-);
-
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -151,7 +130,7 @@ JS, View::POS_END
     </div>
 </div>
 <div class="d-flex justify-content-center gap-3 align-items-center">
-    <?= Html::submitButton('Filter', ['class' => 'btn btn-primary mt-3' ]) ?>
+    <?= Html::submitButton('Filter', ['class' => 'btn btn-primary mt-3', 'id' => 'filter-button' ]) ?>
     <?php if ($paramCount > 0) { ?>
         <?= Html::a(Html::button('Reset Filters', ['class' => 'btn btn-outline-light mt-3']), ['/shop/products']) ?>
     <?php } ?>

@@ -67,18 +67,13 @@ class ShopController extends BaseController
         $types = ArrayHelper::map(Type::getAll(), 'product_type', 'product_type');
         $brands = ArrayHelper::map(Brand::getAll(), 'name', 'name');
 
-        $requestParameters = [];
         $paramCount = 0;
-
-        foreach ($request->queryParams as $index => $param) {
+        foreach ($request->queryParams as $param) {
             if ($param !== '') {
                 $paramCount++;
             }
-
-            $requestParameters['ProductSearch'][$index] = $param;
         }
-
-        $dataProvider = $searchModel->search($requestParameters, $pageSize);
+        $dataProvider = $searchModel->search($request->queryParams, $pageSize);
 
         return $this->render('products',[
             'searchModel' => $searchModel,

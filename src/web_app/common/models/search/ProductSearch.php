@@ -17,6 +17,12 @@ class ProductSearch extends Product
     public $genderName;
     const SEARCH_ON_STOCK = 1;
     const SEARCH_OFF_STOCK = 0;
+
+    public function formName()
+    {
+        return '';
+    }
+
     public function rules(): array
     {
         return [
