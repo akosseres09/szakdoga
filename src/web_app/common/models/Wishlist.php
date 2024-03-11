@@ -22,9 +22,9 @@ class Wishlist extends ActiveRecord
     public function init()
     {
         parent::init();
-        $this->on(self::EVENT_AFTER_INSERT, [Wishlist::class, 'clearCache']);
-        $this->on(self::EVENT_BEFORE_DELETE, [Wishlist::class, 'clearCache']);
-        $this->on(self::EVENT_BEFORE_UPDATE, [Wishlist::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_INSERT, [static::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_DELETE, [static::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [static::class, 'clearCache']);
     }
 
     public function rules(): array

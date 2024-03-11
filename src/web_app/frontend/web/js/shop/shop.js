@@ -44,7 +44,6 @@ if (cartForm) {
 // handles adding product to the wishlist
 if (wishlistBtn) {
     wishlistBtn.addEventListener('click', (e) => {
-        wishlistBtn.classList.toggle('active');
         e.preventDefault();
         let wishlistLink = document.querySelector('.wishlist-link');
         fetch(wishlistLink.href)
@@ -52,6 +51,7 @@ if (wishlistBtn) {
             .then(res => {
                 if (res.success) {
                     updateWishlistCounter(res.down);
+                    wishlistBtn.classList.toggle('active');
                     wishlistLink.href = parseLink(wishlistLink.href);
                     swalWithCustomButtons.fire({
                         titleText: res.title,

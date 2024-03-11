@@ -31,7 +31,7 @@ use yii\web\IdentityInterface;
  *
  * @property BillingInformation|null $billingInformation
  * @property ShippingInformation|null $shippingInformation
- * @property Cart[]|null $carts
+ * @property Cart[]|null $cartItems
  * @property Wishlist[]|null $wishlistItems
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -53,13 +53,13 @@ class User extends ActiveRecord implements IdentityInterface
 
     const USER_CACHE_KEY = 'User';
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 
-        $this->on(self::EVENT_AFTER_INSERT, [User::class, 'clearCache']);
-        $this->on(self::EVENT_BEFORE_DELETE, [User::class, 'clearCache']);
-        $this->on(self::EVENT_AFTER_UPDATE, [User::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_INSERT, [static::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_DELETE, [static::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_UPDATE, [static::class, 'clearCache']);
     }
 
     /**
@@ -121,12 +121,12 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(ShippingInformation::class, ['user_id' => 'id']);
     }
 
-    public function getCart(): ActiveQuery
+    public function getCartItems(): ActiveQuery
     {
         return $this->hasMany(Cart::class, ['user_id' => 'id']);
     }
 
-    public function getWishlist(): ActiveQuery
+    public function getWishlistItems(): ActiveQuery
     {
         return $this->hasMany(Wishlist::class, ['user_id' => 'id']);
     }
@@ -331,12 +331,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getCartCount(): int
     {
-        return count($this->cart);
+        return count($this->cartItems);
     }
 
     public function getWishlistCount(): int
     {
-        return count($this->wishlist);
+        return count($this->wishlistItems);
     }
 
     public function getRole(): string

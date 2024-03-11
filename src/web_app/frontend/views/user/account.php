@@ -9,6 +9,7 @@
 use common\models\BillingInformation;
 use common\models\ShippingInformation;
 use common\models\User;
+use common\widgets\Navigation;
 use frontend\assets\AccountAsset;
 use frontend\assets\WishlistAsset;
 use yii\helpers\Url;
@@ -51,21 +52,10 @@ JS
 
 <?=
 $this->render('/site/common/_alert'); ?>
-
-<ul class="user-profile-tabs">
-    <?php foreach ($tabs as $site) {
-        $active = $site['site'] === $tab;
-        ?>
-        <li class="d-flex justify-content-center align-items-center">
-            <span class="user-link <?= $active ? 'active' : '' ?>" data-href="<?= $site['link'] ?>">
-                <?php if($site['active'] && $site['passive']) { ?>
-                    <div class="<?= $active ? $site['active'] : $site['passive'] ?>"></div>
-                <?php } ?>
-                <?= ucfirst($site['site']) ?>
-            </span>
-        </li>
-    <?php } ?>
-</ul>
+<?= Navigation::widget([
+    'tabs' => $tabs,
+    'tab' => $tab
+]); ?>
 
 <div class="container rounded bg-white mt-5 mb-5">
     <div id="settings-container" class="row justify-content-evenly">

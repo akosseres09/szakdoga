@@ -36,9 +36,9 @@ class Cart extends ActiveRecord
     public function init(): void
     {
         parent::init();
-        $this->on(self::EVENT_AFTER_INSERT, [Cart::class, 'clearCache']);
-        $this->on(self::EVENT_BEFORE_DELETE, [Cart::class, 'clearCache']);
-        $this->on(self::EVENT_AFTER_UPDATE, [Cart::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_INSERT, [static::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_DELETE, [static::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_UPDATE, [static::class, 'clearCache']);
     }
 
     public function behaviors(): array

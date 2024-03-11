@@ -47,7 +47,8 @@ return [
                 'user/edit/<id>' => 'user/edit',
                 'user/change-role/<id>' => 'user/change-role',
                 'product/edit/<id>' => 'product/edit',
-                'product/delete/<id>' => 'product/delete'
+                'product/delete/<id>' => 'product/delete',
+                'product' => 'product/products'
             ],
         ],
         'assetManager' => [
