@@ -41,7 +41,7 @@ class ProductController extends Controller
     public function actionProducts(): string
     {
         $products = new ActiveDataProvider([
-            'query' => Product::find(),
+            'query' => Product::find()->with('brand', 'type'),
             'sort' => ['defaultOrder' => [
                 'is_activated' => SORT_DESC,
             ]],

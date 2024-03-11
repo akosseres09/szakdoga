@@ -15,35 +15,37 @@ $link = Yii::$app->params['frontendImagesUrl'].$model->folder_id.'/';
 ?>
 
 <div class="card-title pb-2 border-bottom gap-2 ">
-    <div class="row">
-        <div class="col p-0 fw-bold product-name">
-            <a class="product-name" href="http://sportify.test/shop/view/<?=$model->id?>">
-                <?=$model->brand->name . ' ' . $model->name ?>
-            </a>
+    <div class="mx-4">
+        <div class="row">
+            <div class="col p-0 fw-bold product-name">
+                <a class="product-name" href="http://sportify.test/shop/view/<?=$model->id?>">
+                    <?=$model->brand->name . ' ' . $model->name ?>
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="row pt-1">
-        <div class="col-auto me-1 product-status badge badge-<?=$active?>">
-            <?= ucfirst($active) ?>
+        <div class="row pt-1 d-flex">
+            <div class="col-auto me-1 product-status badge badge-<?=$active?>">
+                <?= ucfirst($active) ?>
+            </div>
+            <div class="col-auto badge badge-brown product-name flex-shrink-1">
+                <?= $model->type->product_type ?>
+            </div>
         </div>
-        <div class="col-auto badge badge-brown">
-            <?= $model->type->product_type ?>
-        </div>
-    </div>
-    <div class="row pt-2">
-        <div class="col-2 text-left">
-            <a class="editProductItemBtn" data-bs-toggle="modal" data-bs-target="#productEditModal" href="<?= Url::to(['/product/edit/'.$model->id]) ?>" style="color: grey">
+        <div class="row pt-2">
+            <div class="col-2 text-left">
+                <a class="editProductItemBtn" data-bs-toggle="modal" data-bs-target="#productEditModal" href="<?= Url::to(['/product/edit/'.$model->id]) ?>" style="color: grey">
                 <span class="material-symbols-outlined">
                     edit
                 </span>
-            </a>
-        </div>
-        <div class="col-2">
-            <a href="<?= Url::to(['/product/delete/'.$model->id]) ?>" data-method="POST" style="color: red">
+                </a>
+            </div>
+            <div class="col-2">
+                <a href="<?= Url::to(['/product/delete/'.$model->id]) ?>" data-method="POST" style="color: red">
                 <span class="material-symbols-outlined">
                     delete
                 </span>
-            </a>
+                </a>
+            </div>
         </div>
     </div>
 </div>
