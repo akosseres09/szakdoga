@@ -12,6 +12,15 @@ $status = $model->getAvailability() === Product::ON_STOCK ? 'badge-available' : 
 
 $array = $model->getImages(true);
 $link = Yii::$app->params['frontendImagesUrl'].$model->folder_id.'/';
+
+
+$this->registerJs(<<<JS
+    $(document).on('click', '.editProductItemBtn', function (e) {
+        const modal = document.getElementById('productEditModal');
+        getDataFromUrl(e.currentTarget.href, modal)
+    });
+JS);
+
 ?>
 
 <div class="card-title pb-2 border-bottom gap-2 ">
@@ -34,9 +43,9 @@ $link = Yii::$app->params['frontendImagesUrl'].$model->folder_id.'/';
         <div class="row pt-2">
             <div class="col-2 text-left">
                 <a class="editProductItemBtn" data-bs-toggle="modal" data-bs-target="#productEditModal" href="<?= Url::to(['/product/edit/'.$model->id]) ?>" style="color: grey">
-                <span class="material-symbols-outlined">
-                    edit
-                </span>
+                    <span class="material-symbols-outlined">
+                        edit
+                    </span>
                 </a>
             </div>
             <div class="col-2">

@@ -36,10 +36,13 @@ class ProductSearch extends Product
         ];
     }
 
-    public function search($params, $pageSize): ActiveDataProvider
+    public function search($params, $pageSize, $active = true): ActiveDataProvider
     {
-        $query = Product::find()->ofActive();
-        $query->joinWith(['brand']);
+        $query = Product::find();
+        if ($active) {
+            $query->ofActive();
+        }
+        $query->with(['brand', 'type']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -47,6 +50,14 @@ class ProductSearch extends Product
                 'pageSize' => $pageSize
             ]
         ]);
+
+        if (!$active) {
+            $dataProvider->sort = [
+                'defaultOrder' => [
+                    'is_activated' => SORT_DESC
+                ]
+            ];
+        }
 
         if(!($this->load($params)) && $this->validate()) {
             return $dataProvider;
@@ -61,7 +72,8 @@ class ProductSearch extends Product
             ->andFilterWhere(['IN', 'product.is_kid', $this->kidOrAdult])
             ->andFilterWhere(['IN', 'product.gender', $this->genderName])
             ->andFilterWhere(['>=', 'product.price', $this->minPrice])
-            ->andFilterWhere(['<=', 'product.price', $this->maxPrice]);
+            ->andFilterWhere(['<=', 'product.price', $this->maxPrice])
+            ->andFilterWhere(['product.is_activated' => $active]);
 
         return $dataProvider;
     }

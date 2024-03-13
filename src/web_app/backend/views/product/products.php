@@ -1,41 +1,74 @@
 <?php
 
+use backend\assets\AppAsset;
+use common\widgets\Navigation;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
+use yii\web\JqueryAsset;
 use yii\web\View;
-use yii\bootstrap5\LinkPager;
-use yii\widgets\ListView;
 
 /**
  * @var View $this
  * @var $products ActiveDataProvider
  */
-
+$this->registerCssFile('/css/account/account.css');
+$this->registerJsFile('/js/account/account.js', ['depends' => [JqueryAsset::class, AppAsset::class]]);
 $this->title = 'Products Admin  »  Sportify';
 
 echo $this->render('/site/common/_alert');
 
-echo '<h1 class="text-center mb-4">Products</h1>';
-
-echo ListView::widget([
-    'dataProvider' => $products,
-    'pager' => [
-        'class' => LinkPager::class
+$tabs = [
+    'footballShoes' => [
+        'link' => Url::to(['/product?typeName[]=Indoor Football Shoes&typeName[]=Outdoor Football Shoes']),
+        'site' => 'Football Shoes'
     ],
-    'emptyText' => '<h1 class="fs-5 fw-bold text-center">No Products in the Database</h1>',
-    'itemView' => '_item',
-    'itemOptions' => ['class' => 'card product-container product-item-link'],
-    'summary' => '{begin}-{end}/{totalCount}',
-    'layout' => '<div class="container-fluid position-relative">
-                    <div class="container">
-                        <div class="items-grid-container">{items}</div>
-                        {pager}
-                    </div>
-                    <div class="text-center mt-2">{summary}</div>
-                </div>'
+    'handballShoes' => [
+        'link' => Url::to(['/product?typeName[]=Handball Shoes']),
+        'site' => 'Handball Shoes'
+    ],
+    'basketballShoes' => [
+        'link' => Url::to(['/product?typeName[]=Basketball Shoes']),
+        'site' => 'Basketball Shoes'
+    ],
+    'shoes' => [
+        'link' => Url::to(['/product?typeName[]=Shoes']),
+        'site' => 'Shoes',
+    ],
+    'armband' => [
+        'link' =>  Url::to(['/product?typeName[]=Armband']),
+        'site' => 'Armbands',
+    ],
+    'active' => [
+        'link' => Url::to(['/product?is_activated=1']),
+        'site' => 'Active'
+    ],
+    'inactive' => [
+        'link' => Url::to(['/product?is_activated=0']),
+        'site' => 'Inactive'
+    ],
+    'shirts' => [
+        'link' => Url::to(['/product?typeName[]=Shirt']),
+        'site' => 'Shirts'
+    ]
+];
 
-]);
 ?>
+
+<div class="container">
+    <div class="mb-5">
+        <?php echo Navigation::widget([
+            'tabs' => $tabs,
+            'tab' => 'Football Shoes'
+        ]); ?>
+    </div>
+    <div id="product-container">
+        <?=
+            $this->render('_listView', [
+                'products' => $products
+            ])
+        ?>
+    </div>
+</div>
 <a class="position-fixed add-new-btn" id="addModalToggler" data-bs-target="#addModal" data-bs-toggle="modal">
     <span class="material-symbols-outlined">
         add

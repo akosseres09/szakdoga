@@ -1,7 +1,5 @@
 const addModal = document.getElementById('addModal');
 const addModalTogglerBtn = document.getElementById('addModalToggler');
-const editProductItemBtn = document.querySelectorAll('.editProductItemBtn');
-const editModal = document.getElementById('productEditModal');
 const editUserModal = document.getElementById('editUserModal');
 const editUserBtn = document.querySelectorAll('.editUserBtn');
 
@@ -23,20 +21,11 @@ if (addModal && addModalTogglerBtn) {
     });
 }
 
-if (editProductItemBtn && editProductItemBtn){
-    editProductItemBtn.forEach( btn => {
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            getDataFromUrl(btn.href, editModal);
-        });
-    });
-}
-
 if (editUserModal && editUserBtn){
     editUserBtn.forEach(btn => {
        btn.addEventListener('click', function (e) {
            e.preventDefault();
-           getDataFromUrl(btn.href ,editUserModal);
+           getDataFromUrl(btn.href, editUserModal);
        });
     });
 }

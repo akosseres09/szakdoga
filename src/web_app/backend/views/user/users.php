@@ -14,9 +14,13 @@ $this->title = 'Sportify - Admin - Users';
 
 echo $this->render('/site/common/_alert');
 
-echo '<h1 class="text-center mb-4">Users</h1>';
+?>
 
-echo GridView::widget([
+<div class="mt-4 mb-4">
+    <h1 class="text-center">Users</h1>
+</div>
+
+<?= GridView::widget([
     'dataProvider' => $users,
     'columns' => [
         'id',
