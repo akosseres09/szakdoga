@@ -16,6 +16,12 @@
     justify-content: flex-start;
     padding-left: 0;
     transition: all 0.3s;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.user-profile-tabs::-webkit-scrollbar {
+    display: none;
 }
 
 .user-profile-tabs li {

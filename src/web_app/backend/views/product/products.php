@@ -18,6 +18,10 @@ $this->title = 'Products Admin  »  Sportify';
 echo $this->render('/site/common/_alert');
 
 $tabs = [
+    'all' => [
+        'link' => Url::to(['/product']),
+        'site' => 'All'
+    ],
     'footballShoes' => [
         'link' => Url::to(['/product?typeName[]=Indoor Football Shoes&typeName[]=Outdoor Football Shoes']),
         'site' => 'Football Shoes'
@@ -34,9 +38,9 @@ $tabs = [
         'link' => Url::to(['/product?typeName[]=Shoes']),
         'site' => 'Shoes',
     ],
-    'armband' => [
-        'link' =>  Url::to(['/product?typeName[]=Armband']),
-        'site' => 'Armbands',
+    'accessories' => [
+        'link' =>  Url::to(['/product?typeName[]=Accessories']),
+        'site' => 'accessories',
     ],
     'active' => [
         'link' => Url::to(['/product?is_activated=1']),
@@ -58,7 +62,7 @@ $tabs = [
     <div class="mb-5">
         <?php echo Navigation::widget([
             'tabs' => $tabs,
-            'tab' => 'Football Shoes'
+            'tab' => 'All'
         ]); ?>
     </div>
     <div id="product-container">

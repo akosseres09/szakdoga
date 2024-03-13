@@ -40,7 +40,7 @@ class ProductController extends Controller
         ];
     }
 
-    public function actionProducts($pageSize = 12): string|array
+    public function actionProducts($pageSize = 1): string|array
     {
         if (Yii::$app->request->isAjax) {
             $searchModel = new ProductSearch();
@@ -55,7 +55,7 @@ class ProductController extends Controller
         }
 
         $query = Product::find()->with('brand', 'type')
-            ->leftJoin('type', 'product.type_id = type.id')->ofFootball();
+            ->leftJoin('type', 'product.type_id = type.id');
 
         $products = new ActiveDataProvider([
             'query' => $query,
@@ -70,7 +70,7 @@ class ProductController extends Controller
         ]);
 
         return $this->render('products', [
-            'products' => $products
+            'products' => $products,
         ]);
     }
 

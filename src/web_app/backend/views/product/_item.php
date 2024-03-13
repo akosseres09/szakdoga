@@ -33,10 +33,10 @@ JS);
             </div>
         </div>
         <div class="row pt-1 d-flex">
-            <div class="col-auto me-1 product-status badge badge-<?=$active?>">
+            <div class="col-lg-auto me-1 product-status badge badge-<?=$active?>">
                 <?= ucfirst($active) ?>
             </div>
-            <div class="col-auto badge badge-brown product-name flex-shrink-1">
+            <div class="col-lg-auto mt-1 mt-lg-0 badge badge-brown product-name flex-shrink-1">
                 <?= $model->type->product_type ?>
             </div>
         </div>
