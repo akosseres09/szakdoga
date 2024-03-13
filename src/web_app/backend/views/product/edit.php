@@ -46,8 +46,8 @@ $fieldOptions = [
                 </div>
                 <div class="col">
                     <?= $form->field($product, 'gender', $fieldOptions)->dropDownList([
-                        1 => 'Male',
-                        0 => 'Female'
+                        Product::GENDER_MALE => 'Male',
+                        Product::GENDER_FEMALE => 'Female'
                     ])?>
                 </div>
             </div>

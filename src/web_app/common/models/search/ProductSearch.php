@@ -15,6 +15,7 @@ class ProductSearch extends Product
     public $maxPrice;
     public $kidOrAdult;
     public $genderName;
+    public $pageSize;
     const SEARCH_ON_STOCK = 1;
     const SEARCH_OFF_STOCK = 0;
 
@@ -32,11 +33,12 @@ class ProductSearch extends Product
             [['typeName'], 'each', 'rule' => ['string']],
             [['name'], 'string', 'max' => 128],
             [['kidOrAdult'], 'each', 'rule' => ['string']],
-            [['genderName'], 'each', 'rule' => ['string']]
+            [['genderName'], 'each', 'rule' => ['string']],
+            ['pageSize', 'in', 'range' => [8, 12, 16, 20]]
         ];
     }
 
-    public function search($params, $pageSize, $active = true): ActiveDataProvider
+    public function search($params, $active = true): ActiveDataProvider
     {
         $query = Product::find();
         if ($active) {
@@ -47,7 +49,7 @@ class ProductSearch extends Product
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => $pageSize
+                'pageSize' => 12
             ]
         ]);
 
@@ -62,8 +64,19 @@ class ProductSearch extends Product
         if(!($this->load($params)) && $this->validate()) {
             return $dataProvider;
         }
+
+        if (isset($this->pageSize)) {
+            $dataProvider->pagination = [
+                'pageSize' => $this->pageSize
+            ];
+        }
+
         if (isset($this->typeName)) {
             $query->joinWith(['type']);
+        }
+
+        if (isset($this->brandName)) {
+            $query->joinWith(['brand']);
         }
 
         $query->andFilterWhere(['like', new Expression('CONCAT(brand.name, " ", product.name)'), $this->name])

@@ -50,7 +50,15 @@ $this->title = 'The Best Choice In Sports » Sportify ';
 <?php if ($paramCount > 0 ) { ?>
     <span class="fw-bold ps-2 brown">You currently have <?=$paramCount?> active Filters</span>
 <?php } ?>
-<div class="accordion accordion-flush mt-3" id="formFilterAccordion">
+<div class="mt-3">
+        <?= $form->field($searchModel, 'pageSize')->dropDownList([
+            8 => 8,
+            12 => 12,
+            16 => 16,
+            20 => 20
+        ]) ?>
+</div>
+<div class="accordion accordion-flush" id="formFilterAccordion">
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#TypeFilter" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">

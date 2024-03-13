@@ -58,7 +58,7 @@ class ShopController extends BaseController
         ];
     }
 
-    public function actionProducts($pageSize = 20): string
+    public function actionProducts($pageSize = 12): string
     {
         $this->layout = 'shop';
         $request = Yii::$app->request;
@@ -72,10 +72,12 @@ class ShopController extends BaseController
         foreach ($request->queryParams as $key => $param) {
             if ($param !== '') {
                 $paramCount++;
-                $filterTypeCount[$key] = count($param);
+                if (is_array($param)) {
+                    $filterTypeCount[$key] = count($param);
+                }
             }
         }
-        $dataProvider = $searchModel->search($request->queryParams, $pageSize);
+        $dataProvider = $searchModel->search($request->queryParams);
 
         return $this->render('products', [
             'filterTypeCount' => $filterTypeCount,
