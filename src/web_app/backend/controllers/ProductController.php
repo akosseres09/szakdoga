@@ -40,11 +40,12 @@ class ProductController extends Controller
         ];
     }
 
-    public function actionProducts(): string|array
+    public function actionProducts($pageSize = 12): string|array
     {
         if (Yii::$app->request->isAjax) {
             $searchModel = new ProductSearch();
-            $products = $searchModel->search(Yii::$app->request->get(), 12, Yii::$app->request->get('is_activated'));
+            $searchModel->pageSize = $pageSize;
+            $products = $searchModel->search(Yii::$app->request->get(), Yii::$app->request->get('is_activated'));
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'data' => $this->renderPartial('_listView', [
@@ -64,7 +65,7 @@ class ProductController extends Controller
                 ]
             ],
             'pagination' => [
-                'pageSize' => 12
+                'pageSize' => $pageSize
             ]
         ]);
 
