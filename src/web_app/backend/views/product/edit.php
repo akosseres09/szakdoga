@@ -16,16 +16,16 @@ $fieldOptions = [
 
 ?>
 
-<div class="modal-dialog">
-    <?php $form = ActiveForm::begin([
-        'action' => '/product/edit/'.$product->id
-    ]) ?>
+<div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Edit Product: <?= $product->name ?></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+            <?php $form = ActiveForm::begin([
+                'action' => '/product/edit/'.$product->id
+            ]) ?>
             <div class="row">
                 <div class="col-lg-6">
                     <?= $form->field($product, 'name', $fieldOptions)->textInput(['maxlength' => 128, 'required' => true]); ?>
@@ -70,7 +70,7 @@ $fieldOptions = [
                     ]) ?>
                 </div>
             </div>
+         <?php ActiveForm::end() ?>
         </div>
     </div>
-    <?php ActiveForm::end() ?>
 </div>

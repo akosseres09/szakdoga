@@ -17,20 +17,33 @@ use yii\web\View;use yii\widgets\ActiveForm;
 $fieldOptions = [
     'labelOptions' => ['class' => 'mb-1 mt-3']
 ];
+
+$this->registerCss(<<<CSS
+    input::file-selector-button {
+        padding: 5px 10px;
+        color: var(--spfy-white);
+        background-color: var(--spfy-main-color);
+        border-color: var(--spfy-main-color);
+        border-radius: 10px;
+    }
+
+CSS
+);
+
 ?>
 <div class="modal-dialog modal-dialog-scrollable">
-    <?php $form = ActiveForm::begin([
-        'options' => [
-            'enctype' => 'multipart/form-data'
-        ],
-        'action' => '/product/add',
-    ]) ?>
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Create a Product</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+            <?php $form = ActiveForm::begin([
+                'options' => [
+                    'enctype' => 'multipart/form-data'
+                ],
+                'action' => '/product/add',
+            ]) ?>
             <div class="row">
                 <div class="col-lg-6">
                     <?= $form->field($product, 'name', $fieldOptions)->textInput(['maxlength' => 128, 'required' => true]); ?>
@@ -68,7 +81,7 @@ $fieldOptions = [
                 <div class="col">
                     <label class="mt-4">Upload files </label>
                     <?= $form->field($product, 'images[]', [
-                        'labelOptions' => ['class' => 'd-none'],
+                        'labelOptions' => ['class' => 'd-none', 'id' => 'file-upload'],
                         'inputOptions' => ['class' => 'mt-2']
                     ])->fileInput(['multiple' => true, 'accept' => 'image/png, image/jpg, image/jpeg, image/webp'])?>
                 </div>
@@ -91,7 +104,7 @@ $fieldOptions = [
                     ]) ?>
                 </div>
             </div>
+            <?php ActiveForm::end() ?>
         </div>
     </div>
-    <?php ActiveForm::end() ?>
 </div>

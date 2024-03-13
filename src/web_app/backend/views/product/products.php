@@ -76,11 +76,11 @@ $tabs = [
 </a>
 
 <div id="addModal" class="modal modal-lg fade" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
     </div>
 </div>
 
 <div id="productEditModal" class="modal modal-lg fade" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
     </div>
 </div>
