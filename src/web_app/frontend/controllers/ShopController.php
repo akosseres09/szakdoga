@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Brand;
 use common\models\Cart;
 use common\models\Product;
+use common\models\Rating;
 use common\models\search\ProductSearch;
 use common\models\Type;
 use common\models\Wishlist;
@@ -63,6 +64,7 @@ class ShopController extends BaseController
         $this->layout = 'shop';
         $request = Yii::$app->request;
         $searchModel = new ProductSearch();
+        $searchModel->pageSize = $pageSize;
 
         $types = ArrayHelper::map(Type::getAll(), 'product_type', 'product_type');
         $brands = ArrayHelper::map(Brand::getAll(), 'name', 'name');
@@ -70,7 +72,7 @@ class ShopController extends BaseController
         $paramCount = 0;
         $filterTypeCount = [];
         foreach ($request->queryParams as $key => $param) {
-            if ($param !== '') {
+            if ($key !== 'page' && $key !== 'per-page' && $key !== 'pageSize' && $param !== '') {
                 $paramCount++;
                 if (is_array($param)) {
                     $filterTypeCount[$key] = count($param);
@@ -93,12 +95,14 @@ class ShopController extends BaseController
     {
         $product = Product::findOne($id);
         $cart = new Cart();
+        $rating = new Rating();
 
         if ($product === null) {
            return $this->redirect('/shop/products');
         }
 
         return $this->render('view', [
+            'ratings' => $rating,
             'product' => $product,
             'cart' => $cart
         ]);

@@ -39,27 +39,12 @@ class Rating extends ActiveRecord
     {
         return '{{%rating}}';
     }
-    public function behaviors(): array
-    {
-        return [
-            [
-                'class' => TimestampBehavior::class,
-                'createdAtAttribute' => false,
-                'UpdatedAtAttribute' => false
-            ],
-            [
-                'class' => BlameableBehavior::class,
-                'createdByAttribute' => false,
-                'updatedByAttribute' => false
-            ]
-        ];
-    }
 
     public function rules(): array
     {
         return [
             [['user_id', 'product_id', 'rating'], 'required'],
-            [['rating'], 'in', 'range' => [self::RATING_VERY_LOW, self::RATING_LOW, self::RATING_MEDIUM, self::RATING_HIGH, self::RATING_VERY_HIGH, self::RATING_EXCELLENT]],
+            [['rating'], 'in', 'range' => self::RATINGS],
             [['description'], 'string', 'max' => 2048]
         ];
     }

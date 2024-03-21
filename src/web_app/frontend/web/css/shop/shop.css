@@ -166,6 +166,26 @@
     border-left: none;
 }
 
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    color: lightgray;
+    font-size: 30px;
+    transition: color .2s ease-in-out;
+}
+
+.star-rating input[type="radio"]:checked ~ label,
+.star-rating label:hover ~ input[type="radio"]:checked ~ label {
+    color: gold;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
