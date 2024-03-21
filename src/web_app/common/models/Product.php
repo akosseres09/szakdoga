@@ -185,7 +185,12 @@ class Product extends ActiveRecord
 
     public function getWishlist(): ActiveQuery
     {
-        return $this->hasMany(Wishlist::class, ['product_id' => 'id']);
+        return $this->hasMany(Wishlist::class, ['id' => 'product_id']);
+    }
+
+    public function getRatings(): ActiveQuery
+    {
+        return $this->hasMany(Rating::class, ['id' => 'product_id']);
     }
 
     public function getActiveStatus(): string

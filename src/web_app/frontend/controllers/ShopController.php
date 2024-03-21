@@ -95,17 +95,45 @@ class ShopController extends BaseController
     {
         $product = Product::findOne($id);
         $cart = new Cart();
-        $rating = new Rating();
+        $rating = Rating::find()->ofUser(Yii::$app->user->id)->ofProduct($id)->one();
+
+        if (!$rating) {
+            $rating = new Rating();
+        }
 
         if ($product === null) {
            return $this->redirect('/shop/products');
         }
 
         return $this->render('view', [
-            'ratings' => $rating,
+            'rating' => $rating,
             'product' => $product,
             'cart' => $cart
         ]);
+    }
+
+    public function actionAddRating($id): array
+    {
+        $rating = Rating::find()->ofUser(Yii::$app->user->id)->ofProduct($id)->one();
+
+        if (!$rating) {
+            $rating = new Rating();
+        }
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($rating->load(Yii::$app->request->post())) {
+            $rating->user_id = Yii::$app->user->id;
+            $rating->product_id = $id;
+            if ($rating->save()) {
+                return [
+                    'success' => true
+                ];
+            }
+        }
+        return [
+            'success' => false
+        ];
     }
 
     public function actionAddToCart(): array|Response
