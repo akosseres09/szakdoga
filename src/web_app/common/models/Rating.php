@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\models\query\RatingQuery;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -12,6 +13,8 @@ use yii\db\ActiveRecord;
  * @property int $product_id
  * @property int $rating
  * @property string $description
+ * @property int $createdAt
+ * @property int $updatedAt
  *
  * @property User $user
  * @property Product $product
@@ -57,6 +60,17 @@ class Rating extends ActiveRecord
             [['user_id', 'product_id', 'rating'], 'required'],
             [['rating'], 'in', 'range' => self::RATINGS],
             [['description'], 'string', 'max' => 2048]
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt'
+            ]
         ];
     }
 

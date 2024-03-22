@@ -18,6 +18,8 @@ class m231222_125014_create_rating_table extends Migration
             'product_id' => $this->integer()->notNull(),
             'rating' => $this->integer()->notNull(),
             'description' => $this->string(2048),
+            'createdAt' => $this->integer(11),
+            'updatedAt' => $this->integer(11)
         ]);
 
         // creates index for column `user_id`

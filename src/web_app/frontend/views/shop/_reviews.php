@@ -13,7 +13,10 @@ echo ListView::widget([
     'itemView' => '_reviewItem',
     'layout' => '<div>
                     {items}
-                </div>'
+                </div>',
+    'viewParams' => [
+        'total' => $reviews->totalCount
+    ]
 ])
 
 ?>
