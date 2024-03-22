@@ -111,14 +111,7 @@ class ShopController extends BaseController
            return $this->redirect('/shop/products');
         }
 
-        $query = Rating::find()->ofProduct($id)->with('user')->limit(3);
-
-        $reviews = new ActiveDataProvider([
-            'query' => $query
-        ]);
-
         return $this->render('view', [
-            'reviews' => $reviews,
             'rating' => $rating,
             'product' => $product,
             'cart' => $cart
@@ -160,10 +153,19 @@ class ShopController extends BaseController
         }
 
         $ratings = $product->getAverageRatings();
+        $query = Rating::find()->ofProduct($id)->with('user')->limit(3);
+
+        $reviews = new ActiveDataProvider([
+            'query' => $query
+        ]);
+
 
         return [
             'success' => true,
-            'rating' => $ratings
+            'rating' => $ratings,
+            'reviews' => $this->renderAjax('_reviews', [
+                'reviews' => $reviews
+            ])
         ];
     }
 

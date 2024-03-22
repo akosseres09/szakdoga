@@ -21,7 +21,7 @@ CSS);
 ?>
 <div class="container <?= $index !== $total-1 ? 'border-bottom pb-2' : ''?>">
     <div class="star-rating">
-        <?php for ($i = 0; $i < 5; $i++) { ?>
+        <?php for ($i = 5; $i > 0; $i--) { ?>
             <i class="star fa-regular fa-star <?= $i <= $model->rating ? 'checked' : '' ?>"></i>
         <?php } ?>
     </div>

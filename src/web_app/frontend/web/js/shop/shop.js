@@ -3,15 +3,18 @@ const wishlistBtn = document.querySelector('.wishlist-btn');
 const sizeItems = document.querySelectorAll('.size-item');
 const sizeInput = document.getElementById('cart-size');
 const ratingUrl = urlLink;
+const rating = document.getElementById('ratingObs');
+const ratingContainer = document.querySelector('.rating-container');
+const ratingForm = document.getElementById('rating-form');
+const ratingAccordion = document.querySelector('#ratingsAcc > .accordion-body');
+const btn = document.getElementById('add-rating-btn');
+
 const options = {
     root: null,
     rootMargin: '0px',
     threshold: 0.5
 };
 const observer = new IntersectionObserver(loadRating, options);
-const rating = document.getElementById('ratingObs');
-const ratingContainer = document.querySelector('.rating-container');
-const ratingForm = document.getElementById('rating-form');
 observer.observe(rating);
 
 // handles the submission of the view page form
@@ -95,21 +98,24 @@ if (sizeItems && sizeInput) {
     });
 }
 
-if (ratingForm) {
+if (ratingForm && btn) {
     ratingForm.addEventListener('submit', e => {
         e.preventDefault();
         e.stopImmediatePropagation();
-
+        btn.replaceChildren(getLoader());
         const formData = new FormData(ratingForm);
         fetch(ratingForm.action, {
             method: 'post',
             body: formData
         }).then(res => res.json())
-            .then(res => {
+        .then(res => {
+            if (res.success) {
                 $('.modal').modal('hide');
                 getRating();
-            })
-    })
+            }
+            btn.replaceChildren('Save changes');
+        });
+    });
 }
 
 function getRating() {
@@ -125,6 +131,7 @@ function getRating() {
                 if (oldRating) {
                     oldRating.remove();
                 }
+                ratingAccordion.innerHTML = res.reviews;
                 ratingContainer.innerHTML = getRatingHtml(res.rating);
             }
         });

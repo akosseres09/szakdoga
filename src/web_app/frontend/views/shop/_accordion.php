@@ -25,9 +25,6 @@ use yii\web\View;
                 </h2>
                 <div id="ratingsAcc" class="accordion-collapse collapse" data-bs-parent="#ratings">
                     <div class="accordion-body">
-                        <?= $this->render('_reviews', [
-                            'reviews' => $reviews
-                        ]) ?>
                     </div>
                 </div>
             </div>

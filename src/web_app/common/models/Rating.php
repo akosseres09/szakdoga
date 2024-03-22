@@ -57,7 +57,7 @@ class Rating extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['user_id', 'product_id', 'rating'], 'required'],
+            [['user_id', 'product_id', 'rating', 'description'], 'required'],
             [['rating'], 'in', 'range' => self::RATINGS],
             [['description'], 'string', 'max' => 2048]
         ];
