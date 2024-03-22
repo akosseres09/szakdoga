@@ -10,6 +10,7 @@ use yii\base\Event;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -180,17 +181,12 @@ class Product extends ActiveRecord
 
     public function getRating(): ActiveQuery
     {
-        return $this->hasMany(Rating::class, ['id' => 'product_id']);
+        return $this->hasMany(Rating::class, ['product_id' => 'id']);
     }
 
     public function getWishlist(): ActiveQuery
     {
         return $this->hasMany(Wishlist::class, ['id' => 'product_id']);
-    }
-
-    public function getRatings(): ActiveQuery
-    {
-        return $this->hasMany(Rating::class, ['id' => 'product_id']);
     }
 
     public function getActiveStatus(): string
@@ -242,7 +238,7 @@ class Product extends ActiveRecord
 
             foreach ($this->images as $image) {
                 $filePath = $imagePath . '/' . $image->baseName . '.' . $image->extension;
-                \yii\imagine\Image::getImagine()->open($image->tempName)
+                Image::getImagine()->open($image->tempName)
                     ->resize(new Box(500,500))
                     ->save($filePath);
             }
@@ -256,6 +252,11 @@ class Product extends ActiveRecord
     public function isActivated(): bool
     {
         return $this->is_activated;
+    }
+
+    public function getAverageRatings()
+    {
+        return $this->getRating()->average('rating');
     }
 
 }

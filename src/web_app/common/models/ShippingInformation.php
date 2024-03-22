@@ -3,6 +3,7 @@
 namespace common\models;
 
 use yii\behaviors\BlameableBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -14,7 +15,7 @@ use yii\db\ActiveRecord;
  * @property string $street
  * @property int $postcode
  *
- * @property User $userId
+ * @property User $user
  */
 class ShippingInformation extends ActiveRecord
 {
@@ -49,6 +50,11 @@ class ShippingInformation extends ActiveRecord
     public static function findIdentity($user_id): ?ShippingInformation
     {
         return static::findOne(['user_id' => $user_id]);
+    }
+
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
 }

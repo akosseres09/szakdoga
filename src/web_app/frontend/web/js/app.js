@@ -1,7 +1,5 @@
 const cartCount = document.getElementById('cartCount'); // number of items in cart
 const wishlistCount = document.getElementById('wishListCount'); // number of items in wishlist
-const loader = document.getElementById('loader-overlay');
-
 
 function getDataFromUrl(url, intoItem, data = {}) {
     fetch(url, data).then(res => res.text())
@@ -30,18 +28,10 @@ function sendDataToUrl(url, formSendData = {}){
     return fetch(url, formSendData)
 }
 
-function showLoader(){
-    if (loader) {
-        loader.classList.remove('d-none');
-        loader.style.opacity = '1';
-    }
-}
-
-function hideLoader(){
-    if (loader) {
-        loader.style.opacity = '0';
-        loader.classList.add('d-none')
-    }
+function getLoader() {
+    const span = document.createElement('span');
+    span.classList.add('ms-2', 'loader');
+    return span;
 }
 
 setTimeout(function() {

@@ -114,27 +114,27 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getBilling(): ActiveQuery
     {
-        return $this->hasOne(BillingInformation::class, ['id' => 'user_id']);
+        return $this->hasOne(BillingInformation::class, ['user_id' => 'id']);
     }
 
     public function getShipping(): ActiveQuery
     {
-        return $this->hasOne(ShippingInformation::class, ['id' => 'user_id']);
+        return $this->hasOne(ShippingInformation::class, ['user_id' => 'id']);
     }
 
     public function getCartItems(): ActiveQuery
     {
-        return $this->hasMany(Cart::class, ['id' => 'user_id']);
+        return $this->hasMany(Cart::class, ['user_id' => 'id']);
     }
 
     public function getWishlistItems(): ActiveQuery
     {
-        return $this->hasMany(Wishlist::class, ['id' => 'user_id']);
+        return $this->hasMany(Wishlist::class, ['user_id' => 'id']);
     }
 
     public function getRatings(): ActiveQuery
     {
-        return $this->hasMany(Rating::class, ['id' => 'user_id']);
+        return $this->hasMany(Rating::class, ['user_id' => 'id']);
     }
 
     public static function find(): UserQuery

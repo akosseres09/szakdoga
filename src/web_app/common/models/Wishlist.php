@@ -15,6 +15,9 @@ use yii\db\ActiveRecord;
  * @property int $product_id
  * @property int $added_at
  * @property int $updated_at
+ *
+ * @property User $user
+ * @property Product $product
  */
 class Wishlist extends ActiveRecord
 {

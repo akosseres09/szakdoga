@@ -1,9 +1,13 @@
 <?php
 /**
  * @var Product $product
+ * @var ActiveDataProvider $reviews
+ * @var View $this
  */
 
 use common\models\Product;
+use yii\data\ActiveDataProvider;
+use yii\web\View;
 
 ?>
 
@@ -12,13 +16,18 @@ use common\models\Product;
         <div class="accordion" id="ratings">
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ratingsAcc" aria-expanded="true" aria-controls="ratingsAcc">
-                        Top Ratings
+                    <button class="accordion-button collapsed" id="ratingObs" type="button" data-bs-toggle="collapse" data-bs-target="#ratingsAcc" aria-expanded="true" aria-controls="ratingsAcc">
+                        <span>
+                            Top Ratings
+                        </span>
+                        <span class="rating-container"></span>
                     </button>
                 </h2>
                 <div id="ratingsAcc" class="accordion-collapse collapse" data-bs-parent="#ratings">
                     <div class="accordion-body">
-                        <?= $product->description ?>
+                        <?= $this->render('_reviews', [
+                            'reviews' => $reviews
+                        ]) ?>
                     </div>
                 </div>
             </div>

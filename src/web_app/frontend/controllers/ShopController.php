@@ -14,6 +14,7 @@ use frontend\components\BaseController;
 use Throwable;
 use Yii;
 use yii\captcha\CaptchaAction;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -27,12 +28,17 @@ class ShopController extends BaseController
         return array_merge([
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['products', 'view'],
+                'only' => ['products', 'view', 'add-rating', 'get-rating'],
                 'rules' => [
                     [
-                        'actions' => ['products', 'view'],
+                        'actions' => ['products', 'view', 'get-rating'],
                         'allow' => true,
                         'roles' => ['?', '@']
+                    ],
+                    [
+                        'actions' => ['add-rating', 'add-to-cart', 'add-to-wishlist', 'remove-from-wishlist'],
+                        'allow' => true,
+                        'roles' => ['@']
                     ]
                 ]
             ],
@@ -105,7 +111,14 @@ class ShopController extends BaseController
            return $this->redirect('/shop/products');
         }
 
+        $query = Rating::find()->ofProduct($id)->with('user')->limit(3);
+
+        $reviews = new ActiveDataProvider([
+            'query' => $query
+        ]);
+
         return $this->render('view', [
+            'reviews' => $reviews,
             'rating' => $rating,
             'product' => $product,
             'cart' => $cart
@@ -133,6 +146,24 @@ class ShopController extends BaseController
         }
         return [
             'success' => false
+        ];
+    }
+
+    public function actionGetRating($id): array
+    {
+        $product = Product::findOne(['id' => $id]);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!$product) {
+            return [
+                'success' => false
+            ];
+        }
+
+        $ratings = $product->getAverageRatings();
+
+        return [
+            'success' => true,
+            'rating' => $ratings
         ];
     }
 
