@@ -5,6 +5,8 @@ namespace frontend\controllers;
 use common\models\BillingInformation;
 use common\models\ShippingInformation;
 use frontend\components\BaseController;
+use Stripe\Customer;
+use Stripe\Stripe;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\ErrorAction;
@@ -136,6 +138,39 @@ class UserController extends BaseController
 
         if($this->request->isPost && $billingInfo->load(\Yii::$app->request->post())){
             if($billingInfo->save()){
+                try {
+                    Stripe::setApiKey(\Yii::$app->stripe->secretKey);
+                    if ($user->stripe_cus) {
+                        $customer = Customer::retrieve($user->stripe_cus);
+                        Customer::update(
+                            $customer->id,
+                            [
+                                'address' => [
+                                    'city' => $billingInfo->city,
+                                    'country' => $billingInfo->country,
+                                    'state' => $billingInfo->state,
+                                    'postal_code' => $billingInfo->postcode,
+                                    'line1' => $billingInfo->street
+                                ]
+                            ]
+                        );
+                    } else {
+                        $stripeUser = Customer::create([
+                            'email' => $user->email,
+                            'address' => [
+                                'city' => $billingInfo->city,
+                                'country' => $billingInfo->country,
+                                'state' => $billingInfo->state,
+                                'postal_code' => $billingInfo->postcode,
+                                'line1' => $billingInfo->street
+                            ]
+                        ]);
+                        $user->stripe_cus = $stripeUser->id;
+                        $user->save();
+                    }
+                } catch (\Exception $e) {
+                    \Yii::$app->session->setFlash('BillingError', $e->getMessage());
+                }
                 \Yii::$app->session->setFlash('BillingSuccess', 'Billing Information saved successfully!');
             }else {
                 \Yii::$app->session->setFlash('BillingError', 'Failed to save billing Information!');
