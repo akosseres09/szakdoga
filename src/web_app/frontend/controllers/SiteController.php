@@ -4,8 +4,9 @@ namespace frontend\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
+use Stripe\Customer;
+use Stripe\Stripe;
 use Yii;
-use yii\base\Exception;
 use yii\base\InvalidArgumentException;
 use yii\captcha\CaptchaAction;
 use yii\web\BadRequestHttpException;
@@ -16,7 +17,6 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
@@ -200,6 +200,18 @@ class SiteController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
         if (($model->verifyEmail())) {
+            try {
+                Stripe::setApiKey(Yii::$app->stripe->secretKey);
+                $customer = Customer::create([
+                   'email' => $model->user->email
+                ]);
+                $model->user->stripe_cus = $customer->id;
+                if (!$model->user->save()) {
+                    $customer->delete();
+                }
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('error', 'Failed to create Stripe Customer!');
+            }
             Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
         }else {
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');

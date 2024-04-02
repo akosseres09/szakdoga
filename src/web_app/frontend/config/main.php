@@ -59,7 +59,9 @@ return [
                 'wishlist/delete-from-wishlist/<id>' => 'wishlist/delete-from-wishlist',
                 'wishlist' => 'wishlist/index',
                 'order' => 'order/index',
-                'shop' => 'shop/products'
+                'shop' => 'shop/products',
+                'cart' => 'cart/cart',
+                'payment' => 'cart/payment-info'
             ],
         ],
         'assetManager' => [

@@ -16,7 +16,7 @@ class VerifyEmailForm extends Model
     /**
      * @var User
      */
-    private $_user;
+    public $user;
 
 
     /**
@@ -31,8 +31,8 @@ class VerifyEmailForm extends Model
         if (empty($token) || !is_string($token)) {
             throw new InvalidArgumentException('Verify email token cannot be blank.');
         }
-        $this->_user = User::findByVerificationToken($token);
-        if (!$this->_user) {
+        $this->user = User::findByVerificationToken($token);
+        if (!$this->user) {
             throw new InvalidArgumentException('Wrong verify email token.');
         }
         parent::__construct($config);
@@ -45,7 +45,7 @@ class VerifyEmailForm extends Model
      */
     public function verifyEmail()
     {
-        $user = $this->_user;
+        $user = $this->user;
         $user->status = User::STATUS_ACTIVE;
         return $user->save(false) ? $user : null;
     }

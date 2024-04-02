@@ -154,19 +154,6 @@ class UserController extends BaseController
                                 ]
                             ]
                         );
-                    } else {
-                        $stripeUser = Customer::create([
-                            'email' => $user->email,
-                            'address' => [
-                                'city' => $billingInfo->city,
-                                'country' => $billingInfo->country,
-                                'state' => $billingInfo->state,
-                                'postal_code' => $billingInfo->postcode,
-                                'line1' => $billingInfo->street
-                            ]
-                        ]);
-                        $user->stripe_cus = $stripeUser->id;
-                        $user->save();
                     }
                 } catch (\Exception $e) {
                     \Yii::$app->session->setFlash('BillingError', $e->getMessage());
