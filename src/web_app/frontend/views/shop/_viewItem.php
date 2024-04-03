@@ -90,7 +90,7 @@ $inWishlist = WishlistHelper::isInWishlist(Yii::$app->user->id, $product->id);
                                 <div class="p-2 size-item"><?= $size ?></div>
                             <?php } ?>
                         <?php } else { ?>
-                            <?php foreach (Cart::KID_SIZES   as $size) { ?>
+                            <?php foreach (Cart::KID_SIZES as $size) { ?>
                                 <div class="p-2 size-item"><?= $size ?></div>
                             <?php } ?>
                         <?php } ?>

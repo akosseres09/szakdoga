@@ -57,8 +57,10 @@ class Cart extends ActiveRecord
             [['user_id', 'product_id', 'price', 'quantity'], 'required'],
             [['quantity'], 'default', 'value' => self::QUANTITY_ONE],
             [['quantity'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number'],
+            [['quantity'], 'validateQuantity'],
             [['price'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number'],
             [['size'], 'required', 'message' => 'You must choose a size!'],
+            [['size'], 'validateSize']
         ];
     }
 
@@ -88,6 +90,24 @@ class Cart extends ActiveRecord
     public static function getCacheKey(int $id): string
     {
         return self::CART_CAHCE_KEY . $id;
+    }
+
+    public function validateSize($attribute, $params): void
+    {
+        $product = Product::findOne($this->product_id);
+        if ($product) {
+            $size = $product->isKid() ? self::KID_SIZES : self::ADULT_SIZES;
+            if (!in_array($this->size, $size, true)) {
+                $this->addError($attribute, 'There is no such size of this product!');
+            }
+        }
+    }
+    public function validateQuantity($attribute, $params): void
+    {
+        $product = Product::findOne($this->product_id);
+        if (!$product || $this->quantity > $product->number_of_stocks) {
+            $this->addError($attribute, 'The quantity exceeds the number of stock for this product.');
+        }
     }
 
     public static function findByUser(int $id)

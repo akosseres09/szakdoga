@@ -96,8 +96,8 @@ $this->title = 'The Best Choice In Sports » Sportify ';
         <div id="SizeFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
                 <?= $form->field($searchModel, 'kidOrAdult', $accOptions)->checkboxList([
-                    Product::KID => 'Children',
-                    Product::NOT_KID => 'Adult'
+                    Product::ADULT => 'Adult',
+                    Product::CHILDREN => 'Children'
                 ]) ?>
             </div>
         </div>

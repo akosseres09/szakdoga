@@ -51,12 +51,12 @@ class ProductQuery extends ActiveQuery
 
     public function ofKid(): ProductQuery
     {
-        return $this->andWhere(['is_kid' => Product::KID]);
+        return $this->andWhere(['is_kid' => Product::CHILDREN]);
     }
 
     public function ofAdult(): ProductQuery
     {
-       return $this->andWhere(['is_kid' => Product::NOT_KID]);
+       return $this->andWhere(['is_kid' => Product::ADULT]);
     }
 
     public function ofFootball(): ProductQuery

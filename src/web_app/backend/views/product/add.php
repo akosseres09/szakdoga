@@ -58,8 +58,8 @@ CSS
             <div class="row">
                 <div class="col-lg">
                     <?= $form->field($product, 'is_kid', $fieldOptions)->dropDownList([
-                        Product::NOT_KID => 'Adult',
-                        Product::KID => 'Kid'
+                        Product::CHILDREN => 'Children',
+                        Product::ADULT => 'Adult'
                     ], ['required' => true])->label('Kid or Adult') ?>
                 </div>
                 <div class="col">

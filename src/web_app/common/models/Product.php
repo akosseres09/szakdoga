@@ -44,8 +44,8 @@ class Product extends ActiveRecord
       self::GENDER_FEMALE => 'Female'
     ];
     const SIZE = [
-      self::KID => 'Children',
-      self::NOT_KID  => 'Adult'
+      self::ADULT => 'Adult',
+      self::CHILDREN  => 'Children'
     ];
     const STATUSES = [
         self::INACTIVE => 'Inactive',
@@ -55,8 +55,8 @@ class Product extends ActiveRecord
     const ON_STOCK = 'On Stock';
     const GENDER_MALE = 0;
     const GENDER_FEMALE = 1;
-    const KID = 0;
-    const NOT_KID = 1;
+    const ADULT = 0;
+    const CHILDREN = 1;
     const SCENARIO_EDIT = 'edit';
     const SCENARIO_CREATE = 'create';
 
@@ -103,8 +103,8 @@ class Product extends ActiveRecord
             [['price'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number', 'message' => 'Price must be 0 or positive!'],
             ['is_activated', 'default', 'value' => self::INACTIVE],
             ['is_activated', 'in', 'range' => [self::INACTIVE, self::ACTIVE]],
-            [['is_kid'], 'in', 'range' => [self::KID, self::NOT_KID]],
-            [['is_kid'], 'default', 'value' => self::NOT_KID],
+            [['is_kid'], 'in', 'range' => [self::ADULT, self::CHILDREN]],
+            [['is_kid'], 'default', 'value' => self::CHILDREN],
             [['gender'], 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE]],
             [['images'], 'image','extensions' => 'png, jpg, jpeg, webp','maxFiles' => 5, 'minFiles' => 1]
         ];
@@ -211,7 +211,7 @@ class Product extends ActiveRecord
 
     public function isKid(): bool
     {
-        return $this->is_kid === self::KID;
+        return $this->is_kid === self::CHILDREN;
     }
 
     public function getImages($first = false): array
