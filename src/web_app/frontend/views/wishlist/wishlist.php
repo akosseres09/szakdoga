@@ -4,9 +4,9 @@
  * @var ActiveDataProvider $wishlistItems
  */
 
+use common\widgets\Pager;
 use yii\data\ActiveDataProvider;
 use yii\web\View;
-use yii\widgets\LinkPager;
 use yii\widgets\ListView;
 
 ?>
@@ -17,7 +17,7 @@ use yii\widgets\ListView;
             ListView::widget([
                 'dataProvider' => $wishlistItems,
                 'pager' => [
-                    'class' => LinkPager::class
+                    'class' => Pager::class
                 ],
                 'emptyText' => $this->render('/common/_empty_text', [
                     'title' => 'No Wishlisted Items',

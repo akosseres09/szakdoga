@@ -311,6 +311,46 @@ a.add-new-btn:active {
     background-color: transparent;
 }
 
+.custom-pagination {
+    display: flex;
+    gap: 5px;
+}
+
+.custom-page-link, .custom-page-item {
+    --bs-pagination-padding-x: 1rem;
+    --bs-pagination-padding-y: 0.5rem;
+    font-weight: 500;
+    border-radius: 50%;
+}
+
+.custom-page-item.page-item:last-child .custom-page-link {
+    border-radius: 50%;
+}
+
+.custom-page-item.page-item:first-child .custom-page-link {
+    border-radius: 50%;
+}
+
+.custom-page-item.active > .custom-page-link {
+    background-color: var(--spfy-primary-light);
+    color: var(--spfy-white);
+    border-color: transparent;
+}
+
+.custom-page-item:not(.active) > .custom-page-link {
+    color: var(--spfy-primary-light);
+    border-color: transparent;
+}
+
+.custom-page-link.page-link:focus {
+    box-shadow: 0 0 0 0.1rem var(--spfy-primary-light)
+}
+
+.custom-page-item.disabled {
+    display: none;
+}
+
+
 @media screen and (max-width: 1010px) {
     .m-delete {
         margin-top: 10px;

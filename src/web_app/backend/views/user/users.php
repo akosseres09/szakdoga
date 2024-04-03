@@ -4,7 +4,7 @@
  * @var View $this
  */
 
-use yii\bootstrap5\LinkPager;
+use common\widgets\Pager;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -73,7 +73,7 @@ echo $this->render('/site/common/_alert');
     'options' => ['class' => 'mx-5'],
     'tableOptions' => ['class' => 'table table-striped text-center align-middle'],
     'pager' => [
-        'class' => LinkPager::class
+        'class' => Pager::class
     ],
     'layout' => '<div class="table-responsive">{items}</div>{pager}',
 

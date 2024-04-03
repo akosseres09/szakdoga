@@ -40,7 +40,7 @@ class ProductController extends Controller
         ];
     }
 
-    public function actionProducts($pageSize = 1): string|array
+    public function actionProducts($pageSize = 12): string|array
     {
         if (Yii::$app->request->isAjax) {
             $searchModel = new ProductSearch();

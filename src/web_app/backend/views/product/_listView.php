@@ -22,7 +22,7 @@ echo ListView::widget([
     'emptyText' => '<h1 class="fs-5 fw-bold text-center">No Products in the Database</h1>',
     'itemView' => '_item',
     'itemOptions' => ['class' => 'card product-container product-item-link'],
-    'summary' => '{begin}-{end}/{totalCount}',
+    'summary' => false,
     'layout' => '<div class="container-fluid position-relative">
                     <div class="text-center mb-2">{summary}</div>
                     <div class="container">

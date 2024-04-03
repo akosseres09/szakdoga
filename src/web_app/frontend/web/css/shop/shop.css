@@ -114,17 +114,6 @@
     border-radius: 20px;
 }
 
-.page-link:not(.active) {
-    color: var(--spfy-secondary-color) !important;
-}
-
-.page-link.active, .active > .page-link {
-    background-color: var(--spfy-secondary-color) !important;
-    border-color: var(--spfy-secondary-dark) !important;
-    color: white !important;
-    border-radius: 5px !important;
-}
-
 .wishlist-btn {
     color: var(--spfy-secondary-color);
     border: var(--spfy-secondary-color) 2px solid;

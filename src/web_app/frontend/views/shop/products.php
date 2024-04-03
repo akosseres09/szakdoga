@@ -13,9 +13,9 @@ use common\models\Brand;
 use common\models\Product;
 use common\models\search\ProductSearch;
 use common\models\Type;
+use common\widgets\Pager;
 use frontend\assets\ShopAsset;
 use yii\bootstrap5\ActiveForm;
-use yii\bootstrap5\LinkPager;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -151,7 +151,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
             'pager' => [
-                'class' => LinkPager::class
+                'class' => Pager::class
             ],
             'emptyText' => 'No result found',
             'emptyTextOptions' => ['class' => 'fs-5 fw-bold'],
