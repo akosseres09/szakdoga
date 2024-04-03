@@ -53,10 +53,32 @@
     VIEW PAGE BEGIN
  */
 
+.carousel-indicators {
+    flex-direction: column !important;
+    gap: 70px !important;
+}
+
+.carousel-indicators .active img {
+    filter: contrast(80%);
+    transition: filter 0.3s ease-in ;
+}
+
 .carousel-indicators [data-bs-target] {
     background-color: var(--spfy-primary-dark);
-    height: 4px;
+    height: 0px;
     width: calc(75% / 5);
+    text-indent: 0 !important;
+    opacity: 1 !important;
+}
+
+.carousel-indicators [data-bs-target] img {
+    border-radius: 10px;
+    width: 80px;
+    height: 80px;
+}
+
+.carousel-inner {
+    max-width: 650px;
 }
 
 .size-changer-border {
@@ -168,6 +190,10 @@
 }
 
 @media screen and (max-width: 1200px) {
+    .carousel-indicators {
+        margin-right: 40px !important;
+    }
+
     .items-grid-container {
         grid-template-columns: repeat(3,1fr);
     }

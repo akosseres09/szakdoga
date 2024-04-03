@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var View $this
  * @var Product $product
  * @var Cart $cart
  */
@@ -9,11 +10,32 @@ use common\models\Cart;
 use common\models\Product;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Url;
+use yii\web\View;
 
 $images = $product->getImages();
 $inWishlist = WishlistHelper::isInWishlist(Yii::$app->user->id, $product->id);
 
+// css and js for zooming on hover
+
+$this->registerCss(<<<CSS
+    .carousel-item img {
+        -o-object-fit: cover;
+        object-fit: cover;
+        transform: scale(var(--zoom, 1));
+        transform-origin: var(--x) var(--y);
+        transition: transform 0.3s ease;
+    }
+
+    .carousel-item img:hover {
+        --zoom: 2;
+    }
+CSS);
+
+$this->registerJsFile('/js/shop/carouselImgZoomer.js');
+//$this->registerJsFile('/js/shop/carouselSwiper.js');
+
 ?>
+
 
 <div class="row">
     <h1>
@@ -21,44 +43,29 @@ $inWishlist = WishlistHelper::isInWishlist(Yii::$app->user->id, $product->id);
     </h1>
 </div>
 <div class="row mt-3">
-    <div class="col-lg-8 col-12">
-        <div id="productPicsCarousel" class="carousel slide" data-bs-touch="true">
-            <div class="carousel-inner">
+    <div class="col-lg-7 col-12">
+        <div id="productPicsCarousel" class="carousel slide d-lg-flex justify-content-lg-between" data-bs-touch="true">
+            <div class="carousel-inner order-lg-2">
                 <?php foreach ($images as $index => $image) {?>
                     <div class="carousel-item text-center <?= $index === 0 ? 'active' : ''?>">
                         <img src="/storage/images/<?=$product->folder_id . '/' . $image?>">
                     </div>
                 <?php  }?>
             </div>
-
-            <div class="d-block d-lg-none">
-                <button class="carousel-control-prev" type="button" data-bs-target="#productPicsCarousel" data-bs-slide="prev"
-                        style="width: initial !important;">
-                           <span class="d-flex align-items-center justify-content-center carousel-control-container">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                           </span>
-                </button>
-
-                <button class="carousel-control-next" type="button" data-bs-target="#productPicsCarousel" data-bs-slide="next"
-                        style="width: initial !important;">
-                           <span class="d-flex justify-content-center align-items-center carousel-control-container">
-                               <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                               <span class="visually-hidden">Next</span>
-                           </span>
-                </button>
-
-            </div>
-            <div class="d-none d-md-block">
+            <div class="d-none d-lg-block order-lg-1">
                 <div class="carousel-indicators mt-4" style="position:relative;">
                     <?php foreach ($images as $index => $image) { ?>
-                        <button type="button" data-bs-target="#productPicsCarousel" data-bs-slide-to="<?=$index?>" <?= $index === 0 ? 'class="active"' : ''?> aria-current="true" aria-label="Slide <?=$index?>"></button>
+                        <div class="row">
+                            <button type="button" data-bs-target="#productPicsCarousel" data-bs-slide-to="<?=$index?>" <?= $index === 0 ? 'class="active"' : ''?> aria-current="true" aria-label="Slide <?=$index?>">
+                                <img src="/storage/images/<?=$product->folder_id . '/' . $image?>">
+                            </button>
+                        </div>
                     <?php } ?>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 p-3" style="border-radius: 10px">
+    <div class="col-lg-5 p-3" style="border-radius: 10px">
         <?php $form = ActiveForm::begin([
                 'id' => 'place-in-cart-form',
                 'action' => ['/shop/add-to-cart'],

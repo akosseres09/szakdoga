@@ -14,11 +14,10 @@ echo ListView::widget([
     'layout' => '<div>
                     {items}
                 </div>',
+    'emptyText' => '<h6>No Reviews found!</h6>',
     'viewParams' => [
         'total' => $reviews->totalCount
     ]
-])
-
-?>
+]);
 
 

@@ -12,7 +12,7 @@ use yii\web\View;
 ?>
 
 <div class="row mt-4">
-    <div class="col-lg-8">
+    <div class="col-lg-7">
         <div class="accordion" id="ratings">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -71,7 +71,7 @@ use yii\web\View;
             </div>
         </div>
     </div>
-    <div class="col-lg-4 text-center">
+    <div class="col-lg-5 text-center">
         <button type="button" class="btn btn-primary" data-bs-target="#rating-modal" data-bs-toggle="modal">ADD RATING</button>
     </div>
 </div>
