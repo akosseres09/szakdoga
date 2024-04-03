@@ -23,6 +23,9 @@ use yii\widgets\ListView;
                     'title' => 'No Wishlisted Items',
                     'text' => 'You didn\'t add any item to your wishlist yet. Browse the website to find amazing deals!'
                 ]),
+                'itemOptions' => [
+                    'style' => 'max-width: 230px;'
+                ],
                 'itemView' => '_wishlistItem',
                 'layout' => '<div class="container-fluid position-relative">
                     <div class="container mb-5">

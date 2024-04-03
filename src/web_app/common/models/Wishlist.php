@@ -34,7 +34,7 @@ class Wishlist extends ActiveRecord
     {
         return [
             [['user_id', 'product_id'], 'required'],
-            [['user_id', 'product_id'], 'unique', 'message' => 'You already have this product in your wishlist!'],
+            //[['user_id', 'product_id'], 'unique', 'targetAttribute' => 'user_id', 'message' => 'You already have this product in your wishlist!'],
             [['user_id', 'product_id'], 'number']
         ];
     }

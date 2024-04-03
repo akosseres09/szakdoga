@@ -86,11 +86,11 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
         <div class="row mt-3">
             <div class="col">
                 <div class="row">
-                            <span>
-                                Size Table
-                            </span>
+                    <h6>
+                        <?= Product::SIZE[$product->isKid()] ?> Size Table
+                    </h6>
                 </div>
-                <div class="row mt-4 size-picker">
+                <div class="row mt-3 size-picker">
                     <div class="col d-flex flex-wrap">
                         <?php if(!$product->isKid()) { ?>
                             <?php foreach (Cart::ADULT_SIZES as $size) { ?>
@@ -106,9 +106,26 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
                 <?= $form->field($cart, 'size')->hiddenInput(['required' => true])->label('') ?>
             </div>
         </div>
-        <div class="row mt-2">
-            <div class="col">
+        <div class="row">
+            <div class="col-5">
                 <?= $form->field($cart, 'quantity')->textInput(['type' => 'number', 'min' => 1, 'required' => true, 'value' => 1]) ?>
+            </div>
+            <div class="col-5 ms-2 mt-4">
+                <div class="col-2 d-flex justify-content-center align-items-end">
+                    <?php if($inWishlist) { ?>
+                        <a href="<?= Url::to(['/shop/remove-from-wishlist/'.$product->id]) ?>" class="wishlist-link">
+                            <span class="material-symbols-outlined wishlist-btn active">
+                                favorite
+                            </span>
+                        </a>
+                    <?php } else { ?>
+                        <a href="<?= Url::to(['/shop/add-to-wishlist/'.$product->id]) ?>" class="wishlist-link">
+                            <span class="material-symbols-outlined wishlist-btn">
+                                favorite
+                            </span>
+                        </a>
+                    <?php } ?>
+                </div>
             </div>
         </div>
         <div class="row pt-3">
@@ -116,26 +133,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
                 <?php if (!$product->hasOnStock() && $product->isShoe()) {?>
                     <button class="btn btn-outline-light">Notify me when On Stock</button>
                 <?php } else if($product->isActivated()) { ?>
-                    <div class="row">
-                        <div class="col-10 d-flex align-items-start">
-                            <button type="submit" class="btn btn-primary">Place in Cart</button>
-                        </div>
-                        <div class="col-2 d-flex align-items-center">
-                            <?php if($inWishlist) { ?>
-                                <a href="<?= Url::to(['/shop/remove-from-wishlist/'.$product->id]) ?>" class="wishlist-link">
-                                                <span class="material-symbols-outlined wishlist-btn active">
-                                                    favorite
-                                                </span>
-                                </a>
-                            <?php } else { ?>
-                                <a href="<?= Url::to(['/shop/add-to-wishlist/'.$product->id]) ?>" class="wishlist-link">
-                                                <span class="material-symbols-outlined wishlist-btn">
-                                                    favorite
-                                                </span>
-                                </a>
-                            <?php } ?>
-                        </div>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Place in Cart</button>
                 <?php } ?>
             </div>
         </div>
