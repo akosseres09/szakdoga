@@ -163,7 +163,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
                     'href' => Url::to(['/shop/view/'.$model->id])
                 ];
             },
-            'summary' => '{begin}-{end}/{totalCount}',
+            'summary' => false,
             'layout' => '<div class="container-fluid position-relative">
                     <div class="text-center mb-5">{summary}</div>
                     <div class="container mb-5">
