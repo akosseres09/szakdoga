@@ -14,7 +14,7 @@ use frontend\components\BaseController;
 use Throwable;
 use Yii;
 use yii\captcha\CaptchaAction;
-use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -144,7 +144,8 @@ class ShopController extends BaseController
 
     public function actionGetRating($id): array
     {
-        $product = Product::findOne(['id' => $id]);
+        $query = Product::find()->ofId($id)->with('rating');
+        $product = $query->one();
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (!$product) {
             return [
@@ -152,17 +153,17 @@ class ShopController extends BaseController
             ];
         }
 
-        $ratings = $product->getAverageRatings();
-        $query = Rating::find()->ofProduct($id)->with('user')->limit(3);
+        $avgRating = $product->getAverageRatings();
+        $ratings = $product->getRelatedRecords()['rating'];
 
-        $reviews = new ActiveDataProvider([
-            'query' => $query
+        $reviews = new ArrayDataProvider([
+            'allModels' => $ratings
         ]);
 
 
         return [
             'success' => true,
-            'rating' => $ratings,
+            'rating' => $avgRating,
             'reviews' => $this->renderAjax('_reviews', [
                 'reviews' => $reviews
             ])
