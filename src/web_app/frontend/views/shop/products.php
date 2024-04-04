@@ -128,10 +128,10 @@ $this->title = 'The Best Choice In Sports » Sportify ';
             <div class="accordion-body">
                 <div class="row">
                     <div class="col-6">
-                        <?= $form->field($searchModel, 'minPrice')->textInput(['type' => 'number'])->label('Min') ?>
+                        <?= $form->field($searchModel, 'minPrice')->textInput(['type' => 'number', 'placeHolder' => '0'])->label('Min') ?>
                     </div>
                     <div class="col-6">
-                        <?= $form->field($searchModel, 'maxPrice')->textInput(['type' => 'number'])->label('Max') ?>
+                        <?= $form->field($searchModel, 'maxPrice')->textInput(['type' => 'number', 'placeHolder' => '500'])->label('Max') ?>
                     </div>
                 </div>
             </div>

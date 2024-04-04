@@ -7,6 +7,8 @@
     --spfy-red: #f00;
     --spfy-main-color: #CD7401;
     --spfy-primary-light: #fe9003;
+    --spfy-primary-soft: rgba(254,144,3,0.8) ;
+    --spfy-primary-lighter: rgba(254, 144, 3, 0.6);
     --spfy-primary-dark: #9a5701;
     --spfy-secondary-color: #7ccd01;
     --spfy-secondary-light: #9afe03;
