@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Cart;
+use common\models\Product;
 use yii\helpers\Url;
 
 /**
@@ -28,6 +29,7 @@ $image = $model->product->getImages(true);
                     <div class="row pt-2 pb-3">
                         <span class="col fw-semibold">
                             <?= $model->size ?>
+                            <?= Product::GENDERS[$model->product->gender] ?>
                             <?= $model->product->type->product_type ?>
                         </span>
                     </div>
@@ -38,7 +40,7 @@ $image = $model->product->getImages(true);
                 </div>
                 <div class="col-2 d-flex justify-content-end align-items-center">
                     <span class="fw-bold fs-5">
-                         $<?= $model->price ?>
+                         $<?= $model->quantity * $model->price ?>
                     </span>
                 </div>
             </div>
