@@ -21,78 +21,73 @@ $actionName = Yii::$app->controller->action->id;
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="navbar-nav me-auto px-3">
-            <div>
-                <div class="mobile-nav nav-item dropdown">
-                    <a class="nav-link justify-content-start" href="<?= Url::to(['shop/products']) ?>">
-                        Products
-                    </a>
-                    <div class="px-3 drop" aria-labelledby="navbarDropdown">
-                        <span>
-                            <a class="p-1 dropdown-item" href="#">Shoes</a>
-                        </span>
-                        <span>
-                            <a class="p-1 dropdown-item" href="#">Balls</a>
-                        </span>
-                        <span>
-                            <a class="p-1 dropdown-item" href="#">Accessories</a>
-                        </span>
-                        <span>
-                            <a class="p-1 dropdown-item" href="#">Clothes</a>
-                        </span>
+            <div class="mobile-nav nav-item dropdown">
+                <a class="nav-link justify-content-start" href="<?= Url::to(['/shop']) ?>">
+                    Products
+                </a>
+                <div class="px-3 drop" aria-labelledby="navbarDropdown">
+                    <span>
+                        <a class="p-1 dropdown-item" href="#">Shoes</a>
+                    </span>
+                    <span>
+                        <a class="p-1 dropdown-item" href="#">Balls</a>
+                    </span>
+                    <span>
+                        <a class="p-1 dropdown-item" href="#">Accessories</a>
+                    </span>
+                    <span>
+                        <a class="p-1 dropdown-item" href="#">Clothes</a>
+                    </span>
+                </div>
+            </div>
+            <div class="mobile-nav nav-item dropdown">
+                <a class="nav-link justify-content-start" href="<?= Url::to(['/shop?typeName=&typeName%5B%5D=Gloves']) ?>">
+                    Gloves
+                </a>
+            </div>
+            <?php if(Yii::$app->user->isGuest) { ?>
+                <?php if ($actionName !== 'login') { ?>
+                    <div class="nav-item">
+                        <a class="nav-link justify-content-start" href="<?= Url::to(['/site/login'])?>">Login</a>
                     </div>
+                <?php } ?>
+                <?php if ($actionName !== 'signup') { ?>
+                    <div class="nav-item">
+                        <a class="nav-link justify-content-start" href="<?= Url::to(['/site/signup']) ?>">Sign up</a>
+                    </div>
+                <?php } ?>
+            <?php } else {?>
+                <div class="nav-item">
+                    <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/cart/cart']) ?>">
+                        Cart
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/user/account?tab=wishlist']) ?>">
+                        Wishlist
+                    </a>
                 </div>
                 <div class="mobile-nav nav-item dropdown">
                     <a class="nav-link justify-content-start" href="#">
-                        Info
+                        Profile
                     </a>
                     <div class="px-3 drop" aria-labelledby="navbarDropdown">
-                        <span><a class="p-1 dropdown-item" href="<?= Url::to(['/site/contact']) ?>">Contact</a></span>
-                        <span><a class="p-1 dropdown-item" href="#">Another action</a></span>
-                        <span><a class="p-1 dropdown-item" href="#">Something else here</a></span>
+                        <span>
+                           <a class="dropdown-item p-1" href="<?= Url::to(['/user/account']) ?>">Account</a></span>
+                        <span>
+                            <a class="dropdown-item p-1" href="<?= Url::to(['/user/account?tab=settings']) ?>">Settings</a></span>
+                        <span>
+                            <?= Html::a('Logout', ['/site/logout'], [
+                                'class' => 'dropdown-item p-1',
+                                'data' => [
+                                    'method' => 'post',
+                                ],
+                            ]);
+                            ?>
+                        </span>
                     </div>
                 </div>
-                <?php if(Yii::$app->user->isGuest): ?>
-                    <?php if ($actionName !== 'login'): ?>
-                        <div class="nav-item">
-                            <a class="nav-link justify-content-start" href="<?= Url::to(['/site/login'])?>">Login</a>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($actionName !== 'signup') : ?>
-                        <div class="nav-item">
-                            <a class="nav-link justify-content-start" href="<?= Url::to(['/site/signup']) ?>">Sign up</a>
-                        </div>
-                    <?php endif; ?>
-                <?php else :?>
-                    <div class="nav-item">
-                        <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/cart/cart']) ?>">
-                            Cart
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/users/account?tab=wishlist']) ?>">
-                            Wishlist
-                        </a>
-                    </div>
-                    <div class="mobile-nav nav-item dropdown">
-                        <a class="nav-link justify-content-start" href="#">
-                            Profile
-                        </a>
-                        <div class="px-3 drop" aria-labelledby="navbarDropdown">
-                           <span><a class="dropdown-item p-1" href="<?= Url::to(['/user/account']) ?>">Account</a></span>
-                            <span><a class="dropdown-item p-1" href="<?= Url::to(['/user/settings']) ?>">Settings</a></span>
-                           <span>
-                                <?= Html::a('Logout', ['/site/logout'], [
-                                    'class' => 'dropdown-item p-1',
-                                    'data' => [
-                                        'method' => 'post',
-                                    ],
-                                ]);
-                                ?>
-                           </span>
-                        </div>
-                    </div>
-                <?php endif;?>
-            </div>
+            <?php } ?>
         </div>
     </div>
 </nav>
@@ -107,24 +102,50 @@ $actionName = Yii::$app->controller->action->id;
                     <div class="d-flex gap-3 align-items-center flex-1">
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" aria-current="page" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Products</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li class="dropdown-item"><a>Shoes</a></li>
-                                <li class="dropdown-item"><a>Balls</a></li>
-                                <li class="dropdown-item"><a>Accessories</a></li>
-                                <li class="dropdown-item"><a>Clothes</a></li>
-                            </ul>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Info
+                                Products
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li  class="dropdown-item"><a href="<?= Url::to(['/site/contact']) ?>">Contact</a></li>
-                                <li  class="dropdown-item"><a href="#">Another action</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li  class="dropdown-item"><a href="#">Something else here</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0']) ?>">Men</a>
+                                    <ul class="submenu dropdown-menu">
+                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Shirt']) ?>">Shirt</a></li>
+                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Accessories']) ?>">Accessories</a></li>
+                                        <li class="dropdown-item">
+                                            <a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Basketball+Shoes&typeName%5B%5D=Handball+Shoes&typeName%5B%5D=Indoor+Football+Shoes&typeName%5B%5D=Outdoor+Football+Shoes&typeName%5B%5D=Shoes']) ?>">Shoes</a>
+                                            <ul class="submenu dropdown-menu">
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Indoor Football Shoes']) ?>">Indoor Football Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Outdoor Football Shoes']) ?>">Outdoor Football Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Basketball Shoes']) ?>">Basketball Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=handball Shoes']) ?>">Handball Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Shoes']) ?>">Shoes</a></li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1']) ?>">Women</a>
+                                    <ul class="submenu dropdown-menu">
+                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Shirt']) ?>">Shirt</a></li>
+                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Accessories']) ?>">Accessories</a></li>
+                                        <li class="dropdown-item">
+                                            <a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Basketball+Shoes&typeName%5B%5D=Handball+Shoes&typeName%5B%5D=Indoor+Football+Shoes&typeName%5B%5D=Outdoor+Football+Shoes&typeName%5B%5D=Shoes']) ?>">Shoes</a>
+                                            <ul class="dropdown-menu submenu">
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Indoor Football Shoes']) ?>">Indoor Football Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Outdoor Football Shoes']) ?>">Outdoor Football Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Basketball Shoes']) ?>">Basketball Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=handball Shoes']) ?>">Handball Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Shoes']) ?>">Shoes</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="<?= Url::to(['/shop?typeName=&typeName%5B%5D=Gloves']) ?>" id="navbarDropdown">
+                                Gloves
+                            </a>
                         </div>
                     </div>
                     <?php if(Yii::$app->user->isGuest): ?>

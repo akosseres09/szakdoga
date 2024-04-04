@@ -11,7 +11,7 @@
     border-radius: 10px
 }
 
-.dropdown-item:hover{
+.dropdown-item:hover, .submenu .dropdown-item:hover {
     background-color: var(--spfy-main-color);
     color: white;
     cursor: pointer;
