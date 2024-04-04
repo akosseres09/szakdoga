@@ -23,6 +23,7 @@ $this->title = $product->name . ' - Sportify';
 ShopAsset::register($this);
 FontAwesomeAsset::register($this);
 $this->registerJsVar('urlLink', Url::to(['/shop/get-rating/'.$product->id]));
+$this->registerJsFile('/js/shop/ratingLoader.js');
 ?>
 
 <?= $this->render('/site/common/_alert') ?>

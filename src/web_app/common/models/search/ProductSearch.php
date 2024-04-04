@@ -18,6 +18,15 @@ class ProductSearch extends Product
     public $pageSize;
     const SEARCH_ON_STOCK = 1;
     const SEARCH_OFF_STOCK = 0;
+    const PAGE_SIZES = [
+        8 => 8,
+        12 => 12,
+        16 => 16,
+        20 => 20,
+        24 => 24,
+        28 => 28,
+        32 => 32
+    ];
 
     public function formName()
     {
@@ -34,7 +43,7 @@ class ProductSearch extends Product
             [['name'], 'string', 'max' => 128],
             [['kidOrAdult'], 'each', 'rule' => ['string']],
             [['genderName'], 'each', 'rule' => ['string']],
-            ['pageSize', 'in', 'range' => [8, 12, 16, 20]]
+            ['pageSize', 'in', 'range' => self::PAGE_SIZES]
         ];
     }
 

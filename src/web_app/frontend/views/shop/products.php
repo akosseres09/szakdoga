@@ -51,12 +51,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
     <span class="fw-bold ps-2 brown">You currently have <?=$paramCount?> active Filters</span>
 <?php } ?>
 <div class="mt-3">
-        <?= $form->field($searchModel, 'pageSize')->dropDownList([
-            8 => 8,
-            12 => 12,
-            16 => 16,
-            20 => 20
-        ]) ?>
+        <?= $form->field($searchModel, 'pageSize')->dropDownList(ProductSearch::PAGE_SIZES) ?>
 </div>
 <div class="accordion accordion-flush" id="formFilterAccordion">
     <div class="accordion-item">
