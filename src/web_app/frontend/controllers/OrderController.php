@@ -41,11 +41,13 @@ class OrderController extends BaseController
     {
         $user = \Yii::$app->user->identity;
         Stripe::setApiKey(\Yii::$app->stripe->secretKey);
-        $invoices = null;
         try {
-            $invoices = Invoice::retrieve($user->stripe_cus);
+            $invoices = Invoice::all(['customer' => $user->stripe_cus])->data;
+            if (empty($invoices)) {
+                $invoices = 'No Items Found';
+            }
         } catch (\Exception $e) {
-            \Yii::$app->session->setFlash('fail', $e->getMessage());
+            \Yii::$app->session->setFlash('Error', $e->getMessage());
         }
         \Yii::$app->response->format = Response::FORMAT_JSON;
         return [
