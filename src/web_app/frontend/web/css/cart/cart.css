@@ -257,14 +257,14 @@
     }
 
     .progress-steps {
-        margin-left: 50px;
+        margin-left: 30px;
         align-items: start;
     }
 }
 
 @media screen and (max-width: 576px) {
     .progress-steps {
-        margin-left: 60px;
+        margin-left: 30px;
     }
 }
 

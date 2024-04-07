@@ -1,0 +1,141 @@
+.platforms {
+    display: flex;
+    flex: 1 1;
+    flex-direction: column;
+}
+
+.panel {
+    flex: 0 1 33%;
+    margin-left: 50px;
+}
+
+.billingContainer, .shippingContainer, .cardContainer {
+    border: 2px solid var(--spfy-light-gray);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+}
+
+.billingContainer.active, .shippingContainer.active, .cardContainer.active {
+    border: 2px solid var(--spfy-primary-light);
+}
+
+.billingFormRaw, .shippingFormRaw {
+    padding: 10px 20px;
+}
+
+.editIcon {
+    cursor: pointer;
+    padding: 15px;
+    position: absolute;
+    right: 50px;
+    top: 30%;
+}
+
+.pay-summary .summary {
+    padding: 20px;
+    max-height: fit-content;
+    width: 100%;
+    background-color: var(--spfy-light-gray);
+    border-radius: 10px;
+    transition: all 0.2s ease-in;
+}
+
+.pay-summary .summary:not(.long) .items {
+    max-height: fit-content;
+}
+
+.pay-summary .summary.long .items {
+    max-height: 150px;
+    overflow: hidden;
+}
+
+.pay-summary .summary .items .item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: 1px solid var(--spfy-primary-light);
+}
+
+.pay-summary .summary:not(.long) .items ~ .summary-click-spread {
+    display: none;
+}
+
+.pay-summary .summary.long .items ~ .summary-click-spread {
+    font-weight: bold;
+    padding-top: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.pay-summary .summary.long .items:not(.deploy) {
+    overflow-y: hidden;
+    cursor: pointer;
+}
+
+.pay-summary .summary.long .items.deploy {
+    max-height: fit-content;
+    cursor: pointer;
+}
+
+.pay-summary .summary:hover, .pay-summary > .summary.long ~ .summary-click-spread:hover {
+    background-color: rgba(50,50,50,0.25);
+}
+
+.panel .payment-button {
+    border-radius: 10px;
+    background-color: var(--spfy-light-gray);
+    width: 100%;
+    padding: 20px;
+}
+
+.panel .payment-button .summary-row-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel .payment-button .summary-row-total .sub-total {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.panel .payment-button .summary-row-total .text-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+    #payment-form {
+        flex-direction: column;
+    }
+
+    .platforms {
+        width: 100%;
+    }
+
+    .panel {
+        margin-top: 20px;
+        margin-left: 0;
+        flex: 1 1;
+        width: 100%;
+    }
+
+    .editIcon {
+        right: 15px;
+    }
+
+    .panel .payment-button {
+        background-color: var(--spfy-light-gray-summary);
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        z-index: 50;
+    }
+
+    .container {
+        position: static;
+    }
+}

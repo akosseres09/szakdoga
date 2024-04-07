@@ -45,15 +45,6 @@
     cursor: pointer;
 }
 
-#shop-filter-form .form-check-input:checked {
-    background-color: var(--spfy-primary-light);
-    border-color: var(--spfy-primary-light);
-}
-
-#shop-filter-form .form-check-input:focus {
-    border-color: var(--spfy-primary-lighter);
-    box-shadow: 0 0 0 0.25rem var(--spfy-primary-lighter);
-}
 
 #shop-filter-form .accordion-button:focus {
     box-shadow: 0 0 0 0.25rem var(--spfy-primary-lighter);
@@ -67,11 +58,6 @@
 
 #shop-filter-form .accordion-button:not(.collapsed)::after {
     background-image: var(--bs-accordion-btn-icon);
-}
-
-#shop-filter-form .form-select:focus, #shop-filter-form .form-control:focus {
-    box-shadow: 0 0 0 0.25rem var(--spfy-primary-lighter);
-    border-color: var(--spfy-primary-lighter);
 }
 
 /*

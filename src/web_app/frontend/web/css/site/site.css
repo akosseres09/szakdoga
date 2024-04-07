@@ -297,6 +297,21 @@ a:focus {
     display: none;
 }
 
+form .form-check-input:checked {
+    background-color: var(--spfy-primary-light);
+    border-color: var(--spfy-primary-light);
+}
+
+form .form-check-input:focus {
+    border-color: var(--spfy-primary-lighter);
+    box-shadow: 0 0 0 0.25rem var(--spfy-primary-lighter);
+}
+
+form .form-select:focus, form .form-control:focus {
+    box-shadow: 0 0 0 0.25rem var(--spfy-primary-lighter);
+    border-color: var(--spfy-primary-lighter);
+}
+
 @media all and (min-width: 992px) {
     .dropdown-menu li{ position: relative; 	}
     .nav-item .submenu{

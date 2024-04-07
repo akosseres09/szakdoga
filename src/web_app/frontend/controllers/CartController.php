@@ -2,7 +2,9 @@
 
 namespace frontend\controllers;
 
+use common\models\BillingInformation;
 use common\models\Cart;
+use common\models\ShippingInformation;
 use common\models\Wishlist;
 use frontend\components\BaseController;
 use Throwable;
@@ -11,6 +13,7 @@ use yii\captcha\CaptchaAction;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
@@ -23,16 +26,22 @@ class CartController extends BaseController
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['cart', 'delete-from-cart', 'payment-info', 'move-to-wishlist'],
+                        'actions' => ['cart', 'delete-from-cart', 'payment-info', 'move-to-wishlist', 'pay'],
                         'allow' => true,
                         'roles' => ['@']
                     ],
+                ]
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'pay' => ['POST'],
                 ]
             ]
         ], parent::behaviors());
     }
 
-    public function actions()
+    public function actions(): array
     {
         return [
             'error' => [
@@ -103,6 +112,31 @@ class CartController extends BaseController
     public function actionPaymentInfo(): Response|string
     {
         $userId = Yii::$app->user->id;
+        $billingInfo = BillingInformation::find()->andWhere(['user_id' => $userId])->one();
+        $shippingInfo = ShippingInformation::find()->andWhere(['user_id' => $userId])->one();
+
+        $query = Cart::find()->ofUser($userId)->with(['product', 'product.brand']);
+
+        $products = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 0
+            ]
+        ]);
+
+        $total = 0;
+        foreach ($products->getModels() as $product) {
+            $total += ($product->quantity * $product->price);
+        }
+
+        if (!$billingInfo) {
+            $billingInfo = new BillingInformation();
+        }
+
+        if (!$shippingInfo) {
+            $shippingInfo = new ShippingInformation();
+        }
+
         $cartItems = Cart::find()->ofUser($userId)->all();
 
         if (empty($cartItems)) {
@@ -110,7 +144,17 @@ class CartController extends BaseController
             return $this->redirect('/cart/cart');
         }
 
-        return $this->render('payment-info');
+        return $this->render('payment-info', [
+            'products' => $products,
+            'billing' => $billingInfo,
+            'shipping' => $shippingInfo,
+            'total' => $total
+        ]);
+    }
+
+    public function actionPay()
+    {
+
     }
 
     public function actionMoveToWishlist($id): array
