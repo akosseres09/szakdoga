@@ -13,7 +13,7 @@ use frontend\assets\CartAsset;
 use frontend\assets\IMaskAsset;
 use yii\data\ActiveDataProvider;
 use yii\web\View;
-use yii\widgets\ActiveForm;
+use yii\bootstrap5\ActiveForm;
 
 
 CartAsset::register($this);
@@ -51,10 +51,6 @@ $this->registerCssFile('/css/payment/payment.css');
                         'shipping' => $shipping,
                         'form' => $form
                     ]) ?>
-                    <h4 class="mt-3">Payment Method</h4>
-                    <div class="cardContainer active">
-
-                    </div>
                 </div>
                 <div class="panel">
                     <?= $this->render('/payment/_payment_summary', [

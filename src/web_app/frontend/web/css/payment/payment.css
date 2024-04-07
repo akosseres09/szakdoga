@@ -107,6 +107,11 @@
     font-weight: bold;
 }
 
+.payment-button .loader {
+    border: 5px solid var(--spfy-grey);
+    border-bottom-color: white;
+}
+
 @media screen and (max-width: 768px) {
     #payment-form {
         flex-direction: column;

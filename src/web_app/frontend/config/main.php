@@ -61,7 +61,9 @@ return [
                 'order' => 'order/index',
                 'shop' => 'shop/products',
                 'cart' => 'cart/cart',
-                'payment' => 'cart/payment-info'
+                'payment' => 'cart/payment-info',
+                'payment-fail' => 'cart/payment-fail',
+                'payment-success' => 'cart/payment-success'
             ],
         ],
         'assetManager' => [

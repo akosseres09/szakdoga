@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\query\ShippingQuery;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -45,6 +46,11 @@ class ShippingInformation extends ActiveRecord
             [['postcode'], 'integer'],
             [['postcode'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number', 'message' => 'The postcode must be positive!']
         ];
+    }
+
+    public static function find(): ShippingQuery
+    {
+        return new ShippingQuery(get_called_class());
     }
 
     public static function findIdentity($user_id): ?ShippingInformation

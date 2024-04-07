@@ -3,6 +3,7 @@
 namespace common\models;
 
 
+use common\models\query\BillingQuery;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -45,6 +46,11 @@ class BillingInformation extends ActiveRecord
                 'updatedByAttribute' => false
             ]
         ];
+    }
+
+    public static function find(): BillingQuery
+    {
+        return new BillingQuery(get_called_class());
     }
 
     public static function findIdentity($user_id): ?BillingInformation

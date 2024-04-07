@@ -4,9 +4,13 @@ namespace frontend\controllers;
 
 use common\models\BillingInformation;
 use common\models\Cart;
+use common\models\Order;
 use common\models\ShippingInformation;
 use common\models\Wishlist;
 use frontend\components\BaseController;
+use Stripe\Checkout\Session;
+use Stripe\Customer;
+use Stripe\Stripe;
 use Throwable;
 use Yii;
 use yii\captcha\CaptchaAction;
@@ -14,6 +18,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
@@ -26,7 +31,7 @@ class CartController extends BaseController
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['cart', 'delete-from-cart', 'payment-info', 'move-to-wishlist', 'pay'],
+                        'actions' => ['cart', 'delete-from-cart', 'payment-info', 'move-to-wishlist', 'pay', 'payment-fail', 'payment-success'],
                         'allow' => true,
                         'roles' => ['@']
                     ],
@@ -58,7 +63,7 @@ class CartController extends BaseController
     public function actionCart(): string
     {
         $user_id = Yii::$app->user->id;
-        $query = Cart::find()->ofUser($user_id);
+        $query = Cart::find()->ofUser($user_id)->with(['product', 'product.type', 'product.brand']);
 
         $cartItems = new ActiveDataProvider([
             'query' => $query,
@@ -112,8 +117,8 @@ class CartController extends BaseController
     public function actionPaymentInfo(): Response|string
     {
         $userId = Yii::$app->user->id;
-        $billingInfo = BillingInformation::find()->andWhere(['user_id' => $userId])->one();
-        $shippingInfo = ShippingInformation::find()->andWhere(['user_id' => $userId])->one();
+        $billingInfo = BillingInformation::find()->ofUser($userId)->one();
+        $shippingInfo = ShippingInformation::find()->ofUser($userId)->one();
 
         $query = Cart::find()->ofUser($userId)->with(['product', 'product.brand']);
 
@@ -148,13 +153,109 @@ class CartController extends BaseController
             'products' => $products,
             'billing' => $billingInfo,
             'shipping' => $shippingInfo,
-            'total' => $total
+            'total' => $total,
         ]);
     }
 
     public function actionPay()
     {
+        $user = Yii::$app->user->identity;
+        $id = $user->id;
+        $request = Yii::$app->request;
+        $transaction = Yii::$app->db->beginTransaction();
 
+        if ($request->isPost) {
+            $billing = BillingInformation::find()->ofUser($id)->one();
+            $shipping = ShippingInformation::find()->ofUser($id)->one();
+            $cart = Cart::find()->ofUser($id)->with(['product', 'product.brand'])->all();
+            $total = 0;
+            $lineItems = [];
+            foreach ($cart as $item) {
+                $lineItems[] = [
+                    'price_data' => [
+                        'product_data' => [
+                            'name' => $item->product->brand->name . ' ' . $item->product->name
+                        ],
+                        'currency' => 'usd',
+                        'unit_amount' => $item->product->price * 100
+                    ],
+                    'quantity' => $item->quantity
+                ];
+                $total += $item->quantity * $item->product->price;
+            }
+//            try {
+                Stripe::setApiKey(Yii::$app->stripe->secretKey);
+                $customer = Customer::retrieve($user->stripe_cus);
+                if ($billing->load($request->post()) && $billing->validate()) {
+                    Customer::update($customer->id, [
+                        'address' => [
+                            'city' => $billing->city,
+                            'country' => $billing->country,
+                            'state' => $billing->state,
+                            'postal_code' => $billing->postcode,
+                            'line1' => $billing->street
+                        ]
+                    ]);
+                    $billing->save();
+                }
+
+                if ($shipping->load($request->post()) && $shipping->validate()) {
+                    $shipping->save();
+                }
+
+                $transaction->commit();
+                $checkout = Session::create([
+                    'customer' => $user->stripe_cus,
+                    'line_items' => $lineItems,
+                    'mode' => 'payment',
+                    'success_url' => Yii::$app->params['hostUrl'] . '/payment-success?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url' => Yii::$app->params['hostUrl'] . '/payment-fail?session_id={CHECKOUT_SESSION_ID}'
+                ]);
+                $this->redirect($checkout->url);
+
+//            } catch (\Exception $e) {
+//                var_dump($e->getMessage());
+//                $transaction->rollBack();
+//                return $this->redirect('/payment');
+//            }
+        }
+    }
+
+    public function actionPaymentFail($session_id): Response
+    {
+        Yii::$app->session->setFlash('Error', 'Something went wrong with your payment!');
+        return $this->redirect('/payment');
+    }
+
+    public function actionPaymentSuccess($session_id): string
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            Stripe::setApiKey(Yii::$app->stripe->secretKey);
+            $session = Session::retrieve($session_id);
+
+            $userId = Yii::$app->user->id;
+            $cartItems = Cart::find()->ofUser($userId)->all();
+            $items = $cartItems;
+
+            if ($session->status === 'complete' && $session->payment_status === 'paid') {
+                foreach ($items as $index => $item) {
+
+                    $order = new Order();
+                    $order->product_id = $item->product_id;
+                    $order->user_id = $item->user_id;
+
+                    if ($order->save()) {
+                        $cartItems[$index]->delete();
+                    }
+                }
+                $transaction->commit();
+            }
+
+        } catch (\Exception|Throwable) {
+            $transaction->rollBack();
+        }
+        return $this->render('/payment/payment-success');
     }
 
     public function actionMoveToWishlist($id): array
