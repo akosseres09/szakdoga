@@ -3,9 +3,27 @@
  * @var boolean $cartDone
  * @var boolean $paymentInfoDone
  */
+
+
+if ($cartDone && !$paymentInfoDone) {
+    $first = '<a class="step done" href="/cart">';
+    $second = '<div class="step active">';
+    $endFirst = '</a>';
+} else if ($cartDone && $paymentInfoDone) {
+    $first = '<div class="step done">' ;
+    $second = '<div class="step done">';
+    $endFirst = '</div>';
+} else {
+    $first = '<div class="step active">';
+    $second = '<div class="step">';
+    $endFirst = '</div>';
+}
+
+$endSecond = '</div>';
+
 ?>
 <div class="progress-steps mb-5 mt-5">
-    <?= $cartDone ? '<a class="step done" href="/cart/cart">' : '<div class="step active">' ?>
+    <?= $first ?>
         <span class="number">
             <?= $cartDone ? '<span class="material-symbols-outlined">check</span>' : '1' ?>
         </span>
@@ -13,15 +31,15 @@
             Shopping cart
         </span>
         <span class="spacer"></span>
-    <?= $cartDone ? '</a>' : '</div>' ?>
+    <?= $endFirst ?>
 
-    <?= $cartDone ? $paymentInfoDone ? '<a class="step done" href="/cart/payment-info">' : '<div class="step active">' : '<div class="step">' ?>
+    <?= $second ?>
         <span class="number">
             <?= $cartDone && $paymentInfoDone ? '<span class="material-symbols-outlined">check</span>' : '2' ?>
         </span>
         <span class="text">Payment</span>
         <span class="spacer"></span>
-    <?= $cartDone && $paymentInfoDone ? '</a>' : '</div>' ?>
+    <?= $endSecond ?>
     <?= $cartDone && $paymentInfoDone ? '<div class="step active">' : '<div class="step">' ?>
         <span class="number">3</span>
         <span class="text">Summary</span>
