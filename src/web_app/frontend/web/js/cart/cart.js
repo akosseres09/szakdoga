@@ -18,7 +18,7 @@ if (deleteBtn) {
                 cancelButtonText: "No, Rather Not!",
             }).then(res => {
                 if (res.isConfirmed) {
-                    fetch(link)
+                    fetchAjax(link)
                         .then(() => {
                             window.location.reload();
                         }).catch(err => console.log(err))
@@ -32,7 +32,7 @@ if (deleteBtn) {
 if (moveToWishlistBtn) {
     moveToWishlistBtn.forEach(btn => {
         btn.addEventListener('click', e => {
-            fetch(e.target.dataset.href)
+            fetchAjax(e.target.dataset.href)
                 .then(res => res.json())
                 .then(res => {
                     if (!res.success) {
