@@ -62,8 +62,9 @@ return [
                 'shop' => 'shop/products',
                 'cart' => 'cart/cart',
                 'payment' => 'cart/payment-info',
-                'payment-fail' => 'cart/payment-fail',
-                'payment-success' => 'cart/payment-success'
+                'payment-cancel' => 'cart/payment-cancel',
+                'payment-success' => 'cart/payment-success',
+                'invoices' => 'user/get-invoices'
             ],
         ],
         'assetManager' => [

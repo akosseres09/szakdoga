@@ -18,8 +18,8 @@ use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\VarDumper;
 use yii\web\ErrorAction;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class CartController extends BaseController
@@ -31,7 +31,7 @@ class CartController extends BaseController
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['cart', 'delete-from-cart', 'payment-info', 'move-to-wishlist', 'pay', 'payment-fail', 'payment-success'],
+                        'actions' => ['cart', 'delete-from-cart', 'payment-info', 'move-to-wishlist', 'pay', 'payment-cancel', 'payment-success'],
                         'allow' => true,
                         'roles' => ['@']
                     ],
@@ -89,29 +89,36 @@ class CartController extends BaseController
         ]);
     }
 
+    /**
+     * @throws NotFoundHttpException
+     */
     public function actionDeleteFromCart($id): array
     {
-        $cart = Cart::findOne($id);
-        $success = false;
+        if (Yii::$app->request->isAjax) {
+            $cart = Cart::findOne($id);
+            $success = false;
 
-        if ($cart === null) {
-            return [
-                'success' => false
-            ];
-        }
-
-        try {
-            if ($cart->delete()) {
-                $success = true;
+            if ($cart === null) {
+                return [
+                    'success' => false
+                ];
             }
-        }catch (Throwable) {
-            Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
-        }
 
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return [
-            'success' => $success
-        ];
+            try {
+                if ($cart->delete()) {
+                    $success = true;
+                }
+            }catch (Throwable) {
+                Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
+            }
+
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'success' => $success
+            ];
+        } else {
+            throw new NotFoundHttpException('You can not access this page with this request: '. Yii::$app->request->method);
+        }
     }
 
     public function actionPaymentInfo(): Response|string
@@ -168,7 +175,6 @@ class CartController extends BaseController
             $billing = BillingInformation::find()->ofUser($id)->one();
             $shipping = ShippingInformation::find()->ofUser($id)->one();
             $cart = Cart::find()->ofUser($id)->with(['product', 'product.brand'])->all();
-            $total = 0;
             $lineItems = [];
             foreach ($cart as $item) {
                 $lineItems[] = [
@@ -181,9 +187,8 @@ class CartController extends BaseController
                     ],
                     'quantity' => $item->quantity
                 ];
-                $total += $item->quantity * $item->product->price;
             }
-//            try {
+            try {
                 Stripe::setApiKey(Yii::$app->stripe->secretKey);
                 $customer = Customer::retrieve($user->stripe_cus);
                 if ($billing->load($request->post()) && $billing->validate()) {
@@ -209,22 +214,25 @@ class CartController extends BaseController
                     'line_items' => $lineItems,
                     'mode' => 'payment',
                     'success_url' => Yii::$app->params['hostUrl'] . '/payment-success?session_id={CHECKOUT_SESSION_ID}',
-                    'cancel_url' => Yii::$app->params['hostUrl'] . '/payment-fail?session_id={CHECKOUT_SESSION_ID}'
+                    'cancel_url' => Yii::$app->params['hostUrl'] . '/payment-cancel?session_id={CHECKOUT_SESSION_ID}',
+                    'invoice_creation' => [
+                        'enabled' => true
+                    ]
                 ]);
                 $this->redirect($checkout->url);
 
-//            } catch (\Exception $e) {
-//                var_dump($e->getMessage());
-//                $transaction->rollBack();
-//                return $this->redirect('/payment');
-//            }
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('Something Went Wrong With Your Payment! Please Try Again Later!');
+                return $this->redirect('/payment');
+            }
         }
     }
 
-    public function actionPaymentFail($session_id): Response
+    public function actionPaymentCancel($session_id): Response|string
     {
-        Yii::$app->session->setFlash('Error', 'Something went wrong with your payment!');
-        return $this->redirect('/payment');
+        return $this->render('/payment/payment-fail');
+//        return $this->redirect('/payment');
     }
 
     public function actionPaymentSuccess($session_id): string
@@ -250,54 +258,64 @@ class CartController extends BaseController
                     }
                 }
                 $transaction->commit();
+                return $this->render('/payment/payment-success');
+            } else {
+                return $this->render('/payment/payment-fail');
             }
 
         } catch (\Exception|Throwable) {
             $transaction->rollBack();
+            return $this->render('/payment/payment-fail');
         }
-        return $this->render('/payment/payment-success');
     }
 
+    /**
+     * @throws NotFoundHttpException
+     */
     public function actionMoveToWishlist($id): array
     {
-        $item = Cart::findOne($id);
-        $transaction = Yii::$app->db->beginTransaction();
-        $wishlist = new Wishlist();
+        if (Yii::$app->request->isAjax) {
+            $item = Cart::findOne($id);
+            $transaction = Yii::$app->db->beginTransaction();
+            $wishlist = new Wishlist();
 
-        $data = [];
+            $data = [];
 
-        try {
-            $wishlist->product_id = $item->product_id;
-            $wishlist->user_id = $item->user_id;
+            try {
+                $wishlist->product_id = $item->product_id;
+                $wishlist->user_id = $item->user_id;
 
-            if ($wishlist->save()) {
-                if ($item->delete()) {
-                    $transaction->commit();
-                    $data = [
-                        'success' => true
-                    ];
+                if ($wishlist->save()) {
+                    if ($item->delete()) {
+                        $transaction->commit();
+                        $data = [
+                            'success' => true
+                        ];
+                    } else {
+                        $transaction->rollBack();
+                        $data = [
+                            'success' => false,
+                            'errors' => 'Failed to Add Product to Your Wishlist!'
+                        ];
+                    }
                 } else {
                     $transaction->rollBack();
                     $data = [
                         'success' => false,
-                        'errors' => 'Failed to Add Product to Your Wishlist!'
+                        'errors' => $wishlist->getErrors()
                     ];
                 }
-            } else {
+            } catch (StaleObjectException|Throwable $e) {
                 $transaction->rollBack();
                 $data = [
                     'success' => false,
-                    'errors' => $wishlist->getErrors()
+                    'errors' => $e->getMessage()
                 ];
             }
-        } catch (StaleObjectException|Throwable $e) {
-            $transaction->rollBack();
-            $data = [
-                'success' => false,
-                'errors' => $e->getMessage()
-            ];
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $data;
+        } else {
+            throw new NotFoundHttpException('You can not access this page with this request: '. Yii::$app->request->method);
         }
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $data;
     }
 }
