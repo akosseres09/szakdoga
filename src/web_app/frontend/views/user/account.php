@@ -26,6 +26,10 @@ $tabs = [
         'active' => 'account-icon active-icon icon-xs',
         'passive' => 'account-icon passive-icon icon-xs'
     ],
+    'invoices' => [
+        'link' => Url::to(['/user/get-invoices']),
+        'site' => 'invoices'
+    ],
     'orders' => [
         'link' => Url::to(['/order']),
         'site' => 'orders'

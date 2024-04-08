@@ -34,6 +34,13 @@ function getLoader() {
     return span;
 }
 
+function fetchAjax(link, options = {}) {
+    return fetch(link, {
+        headers : {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    });
+}
 setTimeout(function() {
     $('.alert').fadeOut();
 }, 5000);

@@ -6,9 +6,9 @@ if (userLink) {
         link.addEventListener('click', e => {
             const active = document.querySelector('.user-link.active');
             const activeIcon = document.querySelector('.user-link .active-icon');
-            const passiveIcon = e.target.querySelector('.passive-icon');
-
-            if (e.target !== active) {
+            const next = e.target.closest('.user-link');
+            const passiveIcon = next.querySelector('.passive-icon');
+            if (next) {
                 if (activeIcon) {
                     activeIcon.classList.remove('active-icon');
                     activeIcon.classList.add('passive-icon');
@@ -20,9 +20,8 @@ if (userLink) {
 
                 }
                 active.classList.remove('active');
-                e.target.classList.add('active');
-
-                getAccountPage(e.target.dataset.href);
+                next.classList.add('active');
+                getAccountPage(next.dataset.href);
             }
         })
     })
