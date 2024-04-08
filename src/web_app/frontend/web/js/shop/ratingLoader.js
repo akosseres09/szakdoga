@@ -20,7 +20,7 @@ function loadRating(entries, observer) {
 
 function getRating() {
     ratingContainer.replaceChildren(getLoader());
-    fetch(ratingUrl).then(res => res.json())
+    fetchAjax(ratingUrl).then(res => res.json())
         .then(res => {
             const loader = ratingContainer.querySelector('.loader');
             const oldRating = ratingContainer.querySelector('.star-rating-accordion');
@@ -39,7 +39,7 @@ function getRating() {
 
 
 function parseRating(rating) {
-    return  new Intl.NumberFormat('en', {
+    return new Intl.NumberFormat('en', {
         minimumFractionDigits: 2, maximumFractionDigits: 2
     }).format(rating)
 }

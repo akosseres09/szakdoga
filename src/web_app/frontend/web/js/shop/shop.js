@@ -50,7 +50,7 @@ if (wishlistBtn) {
     wishlistBtn.addEventListener('click', (e) => {
         e.preventDefault();
         let wishlistLink = document.querySelector('.wishlist-link');
-        fetch(wishlistLink.href)
+        fetchAjax(wishlistLink.href)
             .then(res => res.json())
             .then(res => {
                 if (res.success) {
