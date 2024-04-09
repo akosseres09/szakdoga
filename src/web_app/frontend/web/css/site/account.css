@@ -93,6 +93,38 @@
     background: url("/img/icon-user-black.svg") no-repeat;
 }
 
+.view-invoice-row {
+    transition: transform 0.2s ease-in-out;
+}
+
+.view-invoice-row:hover {
+    transform: scale(1.01);
+}
+
+.view-invoice-row .status-paid {
+    background-color: var(--spfy-secondary-color);
+    color: white;
+    padding: 5px 25px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.view-invoice-row .status-incoming {
+    background-color: red;
+    color: white;
+    padding: 5px 25px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.view-invoice-row .invoice-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media screen and (max-width: 992px){
     #profile-card{
         border-right: none !important;

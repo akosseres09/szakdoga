@@ -10,6 +10,7 @@ use Stripe\Invoice;
 use Stripe\Stripe;
 use Throwable;
 use Yii;
+use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\ErrorAction;
@@ -118,9 +119,17 @@ class UserController extends BaseController
             } catch (\Exception $e) {
                 Yii::$app->session->setFlash('Error', $e->getMessage());
             }
-            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            $dataProvider = new ArrayDataProvider([
+                'allModels' => $invoices
+            ]);
             return [
-                'data' => $invoices
+                'data' => $this->renderPartial('/order/invoices', [
+                    'invoices' => $dataProvider,
+                    'pagination' => [
+                        'pageSize' => 15
+                    ]
+                ])
             ];
 
         } else {
