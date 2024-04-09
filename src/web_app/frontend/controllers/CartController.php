@@ -232,7 +232,6 @@ class CartController extends BaseController
     public function actionPaymentCancel($session_id): Response|string
     {
         return $this->render('/payment/payment-fail');
-//        return $this->redirect('/payment');
     }
 
     public function actionPaymentSuccess($session_id): string
@@ -252,6 +251,8 @@ class CartController extends BaseController
                     $order = new Order();
                     $order->product_id = $item->product_id;
                     $order->user_id = $item->user_id;
+                    $order->quantity = $item->quantity;
+                    $order->size = $item->size;
 
                     if ($order->save()) {
                         $cartItems[$index]->delete();

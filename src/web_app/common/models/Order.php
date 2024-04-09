@@ -12,6 +12,8 @@ use yii\db\ActiveQuery;
  * @property int $product_id
  * @property int $user_id
  * @property int $created_at
+ * @property int $quantity
+ * @property int $size
  *
  * @property Product $product
  */
@@ -21,7 +23,8 @@ class Order extends ActiveRecord
     {
         return [
             [['user_id', 'product_id'], 'required'],
-            [['user_id', 'product_id', 'created_at'], 'integer']
+            [['user_id', 'product_id', 'created_at', 'quantity'], 'integer'],
+            ['size', 'string']
         ];
     }
 

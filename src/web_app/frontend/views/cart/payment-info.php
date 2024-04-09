@@ -10,14 +10,13 @@
 use common\models\BillingInformation;
 use common\models\ShippingInformation;
 use frontend\assets\CartAsset;
-use frontend\assets\IMaskAsset;
 use yii\data\ActiveDataProvider;
 use yii\web\View;
 use yii\bootstrap5\ActiveForm;
 
 
 CartAsset::register($this);
-$this->registerJsFile('/js/payment/payment.js', ['depends' => IMaskAsset::class]);
+$this->registerJsFile('/js/payment/payment.js');
 $this->title = 'Payment';
 
 $this->registerCssFile('/css/payment/payment.css');
