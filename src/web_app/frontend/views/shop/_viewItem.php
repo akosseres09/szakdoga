@@ -32,7 +32,6 @@ $this->registerCss(<<<CSS
 CSS);
 
 $this->registerJsFile('/js/shop/carouselImgZoomer.js');
-//$this->registerJsFile('/js/shop/carouselSwiper.js');
 
 ?>
 
@@ -44,7 +43,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
 </div>
 <div class="row mt-3">
     <div class="col-lg-7 col-12">
-        <div id="productPicsCarousel" class="carousel slide d-lg-flex justify-content-lg-between" data-bs-touch="true">
+        <div id="productPicsCarouselDesktop" class="carousel slide d-none d-lg-flex justify-content-lg-between" data-bs-touch="true">
             <div class="carousel-inner order-lg-2">
                 <?php foreach ($images as $index => $image) {?>
                     <div class="carousel-item text-center <?= $index === 0 ? 'active' : ''?>">
@@ -52,16 +51,32 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
                     </div>
                 <?php  }?>
             </div>
-            <div class="d-none d-lg-block order-lg-1">
+            <div class="d-none d-lg-block desktop-indicators">
                 <div class="carousel-indicators mt-4" style="position:relative;">
                     <?php foreach ($images as $index => $image) { ?>
                         <div class="row">
-                            <button type="button" data-bs-target="#productPicsCarousel" data-bs-slide-to="<?=$index?>" <?= $index === 0 ? 'class="active"' : ''?> aria-current="true" aria-label="Slide <?=$index?>">
+                            <button type="button" data-bs-target="#productPicsCarouselDesktop" data-bs-slide-to="<?=$index?>" <?= $index === 0 ? 'class="active"' : ''?> aria-current="true" aria-label="Slide <?=$index?>">
                                 <img src="/storage/images/<?=$product->folder_id . '/' . $image?>">
                             </button>
                         </div>
                     <?php } ?>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="productPicsCarouselMobile" class="carousel slide d-block d-lg-none justify-content-lg-between" data-bs-touch="true">
+        <div class="carousel-inner order-lg-2">
+            <?php foreach ($images as $index => $image) {?>
+                <div class="carousel-item text-center <?= $index === 0 ? 'active' : ''?>">
+                    <img src="/storage/images/<?=$product->folder_id . '/' . $image?>">
+                </div>
+            <?php  }?>
+        </div>
+        <div class="mobile-indicators">
+            <div class="carousel-indicators mt-4">
+                <?php foreach ($images as $index => $image) { ?>
+                    <button type="button" data-bs-target="#productPicsCarouselMobile" data-bs-slide-to="<?=$index?>" <?= $index === 0 ? 'class="active"' : ''?> aria-current="true" aria-label="Slide <?=$index?>"></button>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -107,11 +122,11 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
             </div>
         </div>
         <div class="row">
-            <div class="col-5">
+            <div class="col-sm-7">
                 <?= $form->field($cart, 'quantity')->textInput(['type' => 'number', 'min' => 1, 'required' => true, 'value' => 1]) ?>
             </div>
-            <div class="col-5 ms-2 mt-4">
-                <div class="col-2 d-flex justify-content-center align-items-end">
+            <div class="col-sm-4 ms-0 ms-sm-4 mt-0 mt-sm-4">
+                <div class="col-2 d-flex justify-content-start justify-content-sm-end align-items-end">
                     <?php if($inWishlist) { ?>
                         <a href="<?= Url::to(['/shop/remove-from-wishlist/'.$product->id]) ?>" class="wishlist-link">
                             <span class="material-symbols-outlined wishlist-btn active">

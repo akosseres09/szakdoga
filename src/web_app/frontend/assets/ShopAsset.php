@@ -18,8 +18,7 @@ class ShopAsset extends AssetBundle
     ];
 
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset',
-        '\frontend\assets\SwalAsset'
+        '\frontend\assets\SwalAsset',
+        '\frontend\assets\AppAsset'
     ];
 }

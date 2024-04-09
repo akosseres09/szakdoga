@@ -10,6 +10,7 @@
 use common\models\Cart;
 use common\models\Product;
 use common\models\Rating;
+use frontend\assets\AppAsset;
 use frontend\assets\FontAwesomeAsset;
 use frontend\assets\ShopAsset;
 use yii\data\ActiveDataProvider;
@@ -19,11 +20,14 @@ use yii\bootstrap5\ActiveForm;
 
 $this->title = $product->name . ' - Sportify';
 
-
 ShopAsset::register($this);
 FontAwesomeAsset::register($this);
 $this->registerJsVar('urlLink', Url::to(['/shop/get-rating/'.$product->id]));
-$this->registerJsFile('/js/shop/ratingLoader.js');
+$this->registerJsFile('/js/shop/ratingLoader.js', [
+        'depends' => [
+                AppAsset::class
+        ]
+]);
 ?>
 
 <?= $this->render('/site/common/_alert') ?>
