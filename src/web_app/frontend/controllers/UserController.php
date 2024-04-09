@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\BillingInformation;
 use common\models\ShippingInformation;
+use common\models\User;
 use frontend\components\BaseController;
 use Stripe\Customer;
 use Stripe\Invoice;
@@ -36,7 +37,7 @@ class UserController extends BaseController
            'verbs' => [
                'class' => VerbFilter::class,
                'actions' => [
-                   'update' => ['GET', 'POST'],
+                   'update' => ['POST'],
                    'save-shipping' => ['POST'],
                    'save-billing' => ['POST']
                ],
@@ -89,6 +90,9 @@ class UserController extends BaseController
         ]);
     }
 
+    /**
+     * @throws NotFoundHttpException
+     */
     public function actionSettings(): array
     {
         if (Yii::$app->request->isAjax) {
@@ -99,6 +103,28 @@ class UserController extends BaseController
         } else {
             throw new NotFoundHttpException('You can not access this page with this request: ' . Yii::$app->request->method);
         }
+    }
+
+    public function actionUpdate(): Response
+    {
+        $user = Yii::$app->user->identity;
+        $request = Yii::$app->request;
+        if ($request->isPost) {
+            if ($user->load($request->post())){
+                if($user->save()){
+                    Yii::$app->session->setFlash('Success', 'Profile updated successfully!');
+                }else{
+                    $fail = '';
+                    foreach ($user->getErrors() as $error) {
+                        $fail .= '<span>' . $error[0] . '</span><br>';
+                    }
+                    Yii::$app->session->setFlash('Error', $fail);
+                }
+            }
+        }
+        return $this->redirect(['/user/account?tab=settings', [
+            'user' => $user
+        ]]);
     }
 
     /**
@@ -135,25 +161,6 @@ class UserController extends BaseController
         } else {
             throw new NotFoundHttpException('You can not access this page with this request: ' . Yii::$app->request->method);
         }
-
-    }
-
-    public function actionUpdate(): Response|string
-    {
-        $user = Yii::$app->user->getIdentity();
-        $request = Yii::$app->request;
-        if ($request->isPost && $user->load($request->post())){
-            if($user->save()){
-                Yii::$app->session->setFlash('Success', 'Profile updated successfully!');
-            }else{
-                Yii::$app->session->setFlash('Error', 'Profile updated failed!');
-            }
-            return $this->redirect(['/user/account']);
-        }
-
-        return $this->renderPartial('update', [
-            'user' => $user,
-        ]);
     }
 
     public function actionSaveShipping(): Response
