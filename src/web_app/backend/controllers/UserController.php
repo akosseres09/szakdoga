@@ -2,9 +2,9 @@
 
 namespace backend\controllers;
 
+use common\models\search\UserSearch;
 use common\models\User;
-use yii\data\ActiveDataProvider;
-use yii\db\StaleObjectException;
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -48,21 +48,18 @@ class UserController extends Controller
 
     public function actionUsers(): string
     {
-        $users = new ActiveDataProvider([
-            'query' => User::find(),
-            'pagination' => [
-                'pageSize' => 15
-            ]
-        ]);
+        $userSearch = new UserSearch();
+        $users = $userSearch->search(Yii::$app->request->get());
         return $this->render('users', [
-            'users' => $users
+            'users' => $users,
+            'search' => $userSearch
         ]);
     }
 
     public function actionEdit($id): Response | string
     {
         $user = User::findOne($id);
-        $request = \Yii::$app->request;
+        $request = Yii::$app->request;
 
         if ($user === null) {
             return $this->redirect('/user/users');
@@ -70,9 +67,9 @@ class UserController extends Controller
 
         if ($request->isPost && $user->load($request->post())) {
             if ($user->save()) {
-               \Yii::$app->session->setFlash('Success', 'Successfully Edited User!');
+               Yii::$app->session->setFlash('Success', 'Successfully Edited User!');
             } else {
-                \Yii::$app->session->setFlash('Error', 'Failed To Edit User!');
+                Yii::$app->session->setFlash('Error', 'Failed To Edit User!');
             }
 
             return $this->redirect('/user/users');
@@ -91,13 +88,13 @@ class UserController extends Controller
 
         try {
             if ($user->delete()) {
-                \Yii::$app->session->setFlash('Success', 'User successfully deleted!');
+                Yii::$app->session->setFlash('Success', 'User successfully deleted!');
             } else {
-                \Yii::$app->session->setFlash('Error', 'Something went wrong. User could not be deleted!');
+                Yii::$app->session->setFlash('Error', 'Something went wrong. User could not be deleted!');
             }
 
         }catch (\Throwable $e) {
-            \Yii::$app->session->setFlash('error', $e->getMessage());
+            Yii::$app->session->setFlash('error', $e->getMessage());
         }
         return $this->redirect('/user/users');
     }
@@ -112,9 +109,9 @@ class UserController extends Controller
 
         $user->is_admin === 0 ? $user->is_admin = 1 : $user->is_admin = 0;
         if ($user->save()) {
-            \Yii::$app->session->setFlash('Success', 'Changed User Role to:' . $user->getRole() . '!');
+            Yii::$app->session->setFlash('Success', 'Changed User Role to:' . $user->getRole() . '!');
         } else {
-            \Yii::$app->session->setFlash('Error', 'Failed to Change User Role!');
+            Yii::$app->session->setFlash('Error', 'Failed to Change User Role!');
         }
 
         return $this->redirect('/user/users');

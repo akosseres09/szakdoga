@@ -35,7 +35,7 @@ $this->title = 'Edit User - Sportify'
             </div>
             <div class="row">
                 <?php if ($user->id !== Yii::$app->user->id) { ?>
-                    <div class="col-lg mt-2     mb-2 d-flex justify-content-center align-items-center">
+                    <div class="col-lg mt-2 mb-2 d-flex justify-content-center align-items-center">
                         <?= $user->is_admin  ?  Html::a('Demote From Admin', ['/user/change-role/'.$user->id], ['class' => 'btn btn-outline-light'])
                             : Html::a('Upgrade to Admin', ['/user/change-role/'.$user->id], ['class' => 'btn btn-outline-light', 'data' => ['method' => 'post']]) ?>
                     </div>
