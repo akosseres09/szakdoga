@@ -366,3 +366,9 @@ form .form-select:focus, form .form-control:focus {
         top: 75px;
     }
 }
+
+@media screen and (min-width: 1200px) {
+    .w-xl-50 {
+        width: 50% !important;
+    }
+}

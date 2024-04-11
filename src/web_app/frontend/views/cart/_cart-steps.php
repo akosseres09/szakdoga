@@ -28,7 +28,7 @@ $endSecond = '</div>';
             <?= $cartDone ? '<span class="material-symbols-outlined">check</span>' : '1' ?>
         </span>
         <span class="text">
-            Shopping cart
+            Cart
         </span>
         <span class="spacer"></span>
     <?= $endFirst ?>
