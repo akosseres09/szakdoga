@@ -21,7 +21,7 @@ echo $this->render('/site/common/_alert');
 
 ?>
 
-<div class="mt-4 mb-4">
+<div class="my-4">
     <h1 class="text-center">Users</h1>
 </div>
 

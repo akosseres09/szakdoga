@@ -19,6 +19,11 @@ use yii\db\ActiveQuery;
  */
 class Order extends ActiveRecord
 {
+    public static function tableName(): string
+    {
+        return '{{%order}}';
+    }
+
     public function rules(): array
     {
         return [
@@ -46,6 +51,11 @@ class Order extends ActiveRecord
     public function getProduct(): ActiveQuery
     {
         return $this->hasOne(Product::class,  ['id' => 'product_id']);
+    }
+
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
 }

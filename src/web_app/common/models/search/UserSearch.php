@@ -2,12 +2,15 @@
 
 namespace common\models\search;
 
+use common\models\traits\FilterTrait;
 use common\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
 
 class UserSearch extends User
 {
+    use FilterTrait;
+
     public $username;
     public $email;
     public $is_admin;
@@ -62,22 +65,7 @@ class UserSearch extends User
             ]
         ]);
 
-        if(!empty($params['created_at'])) {
-            $params['created_at'] = strtotime($params['created_at']);
-        }
-
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
-
-        if (!empty($this->created_at)) {
-            $date = Yii::$app->formatter->asDate($this->created_at, 'php:Y-m-d');
-            $this->startDate = strtotime($date);
-            $this->endDate = strtotime('+1 day', $this->created_at);
-
-            $query->andFilterWhere(['>=', 'created_at', $this->startDate])
-                ->andFilterWhere(['<', 'created_at', $this->endDate]);
-        }
+        $this->loadFilter($params, $query);
 
         if ($this->is_admin !== '2') {
             $query->andFilterWhere(['=', 'is_admin', $this->is_admin]);
