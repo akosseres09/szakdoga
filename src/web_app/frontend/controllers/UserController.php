@@ -24,10 +24,10 @@ class UserController extends BaseController
        return array_merge([
            'access' => [
                'class' => AccessControl::class,
-               'only' => ['settings', 'account', 'save-billing', 'save-shipping', 'get-invoices'],
+               'only' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices'],
                'rules' => [
                    [
-                       'actions' => ['settings', 'account', 'save-billing', 'save-shipping', 'get-invoices'],
+                       'actions' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices'],
                        'allow' => true,
                        'roles' => ['@']
                    ]
@@ -101,7 +101,7 @@ class UserController extends BaseController
         }
     }
 
-    public function actionUpdate(): string
+    public function actionUpdate(): Response
     {
         $user = Yii::$app->user->identity;
         $request = Yii::$app->request;
@@ -118,10 +118,10 @@ class UserController extends BaseController
                 }
             }
         }
-        return $this->render('settings-full');
+        return $this->redirect(['/user/settings']);
     }
 
-    public function actionGetInvoices(): array|string
+    public function actionInvoices(): array|string
     {
         $user = Yii::$app->user->identity;
         try {

@@ -13,8 +13,7 @@ use yii\web\View;
 AccountAsset::register($this);
 WishlistAsset::register($this);
 
-$this->title = 'Your Account';
-$tab = Yii::$app->request->get('tab');
+$tab = Yii::$app->request->get('tab') ?? Yii::$app->controller->id;
 $tabs = [
     'account' => [
         'link' => Url::to(['/user/account']),
@@ -23,10 +22,10 @@ $tabs = [
         'passive' => 'account-icon passive-icon icon-xs'
     ],
     'invoices' => [
-        'link' => Url::to(['/user/get-invoices']),
+        'link' => Url::to(['/user/invoices']),
         'site' => 'invoices'
     ],
-    'orders' => [
+    'order' => [
         'link' => Url::to(['/order']),
         'site' => 'orders'
     ],
@@ -42,13 +41,21 @@ $tabs = [
     ]
 ];
 
+$controller = Yii::$app->controller;
+if ($controller->id === 'user') {
+    $tab = $controller->action->id;
+} else {
+    $tab = $controller->id;
+}
+
 $tab = $tabs[$tab]['site'] ?? 'account';
 $link = $tabs[$tab]['link'];
+
+$this->title = ucfirst($tab);
 
 echo Navigation::widget([
     'tabs' => $tabs,
     'tab' => $tab
 ]);
-
 echo $content ?>
 
