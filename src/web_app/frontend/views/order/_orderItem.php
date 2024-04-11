@@ -23,17 +23,22 @@ $this->registerCss(<<<CSS
         font-weight: bold;
     }
     
+    .order-link {
+        transition: transform 0.2s ease-in-out;
+    }
+    
     .order-link:hover {
-        transform: scale(1.5);
+        transform: scale(1.01);
     }
 
 CSS);
 
 ?>
 
-<a class="order-link" href="<?= Url::to(['/shop/view/'.$model->product_id]) ?>">
+<a class="order-link d-flex flex-column" href="<?= Url::to(['/shop/view/'.$model->product_id]) ?>">
     <div class="card-body">
-        <img class="my-2" alt="Pics" src="<?=Url::to(['/storage/images/'.$model->product->folder_id.'/'.$imageName[0]])?>" style="border-radius: 15px; width: 80%; height: auto">
+        <img class="my-2" alt="Pics" src="<?=Url::to(['/storage/images/'.$model->product->folder_id.'/'.$imageName[0]])?>"
+             style="border-radius: 15px; max-width: 75%; height: auto">
     </div>
     <div class="card-footer">
         <div class="product-name">

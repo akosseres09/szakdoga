@@ -63,7 +63,7 @@ $actionName = Yii::$app->controller->action->id;
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/user/account?tab=wishlist']) ?>">
+                    <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/wishlist']) ?>">
                         Wishlist
                     </a>
                 </div>
@@ -73,9 +73,9 @@ $actionName = Yii::$app->controller->action->id;
                     </a>
                     <div class="px-3 drop" aria-labelledby="navbarDropdown">
                         <span>
-                           <a class="dropdown-item p-1" href="<?= Url::to(['/user/account']) ?>">Account</a></span>
+                           <a class="dropdown-item p-1" href="<?= Url::to(['/account']) ?>">Account</a></span>
                         <span>
-                            <a class="dropdown-item p-1" href="<?= Url::to(['/user/account?tab=settings']) ?>">Settings</a></span>
+                            <a class="dropdown-item p-1" href="<?= Url::to(['/settings']) ?>">Settings</a></span>
                         <span>
                             <?= Html::a('Logout', ['/site/logout'], [
                                 'class' => 'dropdown-item p-1',
@@ -174,7 +174,7 @@ $actionName = Yii::$app->controller->action->id;
                                 </span>
                             </div>
                             <div class="nav-item align-self-center position-relative">
-                                <a class="nav-link" href="<?= Url::to(['/user/account?tab=wishlist']) ?>">
+                                <a class="nav-link" href="<?= Url::to(['/wishlist']) ?>">
                                     <span class="material-symbols-outlined">
                                         favorite
                                     </span>
@@ -188,8 +188,8 @@ $actionName = Yii::$app->controller->action->id;
                                     <span class="material-symbols-outlined">account_circle</span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="transform: translateX(-50%)">
-                                    <a class="dropdown-item" href="<?= Url::to(['/user/account']) ?>">Account</a>
-                                    <a class="dropdown-item" href="<?= Url::to(['/user/account?tab=settings']) ?>">Settings</a>
+                                    <a class="dropdown-item" href="<?= Url::to(['/account']) ?>">Account</a>
+                                    <a class="dropdown-item" href="<?= Url::to(['/settings']) ?>">Settings</a>
                                     <?= Html::a('Logout', ['/site/logout'], [
                                         'class' => 'dropdown-item',
                                         'data' => [

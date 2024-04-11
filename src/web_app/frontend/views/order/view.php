@@ -10,6 +10,8 @@ use yii\widgets\ListView;
 
 $this->registerCssFile('/css/shop/shop.css');
 $date = Yii::$app->formatter->asDate(Yii::$app->request->get('date'), 'php: Y-m-d H:i:s (D)');
+
+$this->title = 'View Orders';
 ?>
     <h3 class="text-center mt-5">
         Products ordered at <?= $date ?>

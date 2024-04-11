@@ -30,5 +30,5 @@ $link = '/storage/images/' . $model->product->folder_id . '/';
     </div>
 </div>
 <div class="card-body text-center">
-    <img class="my-2" alt="Pics" src="<?=$link.$image[0]?>" style="border-radius: 15px; width: 75%; height: auto">
+    <img class="my-2" alt="Pics" src="<?=$link.$image[0]?>" style="border-radius: 15px; max-width: 75%; height: auto">
 </div>
