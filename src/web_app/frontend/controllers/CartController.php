@@ -31,7 +31,16 @@ class CartController extends BaseController
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['cart', 'delete-from-cart', 'payment-info', 'move-to-wishlist', 'pay', 'payment-cancel', 'payment-success'],
+                        'actions' => [
+                            'cart',
+                            'delete-from-cart',
+                            'payment-info',
+                            'move-to-wishlist',
+                            'pay',
+                            'payment-fail',
+                            'payment-cancel',
+                            'payment-success'
+                        ],
                         'allow' => true,
                         'roles' => ['@']
                     ],
@@ -229,12 +238,17 @@ class CartController extends BaseController
         }
     }
 
-    public function actionPaymentCancel($session_id): Response|string
+    public function actionPaymentCancel($session_id): string
     {
         return $this->render('/payment/payment-fail');
     }
 
-    public function actionPaymentSuccess($session_id): string
+    public function actionPaymentFail(): string
+    {
+        return $this->render('/payment/payment-fail');
+    }
+
+    public function actionPaymentSuccess($session_id): string|Response
     {
         $transaction = Yii::$app->db->beginTransaction();
         try {
@@ -270,7 +284,7 @@ class CartController extends BaseController
 
         } catch (\Exception|Throwable) {
             $transaction->rollBack();
-            return $this->render('/payment/payment-fail');
+            return $this->redirect(['payment-fail']);
         }
     }
 
