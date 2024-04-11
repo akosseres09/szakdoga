@@ -183,6 +183,15 @@ class CartController extends BaseController
         if ($request->isPost) {
             $billing = BillingInformation::find()->ofUser($id)->one();
             $shipping = ShippingInformation::find()->ofUser($id)->one();
+
+            if (!$billing) {
+                $billing = new BillingInformation();
+            }
+
+            if (!$shipping) {
+                $shipping = new ShippingInformation();
+            }
+
             $cart = Cart::find()->ofUser($id)->with(['product', 'product.brand'])->all();
             $lineItems = [];
             foreach ($cart as $item) {

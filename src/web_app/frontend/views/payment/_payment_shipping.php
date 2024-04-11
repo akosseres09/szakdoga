@@ -1,5 +1,6 @@
 <?php
 
+use common\components\AddressHelper;
 use common\models\ShippingInformation;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -9,11 +10,12 @@ use yii\widgets\ActiveForm;
  * @var ActiveForm $form
  */
 
+$empty = AddressHelper::isEmpty($shipping);
 ?>
 
 <h4 class="mt-3">Shipping Information</h4>
 <div class="shippingContainer">
-    <div class="shippingCheck">
+    <div class="shippingCheck <?= $empty ? 'd-none' : ''?>">
         <div class="shippingFormRaw">
             <span class="editIcon material-symbols-outlined">
                 edit
@@ -31,7 +33,7 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
     </div>
-    <div class="shippingForm d-none">
+    <div class="shippingForm <?= $empty ? '' : 'd-none' ?>">
         <div class="row">
             <div class="col">
                 <?= $form->field($shipping, 'country')->textInput(['maxlength' => 128, 'placeHolder' => 'Country'])->label(false) ?>

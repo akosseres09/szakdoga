@@ -5,19 +5,21 @@
  * @var ActiveForm $form
  */
 
+use common\components\AddressHelper;
 use common\models\BillingInformation;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 
+$empty = AddressHelper::isEmpty($billing);
 ?>
 
 <h4>Billing Information</h4>
 <div class="billingContainer">
-    <div class="billingCheck">
+    <div class="billingCheck <?= $empty ? 'd-none' : '' ?>">
         <div class="billingFormRaw">
-            <span class="editIcon material-symbols-outlined">
-                edit
-            </span>
+        <span class="editIcon material-symbols-outlined">
+            edit
+        </span>
             <div class="address">
                 <div class="row fw-bold">
                     <?= $billing->user->email ?>
@@ -34,7 +36,7 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
     </div>
-    <div class="billingForm d-none">
+    <div class="billingForm <?= $empty ? '' : 'd-none' ?>">
         <div class="row">
             <div class="col">
                 <?= $form->field($billing, 'country')->textInput(['maxlength' => 128, 'placeHolder' => 'Country'])->label(false) ?>
