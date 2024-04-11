@@ -242,7 +242,7 @@ class CartController extends BaseController
             $session = Session::retrieve($session_id);
 
             $userId = Yii::$app->user->id;
-            $cartItems = Cart::find()->ofUser($userId)->all();
+            $cartItems = Cart::find()->ofUser($userId)->with('product')->all();
             $items = $cartItems;
 
             if ($session->status === 'complete' && $session->payment_status === 'paid') {
@@ -255,7 +255,11 @@ class CartController extends BaseController
                     $order->size = $item->size;
 
                     if ($order->save()) {
-                        $cartItems[$index]->delete();
+                        $product = $item->product;
+                        $product->number_of_stocks -= $item->quantity;
+                        if ($product->save()) {
+                            $cartItems[$index]->delete();
+                        }
                     }
                 }
                 $transaction->commit();
