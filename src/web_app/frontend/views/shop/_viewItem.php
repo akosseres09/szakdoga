@@ -35,7 +35,6 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
 
 ?>
 
-
 <div class="row">
     <h1>
         <?=$product->brand->name . ' ' . $product->name ?>
@@ -106,7 +105,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
                     </h6>
                 </div>
                 <div class="row mt-3 size-picker">
-                    <div class="col d-flex flex-wrap">
+                    <div class="size-container">
                         <?php if(!$product->isKid()) { ?>
                             <?php foreach (Cart::ADULT_SIZES as $size) { ?>
                                 <div class="p-2 size-item"><?= $size ?></div>
