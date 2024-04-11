@@ -37,4 +37,5 @@ function getAccountPage(href) {
         .then(res => {
             settingsContainer.innerHTML = res.data;
         })
+    history.pushState({}, '', href);
 }

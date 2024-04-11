@@ -4,7 +4,6 @@ namespace frontend\controllers;
 
 use common\models\BillingInformation;
 use common\models\ShippingInformation;
-use common\models\User;
 use frontend\components\BaseController;
 use Stripe\Customer;
 use Stripe\Invoice;
@@ -90,10 +89,7 @@ class UserController extends BaseController
         ]);
     }
 
-    /**
-     * @throws NotFoundHttpException
-     */
-    public function actionSettings(): array
+    public function actionSettings(): array|string
     {
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -101,11 +97,11 @@ class UserController extends BaseController
                 'data' => $this->renderPartial('settings')
             ];
         } else {
-            throw new NotFoundHttpException('You can not access this page with this request: ' . Yii::$app->request->method);
+            return $this->render('settings-full');
         }
     }
 
-    public function actionUpdate(): Response
+    public function actionUpdate(): string
     {
         $user = Yii::$app->user->identity;
         $request = Yii::$app->request;
@@ -122,44 +118,40 @@ class UserController extends BaseController
                 }
             }
         }
-        return $this->redirect(['/user/account?tab=settings', [
-            'user' => $user
-        ]]);
+        return $this->render('settings-full');
     }
 
-    /**
-     * @throws NotFoundHttpException
-     */
-    public function actionGetInvoices(): array
+    public function actionGetInvoices(): array|string
     {
+        $user = Yii::$app->user->identity;
+        try {
+            Stripe::setApiKey(Yii::$app->stripe->secretKey);
+            $invoices = Invoice::all(['customer' => $user->stripe_cus])->data;
+            if (empty($invoices)) {
+                $invoices = 'No Items Found';
+            }
+        } catch (\Exception $e) {
+            Yii::$app->session->setFlash('Error', $e->getMessage());
+        }
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $invoices,
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
+
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            $user = Yii::$app->user->identity;
-
-            try {
-                Stripe::setApiKey(Yii::$app->stripe->secretKey);
-                $invoices = Invoice::all(['customer' => $user->stripe_cus])->data;
-                if (empty($invoices)) {
-                    $invoices = 'No Items Found';
-                }
-            } catch (\Exception $e) {
-                Yii::$app->session->setFlash('Error', $e->getMessage());
-            }
-
-            $dataProvider = new ArrayDataProvider([
-                'allModels' => $invoices
-            ]);
             return [
                 'data' => $this->renderPartial('/order/invoices', [
                     'invoices' => $dataProvider,
-                    'pagination' => [
-                        'pageSize' => 15
-                    ]
                 ])
             ];
-
         } else {
-            throw new NotFoundHttpException('You can not access this page with this request: ' . Yii::$app->request->method);
+            return $this->render('/order/invoices-full', [
+                'invoices' => $dataProvider
+            ]);
         }
     }
 

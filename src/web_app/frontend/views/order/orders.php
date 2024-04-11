@@ -38,41 +38,42 @@ Pjax::begin([
     'enablePushState' => false,
     'enableReplaceState' => false
 ]);
-echo GridView::widget([
-    'dataProvider' => $orders,
-    'summary' => false,
-    'tableOptions' => [
-        'class' => 'table table-responsive table-hover text-center'
-    ],
-    'pager' => [
-        'class' => Pager::class
-    ],
-    'rowOptions' => function ($model) {
-        return [
-            'class' => 'view-invoice-row',
-            'style' => 'vertical-align: middle'
-        ];
-    },
-    'columns' => [
-        [
-            'attribute' => 'created_at',
-            'label' => 'Date of Purchase',
-            'format' => 'raw',
-            'value' => function ($model) {
-                return Yii::$app->formatter->asDate($model['created_at'], 'php:Y-m-d H:i:s (D)');
-            }
-        ],
-        [
-            'format' => 'raw',
-            'value' => function ($model) {
-                return Html::a('View Details', ['/order/items?date='.$model['created_at']], [
-                    'class' => 'btn w-50 btn-outline-dark ms-auto me-auto'
-                ]);
-            }
-        ]
-    ]
-]);
-Pjax::end();
 ?>
-
-
+<div class="table-responsive">
+   <?= GridView::widget([
+        'dataProvider' => $orders,
+        'summary' => false,
+        'tableOptions' => [
+            'class' => 'table table-hover text-center'
+        ],
+        'pager' => [
+            'class' => Pager::class
+        ],
+        'rowOptions' => function ($model) {
+            return [
+                'class' => 'view-invoice-row',
+                'style' => 'vertical-align: middle'
+            ];
+        },
+        'columns' => [
+            [
+                'attribute' => 'created_at',
+                'label' => 'Date of Purchase',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Yii::$app->formatter->asDate($model['created_at'], 'php:Y-m-d H:i:s (D)');
+                }
+            ],
+            [
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a('View Details', ['/order/items?date='.$model['created_at']], [
+                        'class' => 'btn btn-outline-dark w-xl-50 ms-auto me-auto'
+                    ]);
+                }
+            ]
+        ]
+    ]);
+?>
+</div>
+<?php Pjax::end();

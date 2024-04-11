@@ -39,7 +39,7 @@ class WishlistController extends BaseController
         ];
     }
 
-    public function actionIndex(): array|Response
+    public function actionIndex(): array|string
     {
         $userId = Yii::$app->user->id;
         $query = Wishlist::find()->ofUser($userId);
@@ -63,7 +63,9 @@ class WishlistController extends BaseController
                 ])
             ];
         } else {
-            return $this->redirect(['/user/account?tab=wishlist']);
+            return $this->render('wishlist-full', [
+                'wishlistItems' => $items
+            ]);
         }
     }
 

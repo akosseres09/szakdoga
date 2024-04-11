@@ -10,7 +10,6 @@ use yii\data\ArrayDataProvider;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\ErrorAction;
-use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class OrderController extends BaseController
@@ -41,23 +40,23 @@ class OrderController extends BaseController
        ];
     }
 
-    public function actionIndex(): array
+    public function actionIndex(): array|string
     {
-        if (Yii::$app->request->isAjax) {
-            $query = (new Query())->select([
-                'order.created_at',
-            ])->distinct(true)
-                ->from('{{%order}}')
-                ->where(['order.user_id' => Yii::$app->user->id])
-                ->orderBy('order.created_at')
-                ->groupBy('order.created_at');
+        $query = (new Query())->select([
+            'order.created_at',
+        ])->distinct(true)
+            ->from('{{%order}}')
+            ->where(['order.user_id' => Yii::$app->user->id])
+            ->orderBy('order.created_at')
+            ->groupBy('order.created_at');
 
-            $orders = new ActiveDataProvider([
-                'query' => $query,
-                'pagination' => [
-                    'pageSize' => 0
-                ]
-            ]);
+        $orders = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
+        if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'data' => $this->renderAjax('orders', [
@@ -66,7 +65,9 @@ class OrderController extends BaseController
             ];
 
         } else {
-            throw new NotFoundHttpException('You can not access this page with this request: ' . Yii::$app->request->method);
+            return $this->render('orders-full', [
+               'orders' => $orders
+            ]);
         }
     }
 

@@ -15,11 +15,10 @@ $user = Yii::$app->user->identity;
 <div class="container-fluid">
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-6">
                 <?php $form = ActiveForm::begin([
                     'id' => 'user-update-form',
                     'action' => '/user/update',
-                    'enableAjaxValidation' => true
                 ]) ?>
                 <?= $form->field($user, 'email')->textInput(['required', 'maxLength']) ?>
                 <?= $form->field($user, 'username')->textInput(['required', 'maxLength']) ?>
