@@ -14,8 +14,8 @@ class UserSearch extends User
     public $status;
     public $created_at;
 
-    private int $startDate;
-    private int $endDate;
+    private int $startDate = 0;
+    private int $endDate = 0;
 
     const ALL_TYPE = 2;
     const ALL_STATUS = 1;
@@ -74,6 +74,9 @@ class UserSearch extends User
             $date = Yii::$app->formatter->asDate($this->created_at, 'php:Y-m-d');
             $this->startDate = strtotime($date);
             $this->endDate = strtotime('+1 day', $this->created_at);
+
+            $query->andFilterWhere(['>=', 'created_at', $this->startDate])
+                ->andFilterWhere(['<', 'created_at', $this->endDate]);
         }
 
         if ($this->is_admin !== '2') {
@@ -85,9 +88,7 @@ class UserSearch extends User
         }
 
         $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['>=', 'created_at', $this->startDate])
-            ->andFilterWhere(['<', 'created_at', $this->endDate]);
+            ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }
