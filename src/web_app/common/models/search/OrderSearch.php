@@ -5,6 +5,7 @@ namespace common\models\search;
 use common\models\Order;
 use common\models\traits\FilterTrait;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 
 class OrderSearch extends Order
 {
@@ -30,7 +31,13 @@ class OrderSearch extends Order
 
     public function search($params): ActiveDataProvider
     {
-        $query = Order::find()->leftJoin('{{%user}}', 'order.user_id = user.id');
+        $query = (new Query())->select([
+            'order.created_at AS created_at',
+            'user.username AS name',
+            'user.id AS id'
+        ])->distinct()
+        ->from('{{%order}}')
+        ->leftJoin('{{%user}}', 'order.user_id = user.id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

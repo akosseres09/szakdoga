@@ -32,22 +32,22 @@ $this->title = 'Orders';
                 'class' => SerialColumn::class
             ],
             [
-                'attribute' => 'user.username',
+                'attribute' => 'name',
                 'filterAttribute' => 'name',
                 'label' => 'Ordered By',
                 'value' => function ($model) {
-                    return $model->user->username;
+                    return $model['name'];
                 },
                 'headerOptions' => [
                     'style' => 'min-width: 150px;width: 250px'
                 ]
             ],
             [
-                'attribute' => 'order.created_at',
+                'attribute' => 'created_at',
                 'format' => 'raw',
                 'label' => 'Ordered At',
                 'value' => function ($model) {
-                    return Yii::$app->formatter->asDate($model->created_at, 'php:Y-m-d H:i:s');
+                    return Yii::$app->formatter->asDate($model['created_at'], 'php:Y-m-d H:i:s');
                 },
                 'filter' => DatePicker::widget([
                     'model' => $search,
@@ -65,7 +65,9 @@ $this->title = 'Orders';
                 'label' => 'View',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $href = Url::to(["/order/view/$model->user_id?date=$model->created_at" ]);
+                    $userID = $model['id'];
+                    $date = $model['created_at'];
+                    $href = Url::to(["/order/view/$userID?date=$date" ]);
                     return Html::a('View Order', $href);
                 }
             ]
