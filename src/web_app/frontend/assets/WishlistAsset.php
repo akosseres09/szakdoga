@@ -10,7 +10,7 @@ class WishlistAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        'css/shop/shop.css'
+        'css/wishlist/wishlist.css'
     ];
 
     public $js = [];

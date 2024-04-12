@@ -1,0 +1,61 @@
+.wishlist-items-grid-container {
+    display: grid;
+    column-gap: 35px;
+    grid-template-columns: repeat(4,minmax(150px, 1fr));
+    row-gap: 40px;
+}
+
+.wishlist-items-grid-container .product-item-link {
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.wishlist-items-grid-container .product-item-link:hover {
+    transition: transform 0.5s;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.wishlist-items-grid-container .card {
+    border: none;
+}
+
+.wishlist-items-grid-container .product-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.wishlist-items-grid-container .card-footer {
+    background-color: transparent;
+}
+
+.wishlist-items-grid-container .product-item-link {
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.wishlist-items-grid-container .product-item-link:hover {
+    transition: transform 0.5s;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 992px) and (min-width: 768px) {
+    .wishlist-items-grid-container {
+        grid-template-columns: repeat(3,minmax(150px, 1fr));
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 768px){
+    .wishlist-items-grid-container {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .wishlist-items-grid-container {
+        grid-template-columns: repeat(1, minmax(150px, 1fr));
+    }
+}
