@@ -1,7 +1,7 @@
 const swalWithCustomButtons = Swal.mixin({
     customClass: {
         confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-outline-light',
+        cancelButton: 'btn btn-outline-dark',
         actions: 'gap-3'
     },
     buttonsStyling: false,

@@ -17,6 +17,7 @@ $this->beginContent('@frontend/views/layouts/base.php');
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
+        </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-nav me-auto px-3">
                 <?php if(Yii::$app->user->isGuest): ?>
@@ -51,7 +52,7 @@ $this->beginContent('@frontend/views/layouts/base.php');
                         <div class="d-flex gap-3 align-items-center flex-1">
                             <?php if(Yii::$app->user->isGuest): ?>
                                 <div class="d-flex gap-3 ms-auto">
-                                    <a class="btn btn-outline-light" href="<?= Url::to(['/site/login']) ?>">
+                                    <a class="btn btn-outline-dark" href="<?= Url::to(['/site/login']) ?>">
                                         Log in
                                     </a>
                                     <a class="btn btn-primary" href="<?= Url::to(['/site/signup']) ?>">
@@ -61,7 +62,7 @@ $this->beginContent('@frontend/views/layouts/base.php');
                             <?php else :?>
                                 <div class="d-flex gap-3 ms-auto">
                                     <a class="btn btn-primary" href="<?= Url::to(['shop/products']) ?>">Browse Products</a>
-                                    <a href="<?= Url::to(['site/logout'])?>" data-method="POST" class="btn btn-outline-light">Log out</a>
+                                    <a href="<?= Url::to(['site/logout'])?>" data-method="POST" class="btn btn-outline-dark">Log out</a>
                                 </div>
                             <?php endif;?>
                         </div>

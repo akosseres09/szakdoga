@@ -136,7 +136,7 @@ $this->title = 'The Best Choice In Sports » Sportify ';
 <div class="d-flex justify-content-center gap-3 align-items-center">
     <?= Html::submitButton('Filter', ['class' => 'btn btn-primary mt-3', 'id' => 'filter-button' ]) ?>
     <?php if ($paramCount > 0) { ?>
-        <?= Html::a(Html::button('Reset Filters', ['class' => 'btn btn-outline-light mt-3']), ['/shop/products']) ?>
+        <?= Html::a(Html::button('Reset Filters', ['class' => 'btn btn-outline-dark mt-3']), ['/shop/products']) ?>
     <?php } ?>
 </div>
 <?php ActiveForm::end() ?>

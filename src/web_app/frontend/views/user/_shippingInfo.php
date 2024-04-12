@@ -27,7 +27,7 @@ $user = Yii::$app->user->getIdentity();
             <?= $form->field($shippingInfo, 'city')->textInput(['maxlength' => 64]) ?>
             <?= $form->field($shippingInfo, 'street')->textInput(['maxlength' => 64]) ?>
             <div class="col-auto d-flex justify-content-center">
-                <?= Html::submitButton('Update Shipping Information', ['class' => 'btn btn-outline-light mt-2']) ?>
+                <?= Html::submitButton('Update Shipping Information', ['class' => 'btn btn-outline-dark mt-2']) ?>
             </div>
         </div>
         <?php ActiveForm::end() ?>

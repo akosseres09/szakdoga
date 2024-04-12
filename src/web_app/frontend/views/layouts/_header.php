@@ -152,7 +152,7 @@ $actionName = Yii::$app->controller->action->id;
                         <div class="d-flex gap-3 me-5">
                             <?php if ($actionName !== 'login'): ?>
                                 <div class="nav-item">
-                                    <a class="btn btn-outline-light" href="<?= Url::to(['/site/login'])?>">Login</a>
+                                    <a class="btn btn-outline-dark" href="<?= Url::to(['/site/login'])?>">Login</a>
                                 </div>
                             <?php endif; ?>
                             <?php if ($actionName !== 'signup'): ?>

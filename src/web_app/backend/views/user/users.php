@@ -110,7 +110,7 @@ echo $this->render('/site/common/_alert');
                     'bs-toggle' => 'modal',
                     'bs-target' => '#editUserModal'
                 ]]);
-                $delete = Html::a('Delete', ['/user/delete/'.$model->id], ['class' => 'btn btn-outline-light m-delete', 'data' => ['method' => 'POST']]);
+                $delete = Html::a('Delete', ['/user/delete/'.$model->id], ['class' => 'btn btn-outline-dark m-delete', 'data' => ['method' => 'POST']]);
                 return
                     Yii::$app->user->id !== $model->id ? $edit . $delete : $edit;
             }

@@ -39,7 +39,7 @@ $fieldOptions = [
                             <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
                         </div>
                         <div class="text-center">
-                            <?= Html::a('Cancel', Url::to(['/site/login']),['class' => ['btn btn-outline-light cancel']]) ?>
+                            <?= Html::a('Cancel', Url::to(['/site/login']),['class' => ['btn btn-outline-dark cancel']]) ?>
                         </div>
                     </div>
                     <?php ActiveForm::end() ?>

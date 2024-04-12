@@ -31,7 +31,7 @@ $this->title = 'Update Your Profile';
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Update</button>
-            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
         </div>
         <?php ActiveForm::end() ?>
     </div>
