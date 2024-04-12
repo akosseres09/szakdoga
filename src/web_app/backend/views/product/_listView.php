@@ -10,10 +10,7 @@ use yii\web\View;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
-Pjax::begin([
-    'enablePushState' => false,
-    'enableReplaceState' => false
-]);
+Pjax::begin();
 echo ListView::widget([
     'dataProvider' => $products,
     'pager' => [

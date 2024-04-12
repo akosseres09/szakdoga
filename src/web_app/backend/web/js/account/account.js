@@ -14,6 +14,7 @@ if (userLink && productContainer) {
                 e.target.classList.add('active');
 
                 getProductPage(e.target.dataset.href);
+                history.pushState({},'',e.target.dataset.href);
             }
         })
     })

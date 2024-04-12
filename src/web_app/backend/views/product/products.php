@@ -1,6 +1,7 @@
 <?php
 
 use backend\assets\AppAsset;
+use common\models\Type;
 use common\widgets\Navigation;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -17,52 +18,38 @@ $this->title = 'Products Admin  »  Sportify';
 
 echo $this->render('/site/common/_alert');
 
-$tabs = [
+$types = Type::getAll();
+$tabs = [];
+$tabs = array_merge($tabs, [
     'all' => [
-        'link' => Url::to(['/product']),
+        'link' => Url::to(['/products']),
         'site' => 'All'
     ],
-    'footballShoes' => [
-        'link' => Url::to(['/product?typeName[]=Indoor Football Shoes&typeName[]=Outdoor Football Shoes']),
-        'site' => 'Football Shoes'
-    ],
-    'handballShoes' => [
-        'link' => Url::to(['/product?typeName[]=Handball Shoes']),
-        'site' => 'Handball Shoes'
-    ],
-    'basketballShoes' => [
-        'link' => Url::to(['/product?typeName[]=Basketball Shoes']),
-        'site' => 'Basketball Shoes'
-    ],
-    'shoes' => [
-        'link' => Url::to(['/product?typeName[]=Shoes']),
-        'site' => 'Shoes',
-    ],
-    'accessories' => [
-        'link' =>  Url::to(['/product?typeName[]=Accessories']),
-        'site' => 'accessories',
-    ],
     'active' => [
-        'link' => Url::to(['/product?is_activated=1']),
+        'link' => Url::to(['/products?is_activated=1&tab=active']),
         'site' => 'Active'
     ],
     'inactive' => [
-        'link' => Url::to(['/product?is_activated=0']),
+        'link' => Url::to(['/products?is_activated=0&tab=inactive']),
         'site' => 'Inactive'
-    ],
-    'shirts' => [
-        'link' => Url::to(['/product?typeName[]=Shirt']),
-        'site' => 'Shirts'
     ]
-];
-
+]);
+foreach ($types as $type) {
+    $tabs = array_merge($tabs, [
+            $type->product_type => [
+                'link' => Url::to(["/products?typeName[]=$type->product_type&tab=$type->product_type"]),
+                'site' => ucfirst($type->product_type)
+            ]
+    ]);
+}
+$tab = $tabs[Yii::$app->request->get('tab')]['site'] ?? 'All';
 ?>
 
 <div class="container">
     <div class="mb-5">
         <?php echo Navigation::widget([
             'tabs' => $tabs,
-            'tab' => 'All'
+            'tab' => $tab,
         ]); ?>
     </div>
     <div id="product-container">

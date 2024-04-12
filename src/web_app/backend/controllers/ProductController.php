@@ -42,10 +42,10 @@ class ProductController extends Controller
 
     public function actionProducts($pageSize = 12): string|array
     {
+        $searchModel = new ProductSearch();
+        $searchModel->pageSize = $pageSize;
+        $products = $searchModel->search(Yii::$app->request->get(), Yii::$app->request->get('is_activated'));
         if (Yii::$app->request->isAjax) {
-            $searchModel = new ProductSearch();
-            $searchModel->pageSize = $pageSize;
-            $products = $searchModel->search(Yii::$app->request->get(), Yii::$app->request->get('is_activated'));
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'data' => $this->renderPartial('_listView', [
@@ -53,21 +53,6 @@ class ProductController extends Controller
                 ]),
             ];
         }
-
-        $query = Product::find()->with('brand', 'type')
-            ->leftJoin('type', 'product.type_id = type.id');
-
-        $products = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'is_activated' => SORT_DESC
-                ]
-            ],
-            'pagination' => [
-                'pageSize' => $pageSize
-            ]
-        ]);
 
         return $this->render('products', [
             'products' => $products,
