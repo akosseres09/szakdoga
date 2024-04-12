@@ -3,6 +3,7 @@
  * @var View $this
  */
 
+use common\models\Product;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
@@ -22,21 +23,19 @@ $actionName = Yii::$app->controller->action->id;
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="navbar-nav me-auto px-3">
             <div class="mobile-nav nav-item dropdown">
-                <a class="nav-link justify-content-start" href="<?= Url::to(['/shop']) ?>">
-                    Products
-                </a>
+               <a class="nav-link justify-content-start">
+                   Products
+               </a>
                 <div class="px-3 drop" aria-labelledby="navbarDropdown">
                     <span>
-                        <a class="p-1 dropdown-item" href="#">Shoes</a>
+                        <a class="p-1 dropdown-item" href="<?= Url::to(['/shop?genderName='. Product::GENDER_MALE]) ?>">
+                            Men
+                        </a>
                     </span>
                     <span>
-                        <a class="p-1 dropdown-item" href="#">Balls</a>
-                    </span>
-                    <span>
-                        <a class="p-1 dropdown-item" href="#">Accessories</a>
-                    </span>
-                    <span>
-                        <a class="p-1 dropdown-item" href="#">Clothes</a>
+                        <a class="p-1 dropdown-item" href="<?= Url::to(['/shop?genderName='. Product::GENDER_FEMALE]) ?>">
+                            Women
+                        </a>
                     </span>
                 </div>
             </div>
