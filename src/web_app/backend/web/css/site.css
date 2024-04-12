@@ -363,6 +363,18 @@ a.add-new-btn:active {
     }
 }
 
+@media screen and (max-width: 860px) {
+    .add-new-btn {
+        right: 30px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .add-new-btn {
+        right: 15px;
+    }
+}
+
 @media screen and (max-width: 767px) {
     .items-grid-container {
         grid-template-columns: repeat(2,1fr);

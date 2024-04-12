@@ -62,7 +62,7 @@ JS);
     <img class="my-2" alt="Pics" src="<?=$link.$array[0]?>" style="border-radius: 15px; width: 75%; height: auto">
 </div>
 <div class="card-footer">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="footer-container">
         <div class="price">
             <div class="text-muted">
                 Price
@@ -81,3 +81,56 @@ JS);
         </div>
     </div>
 </div>
+
+<?php
+$this->registerCss(<<<CSS
+    .footer-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    @media screen and (min-width: 400px) and (max-width: 470px) {
+        .footer-container {
+            flex-direction: column;
+            align-items: start;
+        }
+        
+        .footer-container .availability {
+            width: 100%;
+        }
+        
+        .footer-container .price {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    @media screen and (max-width: 260px) {
+        .footer-container {
+            flex-direction: column;
+            align-items: start;
+        }
+        
+        .footer-container .availability {
+            width: 100%;
+        }
+        
+        .footer-container .price {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    @media screen and (max-width: 220px) {
+        .footer-container .price {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+    }
+CSS);
