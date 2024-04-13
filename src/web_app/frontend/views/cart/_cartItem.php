@@ -23,14 +23,14 @@ $image = $model->product->getImages(true);
                 <div class="col">
                     <div class="row">
                         <a href="<?= Url::to(['/shop/view/'.$model->product_id]) ?>" class="fw-bold">
-                            <?=$model->product->brand->name . ' ' . $model->product->name ?>
+                            <?=$model->product->brand_name . ' ' . $model->product->name ?>
                         </a>
                     </div>
                     <div class="row pt-2 pb-3">
                         <span class="col fw-semibold">
                             <?= $model->size ?>
                             <?= Product::GENDERS[$model->product->gender] ?>
-                            <?= $model->product->type->product_type ?>
+                            <?= $model->product->type_name ?>
                         </span>
                     </div>
                     <div class="d-flex align-items-center gap-2">

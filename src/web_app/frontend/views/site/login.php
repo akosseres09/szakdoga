@@ -1,19 +1,24 @@
 <?php
+/**
+ * @var View $this
+ * @var ActiveForm $form
+ * @var LoginForm $user
+ */
 
-/** @var yii\web\View $this */
-/** @var yii\widgets\ActiveForm $form */
-/** @var LoginForm $user */
 
 use common\models\LoginForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Url;
+use yii\web\View;
 
 $this->title = 'Sportify » Login';
 $fieldOptions = [
     'labelOptions' => ['class' => 'control-label'],
     'template' => '<div><span class="pb-5">{label}</span>{input}{hint}{error}</div>'
-]
+];
+
+$this->render('common/_alert');
 ?>
 <div class="container-fluid h-100 new-container">
     <?= $this->render('/site/common/_alert') ?>
@@ -50,7 +55,7 @@ $fieldOptions = [
                     </div>
                     <div class="row pt-4">
                         <div class="text-center">
-                            <?= Html::submitButton('Login', ['class' => 'btn btn-primary text-white', 'name' => 'login-button']) ?>
+                            <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                         </div>
                     </div>
                     <?php ActiveForm::end() ?>

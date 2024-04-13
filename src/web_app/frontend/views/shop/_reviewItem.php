@@ -26,7 +26,7 @@ CSS);
         <?php } ?>
     </div>
     <span class="fw-light ms-2">
-        <?= Yii::$app->formatter->asDate($model->createdAt) . ' - ' . $model->user->username . ' (' .  $model->user->email . ')' ?>
+        <?= Yii::$app->formatter->asDate($model->created_at) . ' - ' . $model->user->username . ' (' .  $model->user->email . ')' ?>
     </span>
     <div class="mt-1">
         <?= $model->description ?>

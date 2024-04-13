@@ -16,6 +16,9 @@ $fieldOptions = [
 ];
 
 $this->title = 'Sportify » Signup';
+
+$this->render('common/_alert');
+
 ?>
 <div class="container-fluid h-100 new-container" >
     <div class="container d-flex justify-content-center">
@@ -49,7 +52,7 @@ $this->title = 'Sportify » Signup';
                     </div>
                     <div class="row pt-4">
                         <div class="text-center">
-                            <?= Html::submitButton('Signup', ['class' => 'btn btn-primary text-white', 'name' => 'signup-button']) ?>
+                            <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                         </div>
                     </div>
                     <?php ActiveForm::end() ?>

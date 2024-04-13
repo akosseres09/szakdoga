@@ -42,10 +42,10 @@ CSS);
     </div>
     <div class="card-footer">
         <div class="product-name">
-            <?=$model->product->brand->name . ' ' . $model->product->name ?>
+            <?=$model->product->brand_name . ' ' . $model->product->name ?>
         </div>
         <div class="product-details">
-            <?= $model->product->type->product_type ?> <br>
+            <?= $model->product->type_name ?> <br>
             <?= Product::GENDERS[$model->product->gender] ?>,
             Size <?= $model->size ?>
         </div>

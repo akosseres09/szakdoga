@@ -88,7 +88,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
         ) ?>
         <div class="row">
             <span class="fs-5 fw-bold">
-                <?= $product->brand->name .' '.  $product->name ?>
+                <?= $product->brand_name .' '.  $product->name ?>
                 <?= $product->isKid() ? 'Children' : '' ?>
             </span>
             <div class="row mt-2">
