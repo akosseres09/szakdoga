@@ -79,7 +79,7 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionLogin(): \yii\web\Response|string
+    public function actionLogin(): Response|string
     {
         $this->layout = 'mainWithoutHeaderAndFooter';
         if (!Yii::$app->user->isGuest) {
@@ -99,7 +99,7 @@ class SiteController extends Controller
     }
 
 
-    public function actionLogout(): \yii\web\Response
+    public function actionLogout(): Response
     {
         if (Yii::$app->user->isGuest){
            return $this->goHome();
@@ -120,10 +120,10 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if($model->signup()){
-                Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+                Yii::$app->session->setFlash('Success', 'Thank you for registration. Please check your inbox for verification email.');
                 return $this->redirect(['/site/login']);
             }else {
-                Yii::$app->session->setFlash('error', 'There was a problem with the signup!');
+                Yii::$app->session->setFlash('Error', 'There was a problem with the signup!');
             }
         }
 
@@ -189,7 +189,7 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @return yii\web\Response
+     * @return Response
      *@throws BadRequestHttpException
      */
     public function actionVerifyEmail(string $token): Response
@@ -200,7 +200,7 @@ class SiteController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
         if (($model->verifyEmail())) {
-            try {
+//            try {
                 Stripe::setApiKey(Yii::$app->stripe->secretKey);
                 $customer = Customer::create([
                    'email' => $model->user->email
@@ -209,9 +209,9 @@ class SiteController extends Controller
                 if (!$model->user->save()) {
                     $customer->delete();
                 }
-            } catch (\Exception $e) {
-                Yii::$app->session->setFlash('error', 'Failed to create Stripe Customer!');
-            }
+//            } catch (\Exception $e) {
+//                Yii::$app->session->setFlash('error', 'Failed to create Stripe Customer!');
+//            }
             Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
         }else {
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');

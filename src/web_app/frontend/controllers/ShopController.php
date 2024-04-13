@@ -18,7 +18,9 @@ use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
 use yii\web\ErrorAction;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class ShopController extends BaseController
@@ -28,15 +30,17 @@ class ShopController extends BaseController
         return array_merge([
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['products', 'view', 'add-rating', 'get-rating'],
                 'rules' => [
                     [
-                        'actions' => ['products', 'view', 'get-rating'],
-                        'allow' => true,
-                        'roles' => ['?', '@']
-                    ],
-                    [
-                        'actions' => ['add-rating', 'add-to-cart', 'add-to-wishlist', 'remove-from-wishlist'],
+                        'actions' => [
+                            'products',
+                            'view',
+                            'get-rating',
+                            'add-rating',
+                            'add-to-cart',
+                            'add-to-wishlist',
+                            'remove-from-wishlist'
+                        ],
                         'allow' => true,
                         'roles' => ['@']
                     ]
@@ -72,7 +76,7 @@ class ShopController extends BaseController
         $searchModel = new ProductSearch();
         $searchModel->pageSize = $pageSize;
 
-        $types = ArrayHelper::map(Type::getAll(), 'product_type', 'product_type');
+        $types = ArrayHelper::map(Type::getAll(), 'name', 'name');
         $brands = ArrayHelper::map(Brand::getAll(), 'name', 'name');
 
         $paramCount = 0;
@@ -85,7 +89,7 @@ class ShopController extends BaseController
                 }
             }
         }
-        $dataProvider = $searchModel->search($request->queryParams);
+        $dataProvider = $searchModel->search($request->get());
 
         return $this->render('products', [
             'filterTypeCount' => $filterTypeCount,
@@ -118,28 +122,39 @@ class ShopController extends BaseController
         ]);
     }
 
+    /**
+     * @throws NotFoundHttpException
+     */
     public function actionAddRating($id): array
     {
-        $rating = Rating::find()->ofUser(Yii::$app->user->id)->ofProduct($id)->one();
+        if (Yii::$app->user->isGuest) {
+            return [
+                'success' => false
+            ];
+        } else if (Yii::$app->request->isPost) {
+            $rating = Rating::find()->ofUser(Yii::$app->user->id)->ofProduct($id)->one();
 
-        if (!$rating) {
-            $rating = new Rating();
-        }
-
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-        if ($rating->load(Yii::$app->request->post())) {
-            $rating->user_id = Yii::$app->user->id;
-            $rating->product_id = $id;
-            if ($rating->save()) {
-                return [
-                    'success' => true
-                ];
+            if (!$rating) {
+                $rating = new Rating();
             }
+
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            if ($rating->load(Yii::$app->request->post())) {
+                $rating->user_id = Yii::$app->user->id;
+                $rating->product_id = $id;
+                if ($rating->save()) {
+                    return [
+                        'success' => true
+                    ];
+                }
+            }
+            return [
+                'success' => false
+            ];
+        } else {
+            throw new NotFoundHttpException('You can not access this page with this method: '. Yii::$app->request->method);
         }
-        return [
-            'success' => false
-        ];
     }
 
     public function actionGetRating($id): array

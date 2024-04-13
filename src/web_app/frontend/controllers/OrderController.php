@@ -44,7 +44,7 @@ class OrderController extends BaseController
     {
         $query = (new Query())->select([
             'order.created_at',
-        ])->distinct(true)
+        ])->distinct()
             ->from('{{%order}}')
             ->where(['order.user_id' => Yii::$app->user->id])
             ->orderBy('order.created_at')
@@ -74,7 +74,7 @@ class OrderController extends BaseController
     public function actionItems($date): string|Response
     {
         $user = Yii::$app->user;
-        $order = Order::find()->ofDate($date)->ofUser($user->id)->with(['product', 'product.brand', 'product.type'])->all();
+        $order = Order::find()->ofDate($date)->ofUser($user->id)->with(['product'])->all();
 
 
         if (empty($order)) {

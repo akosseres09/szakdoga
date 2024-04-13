@@ -72,7 +72,7 @@ class CartController extends BaseController
     public function actionCart(): string
     {
         $user_id = Yii::$app->user->id;
-        $query = Cart::find()->ofUser($user_id)->with(['product', 'product.type', 'product.brand']);
+        $query = Cart::find()->ofUser($user_id)->with(['product']);
 
         $cartItems = new ActiveDataProvider([
             'query' => $query,
@@ -136,7 +136,7 @@ class CartController extends BaseController
         $billingInfo = BillingInformation::find()->ofUser($userId)->one();
         $shippingInfo = ShippingInformation::find()->ofUser($userId)->one();
 
-        $query = Cart::find()->ofUser($userId)->with(['product', 'product.brand']);
+        $query = Cart::find()->ofUser($userId)->with(['product']);
 
         $products = new ActiveDataProvider([
             'query' => $query,
@@ -192,13 +192,13 @@ class CartController extends BaseController
                 $shipping = new ShippingInformation();
             }
 
-            $cart = Cart::find()->ofUser($id)->with(['product', 'product.brand'])->all();
+            $cart = Cart::find()->ofUser($id)->with(['product'])->all();
             $lineItems = [];
             foreach ($cart as $item) {
                 $lineItems[] = [
                     'price_data' => [
                         'product_data' => [
-                            'name' => $item->product->brand->name . ' ' . $item->product->name
+                            'name' => $item->brand_name . ' ' . $item->product->name
                         ],
                         'currency' => 'usd',
                         'unit_amount' => $item->product->price * 100
