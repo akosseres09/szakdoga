@@ -13,11 +13,11 @@ class m231023_092610_create_billing_information_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
+    public function safeUp(): void
     {
         $this->createTable('{{%billing_information}}', [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer()->notNull()->unique(),
             'country' => $this->string(128)->notNull(),
             'state' => $this->string(64)->notNull(),
             'postcode' => $this->integer()->notNull(),
@@ -46,7 +46,7 @@ class m231023_092610_create_billing_information_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeDown()
+    public function safeDown(): void
     {
         // drops foreign key for table `{{%user}}`
         $this->dropForeignKey(

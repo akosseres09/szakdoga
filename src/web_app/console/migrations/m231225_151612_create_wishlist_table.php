@@ -14,7 +14,7 @@ class m231225_151612_create_wishlist_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
+    public function safeUp(): void
     {
         $this->createTable('{{%wishlist}}', [
             'id' => $this->primaryKey(),
@@ -68,7 +68,7 @@ class m231225_151612_create_wishlist_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeDown()
+    public function safeDown(): void
     {
         // drops foreign key for table `{{%user}}`
         $this->dropForeignKey(

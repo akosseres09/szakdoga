@@ -10,7 +10,7 @@ class m231222_125014_create_rating_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
+    public function safeUp(): void
     {
         $this->createTable('{{%rating}}', [
             'id' => $this->primaryKey(),
@@ -18,8 +18,8 @@ class m231222_125014_create_rating_table extends Migration
             'product_id' => $this->integer()->notNull(),
             'rating' => $this->integer()->notNull(),
             'description' => $this->string(2048),
-            'createdAt' => $this->integer(11),
-            'updatedAt' => $this->integer(11)
+            'created_at' => $this->integer(11),
+            'updated_at' => $this->integer(11)
         ]);
 
         // creates index for column `user_id`
@@ -60,7 +60,7 @@ class m231222_125014_create_rating_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeDown()
+    public function safeDown(): void
     {
         // drops foreign key for table `{{%User}}`
         $this->dropForeignKey(

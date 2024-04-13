@@ -14,7 +14,7 @@ class m231223_123217_create_cart_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
+    public function safeUp(): void
     {
         $this->createTable('{{%cart}}', [
             'id' => $this->primaryKey(),
@@ -65,7 +65,7 @@ class m231223_123217_create_cart_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeDown()
+    public function safeDown(): void
     {
         // drops foreign key for table `{{%user}}`
         $this->dropForeignKey(

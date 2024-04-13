@@ -4,7 +4,7 @@ use yii\db\Migration;
 
 class m130524_201442_init extends Migration
 {
-    public function up()
+    public function safeUp(): void
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -23,11 +23,23 @@ class m130524_201442_init extends Migration
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+            'verification_token' => $this->string()->defaultValue(null),
+            'last_login_at' => $this->integer(),
+            'stripe_cus' => $this->string(30)->defaultValue(null)
         ], $tableOptions);
+
+        $this->createIndex('{{%idx-user-username}}', '{{%user}}', 'username');
+        $this->createIndex('{{%idx-user-email}}', '{{%user}}', 'email');
+        $this->createIndex('{{%idx-user-is_admin}}', '{{%user}}', 'is_admin');
+        $this->createIndex('{{%idx-user-status}}', '{{%user}}', 'status');
     }
 
-    public function down()
+    public function safeDown(): void
     {
+        $this->dropIndex('{{%idx-user-username}}','{{%user}}');
+        $this->dropIndex('{{%idx-user-email}}','{{%user}}');
+        $this->dropIndex('{{%idx-user-is_admin}}','{{%user}}');
+        $this->dropIndex('{{%idx-user-status}}','{{%user}}');
         $this->dropTable('{{%user}}');
     }
 }

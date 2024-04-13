@@ -10,14 +10,14 @@ class m240407_141932_create_order_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
+    public function safeUp(): void
     {
         $this->createTable('{{%order}}', [
             'id' => $this->primaryKey(),
             'product_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer()->notNull(),
             'quantity' => $this->integer()->notNull(),
             'size' => $this->string(16),
-            'user_id' => $this->integer()->notNull(),
             'created_at' => $this->integer(12)->notNull()
         ]);
 
@@ -63,7 +63,7 @@ class m240407_141932_create_order_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeDown()
+    public function safeDown(): void
     {
         $this->dropForeignKey(
         '{{%fk-order-product_id}}',

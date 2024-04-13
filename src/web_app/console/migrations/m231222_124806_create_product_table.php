@@ -10,7 +10,7 @@ class m231222_124806_create_product_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
+    public function safeUp(): void
     {
         $this->createTable('{{%product}}', [
             'id' => $this->primaryKey(),
@@ -23,38 +23,37 @@ class m231222_124806_create_product_table extends Migration
             'is_activated' => $this->integer(1)->notNull(),
             'is_kid' => $this->integer(1)->notNull(),
             'gender' => $this->integer(1)->notNull(),
-            'folder_id' => $this->string(11)->notNull(),
-            'brand_id' => $this->integer()->notNull(),
-            'type_id' => $this->integer()->notNull(),
-            'rating' => $this->integer(),
+            'folder_id' => $this->string(11)->notNull()->unique(),
+            'brand_name' => $this->string(128)->notNull(),
+            'type_name' => $this->string(128)->notNull(),
         ]);
 
-        $this->createIndex('{{%idx-product-brand_id}}',
+        $this->createIndex('{{%idx-product-brand_name}}',
             '{{product}}',
-            'brand_id'
+            'brand_name'
         );
 
-        $this->createIndex('{{%idx-product-type_id}}',
+        $this->createIndex('{{%idx-product-type_name}}',
             '{{product}}',
-            'type_id'
+            'type_name'
         );
 
         $this->addForeignKey(
-            '{{%fk-product-type_id}}',
+            '{{%fk-product-type_name}}',
             '{{%product}}',
-            'type_id',
+            'type_name',
             '{{%type}}',
-            'id',
+            'name',
             'NO ACTION',
             'CASCADE'
         );
 
         $this->addForeignKey(
-            '{{%fk-product-brand_id}}',
+            '{{%fk-product-brand_name}}',
             '{{%product}}',
-            'brand_id',
+            'brand_name',
             '{{%brand}}',
-            'id',
+            'name',
             'NO ACTION',
             'CASCADE'
         );
@@ -94,19 +93,19 @@ class m231222_124806_create_product_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeDown()
+    public function safeDown(): void
     {
-        $this->dropForeignKey(
-            '{{%fk-product-brand_id}}',
-            '{{%product}}'
-        );
 
         $this->dropForeignKey(
-        '{{%fk-product-type_id}}',
+        '{{%fk-product-type_name}}',
         '{{%product}}');
 
-        $this->dropIndex('{{%idx-product-type_id}}', '{{%product}}');
-        $this->dropIndex('{{%idx-product-brand_id}}','{{%product}}');
+        $this->dropForeignKey(
+            '{{%fk-product-brand_name}}',
+            '{{%product}}');
+
+        $this->dropIndex('{{%idx-product-type_name}}', '{{%product}}');
+        $this->dropIndex('{{%idx-product-brand_name}}','{{%product}}');
         $this->dropIndex('{{%idx-product-name}}', '{{%product}}');
         $this->dropIndex('{{%idx-product-price}}', '{{%product}}');
         $this->dropIndex('{{%idx-product-number_of_stocks}}', '{{%product}}');
