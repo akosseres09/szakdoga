@@ -21,8 +21,9 @@ use yii\db\ActiveRecord;
  */
 class Wishlist extends ActiveRecord
 {
-    const WISHLIST_CACHCE_KEY = 'wishlist';
-    public function init()
+    const WISHLIST_CACHE_KEY = 'wishlist';
+
+    public function init(): void
     {
         parent::init();
         $this->on(self::EVENT_AFTER_INSERT, [static::class, 'clearCache']);
@@ -34,7 +35,6 @@ class Wishlist extends ActiveRecord
     {
         return [
             [['user_id', 'product_id'], 'required'],
-            //[['user_id', 'product_id'], 'unique', 'targetAttribute' => 'user_id', 'message' => 'You already have this product in your wishlist!'],
             [['user_id', 'product_id'], 'number']
         ];
     }
@@ -63,7 +63,7 @@ class Wishlist extends ActiveRecord
 
     public static function getCacheKey(int $id): string
     {
-        return self::WISHLIST_CACHCE_KEY . $id;
+        return self::WISHLIST_CACHE_KEY . $id;
     }
 
     public static function findByUser(int $id)

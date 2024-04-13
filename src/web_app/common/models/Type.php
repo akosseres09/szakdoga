@@ -8,15 +8,14 @@ use yii\base\Event;
 use yii\db\ActiveRecord;
 
 /**
- * @property int $id
- * @property string $product_type
+ * @property string $name
  */
 class Type extends ActiveRecord
 {
     const TYPE_CACHE_KEY = 'type';
     const TYPE_ALL = 'typeAll';
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -38,7 +37,7 @@ class Type extends ActiveRecord
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [];
     }

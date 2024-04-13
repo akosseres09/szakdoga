@@ -13,8 +13,8 @@ use yii\db\ActiveRecord;
  * @property int $product_id
  * @property int $rating
  * @property string $description
- * @property int $createdAt
- * @property int $updatedAt
+ * @property int $created_at
+ * @property int $updated_at
  *
  * @property User $user
  * @property Product $product
@@ -44,7 +44,7 @@ class Rating extends ActiveRecord
         self::RATING_EXCELLENT
     ];
 
-    public function formName()
+    public function formName(): string
     {
         return '';
     }
@@ -63,13 +63,11 @@ class Rating extends ActiveRecord
         ];
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             [
                 'class' => TimestampBehavior::class,
-                'createdAtAttribute' => 'createdAt',
-                'updatedAtAttribute' => 'updatedAt'
             ]
         ];
     }

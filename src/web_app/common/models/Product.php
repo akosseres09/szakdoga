@@ -7,7 +7,6 @@ use common\models\query\ProductQuery;
 use Imagine\Image\Box;
 use Yii;
 use yii\base\Event;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\imagine\Image;
@@ -15,19 +14,18 @@ use yii\web\UploadedFile;
 
 /**
  * @property int $id
- * @property string $folder_id
- * @property int $brand_id
- * @property int type_id
  * @property string $name
- * @property string $description
  * @property string $description_title
- * @property string $details
+ * @property string $description
  * @property int $price
- * @property int $rating
+ * @property string $details
  * @property int $number_of_stocks
  * @property bool $is_activated
  * @property int $is_kid
  * @property int $gender
+ * @property string $folder_id
+ * @property string $brand_name
+ * @property string type_name
  *
  * @property Type $type
  * @property Brand $brand
@@ -81,21 +79,15 @@ class Product extends ActiveRecord
 
     public function behaviors(): array
     {
-        return [
-            [
-                'class' => TimestampBehavior::class,
-                'createdAtAttribute' => false,
-                'updatedAtAttribute' => false
-            ]
-        ];
+        return [];
     }
 
     public function rules(): array
     {
         return [
-            [['name', 'description', 'description_title', 'price', 'number_of_stocks', 'is_kid', 'gender', 'type_id', 'brand_id', 'folder_id', 'details'], 'required'],
+            [['name', 'description', 'description_title', 'price', 'number_of_stocks', 'is_kid', 'gender', 'type_name', 'brand_name', 'folder_id', 'details'], 'required'],
             ['images', 'required', 'on' => 'create'],
-            [['name', 'description_title'], 'string', 'max' => 128],
+            [['name', 'description_title','type_name', 'brand_name'], 'string', 'max' => 128],
             [['folder_id'], 'string', 'max' => 11],
             [['description', 'details'], 'string', 'max' => 1024],
             ['rating', 'in', 'range' => [0,1,2,3,4,5]],
@@ -121,8 +113,8 @@ class Product extends ActiveRecord
                 'number_of_stocks',
                 'is_kid',
                 'gender',
-                'type_id',
-                'brand_id',
+                'type_name',
+                'brand_name',
                 'folder_id',
                 'details',
                 'rating',
@@ -136,8 +128,8 @@ class Product extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'brand_id' => 'Brand Name',
-            'type_id' => 'Type',
+            'brand_name' => 'Brand Name',
+            'type_name' => 'Type Name',
         ];
     }
 
@@ -145,8 +137,8 @@ class Product extends ActiveRecord
     {
         $product = $event->sender;
 
-        static::deleteCache(static::getBrandCacheKey($product->brand_id));
-        static::deleteCache(static::getTypeCacheKey($product->type_id));
+        static::deleteCache(static::getBrandCacheKey($product->brand_name));
+        static::deleteCache(static::getTypeCacheKey($product->type_name));
     }
 
     public static function deleteCache(mixed $key): void
@@ -171,12 +163,12 @@ class Product extends ActiveRecord
 
     public function getType(): ActiveQuery
     {
-        return $this->hasOne(Type::class, ['id' => 'type_id']);
+        return $this->hasOne(Type::class, ['name' => 'type_name']);
     }
 
     public function getBrand(): ActiveQuery
     {
-        return $this->hasOne(Brand::class, ['id' => 'brand_id']);
+        return $this->hasOne(Brand::class, ['name' => 'brand_name']);
     }
 
     public function getRating(): ActiveQuery
@@ -206,7 +198,7 @@ class Product extends ActiveRecord
 
     public function isShoe(): bool
     {
-        return in_array($this->type, Type::find()->ofShoes()->all()) ;
+        return str_contains($this->type_name, 'Shoes') ;
     }
 
     public function isKid(): bool
@@ -242,7 +234,7 @@ class Product extends ActiveRecord
                     ->resize(new Box(500,500))
                     ->save($filePath);
             }
-        }else {
+        } else {
             return false;
         }
 
@@ -258,5 +250,4 @@ class Product extends ActiveRecord
     {
         return $this->getRating()->average('rating');
     }
-
 }

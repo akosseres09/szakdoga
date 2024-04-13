@@ -53,7 +53,6 @@ class ProductSearch extends Product
         if ($active) {
             $query->ofActive();
         }
-        $query->with(['brand', 'type']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -80,22 +79,14 @@ class ProductSearch extends Product
             ];
         }
 
-        if (isset($this->typeName)) {
-            $query->joinWith(['type']);
-        }
-
-        if (isset($this->brandName)) {
-            $query->joinWith(['brand']);
-        }
-
-        $query->andFilterWhere(['like', new Expression('CONCAT(brand.name, " ", product.name)'), $this->name])
-            ->andFilterWhere(['IN', 'type.product_type', $this->typeName])
-            ->andFilterWhere(['IN', 'brand.name', $this->brandName])
-            ->andFilterWhere(['IN', 'product.is_kid', $this->kidOrAdult])
-            ->andFilterWhere(['IN', 'product.gender', $this->genderName])
-            ->andFilterWhere(['>=', 'product.price', $this->minPrice])
-            ->andFilterWhere(['<=', 'product.price', $this->maxPrice])
-            ->andFilterWhere(['product.is_activated' => $active]);
+        $query->andFilterWhere(['like', new Expression('CONCAT(brand_name, " ", product.name)'), $this->name])
+            ->andFilterWhere(['IN', 'type_name', $this->typeName])
+            ->andFilterWhere(['IN', 'brand_name', $this->brandName])
+            ->andFilterWhere(['IN', 'is_kid', $this->kidOrAdult])
+            ->andFilterWhere(['IN', 'gender', $this->genderName])
+            ->andFilterWhere(['>=', 'price', $this->minPrice])
+            ->andFilterWhere(['<=', 'price', $this->maxPrice])
+            ->andFilterWhere(['is_activated' => $active]);
 
         return $dataProvider;
     }

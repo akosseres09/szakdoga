@@ -17,15 +17,15 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
+ * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $verification_token
  * @property string $email
- * @property string $auth_key
  * @property integer $is_admin
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $verification_token
  * @property integer $last_login_at
  * @property string $stripe_cus
  * @property string $password write-only password

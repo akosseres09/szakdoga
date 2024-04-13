@@ -8,14 +8,13 @@ use yii\base\Event;
 use yii\db\ActiveRecord;
 
 /**
- * @property int $id
  * @property string $name
  */
 
 class Brand extends ActiveRecord
 {
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 
