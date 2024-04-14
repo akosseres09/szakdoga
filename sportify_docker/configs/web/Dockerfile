@@ -14,4 +14,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html/sportify
 
-RUN a2enmod rewrite
+RUN sed -i '/SSLCertificateFile.*snakeoil\.pem/c\SSLCertificateFile \/etc\/ssl\/certs\/certificate.crt' /etc/apache2/sites-available/default-ssl.conf && sed -i '/SSLCertificateKeyFile.*snakeoil\.key/cSSLCertificateKeyFile /etc/ssl/private/private.key\' /etc/apache2/sites-available/default-ssl.conf
+
+RUN a2enmod rewrite && a2enmod ssl && a2enmod socache_shmcb
+
+RUN a2ensite default-ssl

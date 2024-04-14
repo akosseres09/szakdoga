@@ -6,8 +6,11 @@ services:
       context: ./configs/web
     volumes:
       - $WEB_SOURCE_PATH:/var/www/html/sportify
+      - $SSL_CERT_PATH:/etc/ssl/certs/certificate.crt
+      - $SSL_PRIVATE_PATH:/etc/ssl/private/private.key
     ports:
       - "80:80"
+      - "443:443"
     configs:
       - source: apache_config
         target: /etc/apache2/sites-available/000-default.conf
