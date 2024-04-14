@@ -1,10 +1,10 @@
 .idea
 
-sportify_docker/configs/web/certificate.crt
-sportify_docker/configs/web/private.key
 
 sportify_docker/.env
 
 sportify_docker/dump
 
 sportify_docker/redis_dump
+/sportify_docker/configs/web/config/certificate.crt
+/sportify_docker/configs/web/config/private.key
