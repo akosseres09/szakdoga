@@ -1,5 +1,8 @@
 .idea
 
+sportify_docker/configs/web/certificate.crt
+sportify_docker/configs/web/private.key
+
 sportify_docker/.env
 
 sportify_docker/dump
