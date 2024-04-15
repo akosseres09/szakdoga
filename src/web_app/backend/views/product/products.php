@@ -36,9 +36,9 @@ $tabs = array_merge($tabs, [
 ]);
 foreach ($types as $type) {
     $tabs = array_merge($tabs, [
-            $type->product_type => [
-                'link' => Url::to(["/products?typeName[]=$type->product_type&tab=$type->product_type"]),
-                'site' => ucfirst($type->product_type)
+            $type->name => [
+                'link' => Url::to(["/products?typeName[]=$type->name&tab=$type->name"]),
+                'site' => ucfirst($type->name)
             ]
     ]);
 }

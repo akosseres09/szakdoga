@@ -56,3 +56,27 @@ function getProductPage(href) {
             productContainer.innerHTML = res.data;
         })
 }
+
+function triggerFileSelect() {
+    const input = document.querySelector('input[type="file"]').click();
+}
+
+function showFiles(event) {
+    const files = event.target.files;
+    const container = document.getElementById('uploadedImagesContainer');
+    container.innerHTML = '';
+
+    for (const file of files) {
+        const reader = new FileReader();
+        const width = container.clientWidth;
+        reader.onloadend = function (e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = file.name;
+            img.style.width = (1 / files.length) * 100 + '%';
+            img.style.height = 'auto';
+            container.appendChild(img);
+        }
+        reader.readAsDataURL(file);
+    }
+}

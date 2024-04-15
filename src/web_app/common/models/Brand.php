@@ -18,9 +18,9 @@ class Brand extends ActiveRecord
     {
         parent::init();
 
-        $this->on(self::EVENT_AFTER_INSERT, [Brand::class, 'clearCache']);
-        $this->on(self::EVENT_BEFORE_DELETE, [Brand::class, 'clearCache']);
-        $this->on(self::EVENT_AFTER_UPDATE, [Brand::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_INSERT, [static::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_DELETE, [static::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_UPDATE, [static::class, 'clearCache']);
     }
 
     const BRAND_CACHE_KEY = 'brand';

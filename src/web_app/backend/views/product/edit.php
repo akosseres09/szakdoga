@@ -2,9 +2,13 @@
 /**
  * @var View $this
  * @var Product $product
+ * @var Brand[] $brands
+ * @var Type[] $types
  */
 
+use common\models\Brand;
 use common\models\Product;
+use common\models\Type;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\web\View;
@@ -12,7 +16,7 @@ use yii\web\View;
 
 $fieldOptions = [
     'labelOptions' => ['class' => 'mb-1 mt-3']
-]
+];
 
 ?>
 
@@ -40,8 +44,8 @@ $fieldOptions = [
             <div class="row">
                 <div class="col-lg">
                     <?= $form->field($product, 'is_kid', $fieldOptions)->dropDownList([
-                        1 => 'Adult',
-                        0 => 'Kid'
+                        Product::ADULT => 'Adult',
+                        Product::CHILDREN => 'Kid'
                     ], ['required' => true])->label('Kid or Adult') ?>
                 </div>
                 <div class="col">
@@ -49,6 +53,14 @@ $fieldOptions = [
                         Product::GENDER_MALE => 'Male',
                         Product::GENDER_FEMALE => 'Female'
                     ])?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <?= $form->field($product, 'type_name', $fieldOptions)->dropDownList($types) ?>
+                </div>
+                <div class="col">
+                    <?= $form->field($product, 'brand_name', $fieldOptions)->dropDownList($brands) ?>
                 </div>
             </div>
             <div class="row">
@@ -66,7 +78,7 @@ $fieldOptions = [
             <div class="row justify-content-center">
                 <div class="col-auto">
                     <?= Html::submitButton('Edit Product', [
-                        'class' => 'btn btn-primary mt-5'
+                        'class' => 'btn btn-primary mt-2'
                     ]) ?>
                 </div>
             </div>

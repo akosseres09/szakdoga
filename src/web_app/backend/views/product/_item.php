@@ -27,8 +27,8 @@ JS);
     <div class="mx-4">
         <div class="row">
             <div class="col p-0 fw-bold product-name">
-                <a class="product-name" href="http://sportify.test/shop/view/<?=$model->id?>">
-                    <?=$model->brand->name . ' ' . $model->name ?>
+                <a class="product-name" href="https://sportify.test/shop/view/<?=$model->id?>">
+                    <?=$model->brand_name . ' ' . $model->name ?>
                 </a>
             </div>
         </div>
@@ -37,7 +37,7 @@ JS);
                 <?= ucfirst($active) ?>
             </div>
             <div class="col-lg-auto mt-1 mt-lg-0 badge badge-brown product-name flex-shrink-1">
-                <?= $model->type->product_type ?>
+                <?= $model->type_name ?>
             </div>
         </div>
         <div class="row pt-2">

@@ -67,9 +67,9 @@ class Product extends ActiveRecord
     {
         parent::init();
 
-        $this->on(self::EVENT_BEFORE_DELETE, [Product::class, 'clearCache']);
-        $this->on(self::EVENT_AFTER_INSERT, [Product::class, 'clearCache']);
-        $this->on(self::EVENT_BEFORE_UPDATE, [Product::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_DELETE, [static::class, 'clearCache']);
+        $this->on(self::EVENT_AFTER_INSERT, [static::class, 'clearCache']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [static::class, 'clearCache']);
     }
 
     public static function tableName(): string
@@ -98,7 +98,7 @@ class Product extends ActiveRecord
             [['is_kid'], 'in', 'range' => [self::ADULT, self::CHILDREN]],
             [['is_kid'], 'default', 'value' => self::CHILDREN],
             [['gender'], 'in', 'range' => [self::GENDER_MALE, self::GENDER_FEMALE]],
-            [['images'], 'image','extensions' => 'png, jpg, jpeg, webp','maxFiles' => 5, 'minFiles' => 1]
+            [['images'], 'image','extensions' => 'png, jpg, jpeg, webp','maxFiles' => 6, 'minFiles' => 1]
         ];
     }
 
@@ -146,14 +146,14 @@ class Product extends ActiveRecord
         Yii::$app->cache->delete($key);
     }
 
-    public static function getBrandCacheKey(int $id): string
+    public static function getBrandCacheKey(string $name): string
     {
-        return Brand::BRAND_CACHE_KEY . $id;
+        return Brand::BRAND_CACHE_KEY . $name;
     }
 
-    public static function getTypeCacheKey(int $id): string
+    public static function getTypeCacheKey(string $name): string
     {
-        return Type::TYPE_CACHE_KEY . $id;
+        return Type::TYPE_CACHE_KEY . $name;
     }
 
     public static function find(): ProductQuery

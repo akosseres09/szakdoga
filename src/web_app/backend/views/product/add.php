@@ -19,17 +19,18 @@ $fieldOptions = [
 ];
 
 $this->registerCss(<<<CSS
-    input::file-selector-button {
-        padding: 5px 10px;
-        color: var(--spfy-white);
-        background-color: var(--spfy-main-color);
-        border-color: var(--spfy-main-color);
-        border-radius: 10px;
+    input[type="file"] {
+        display: none;
     }
 
+    #uploadedImagesContainer {
+        margin-top: 10px;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
 CSS
 );
-
 ?>
 <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -71,10 +72,10 @@ CSS
             </div>
             <div class="row">
                 <div class="col">
-                    <?= $form->field($product, 'type_id', $fieldOptions)->dropDownList($types) ?>
+                    <?= $form->field($product, 'type_name', $fieldOptions)->dropDownList($types) ?>
                 </div>
                 <div class="col">
-                    <?= $form->field($product, 'brand_id', $fieldOptions)->dropDownList($brands) ?>
+                    <?= $form->field($product, 'brand_name', $fieldOptions)->dropDownList($brands) ?>
                 </div>
             </div>
             <div class="row">
@@ -83,7 +84,8 @@ CSS
                     <?= $form->field($product, 'images[]', [
                         'labelOptions' => ['class' => 'd-none', 'id' => 'file-upload'],
                         'inputOptions' => ['class' => 'mt-2']
-                    ])->fileInput(['multiple' => true, 'accept' => 'image/png, image/jpg, image/jpeg, image/webp'])?>
+                    ])->fileInput(['multiple' => true, 'accept' => 'image/png, image/jpg, image/jpeg, image/webp', 'onchange' => 'showFiles(event)'])?>
+                    <button type="button" onclick="triggerFileSelect()" class="btn btn-outline-dark" id="custom-file-upload">Select Images</button>
                 </div>
             </div>
             <div class="row" id="uploadedImagesContainer">

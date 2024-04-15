@@ -63,8 +63,8 @@ class ProductController extends Controller
     {
         $request = Yii::$app->request;
         $product = new Product(['scenario' => Product::SCENARIO_CREATE]);
-        $types = ArrayHelper::map(Type::getAll(), 'id', 'product_type');
-        $brands = ArrayHelper::map(Brand::getAll(), 'id', 'name');
+        $types = ArrayHelper::map(Type::getAll(), 'name', 'name');
+        $brands = ArrayHelper::map(Brand::getAll(), 'name', 'name');
         $transaction = Yii::$app->db->beginTransaction();
         if ($request->isPost && $product->load($request->post())) {
             try {
@@ -102,8 +102,8 @@ class ProductController extends Controller
         $product = Product::findOne($id);
         $product->scenario = Product::SCENARIO_EDIT;
         $request = Yii::$app->request;
-        $types = Type::find();
-        $brands = Brand::find();
+        $types = ArrayHelper::map(Type::getAll(), 'name', 'name');
+        $brands = ArrayHelper::map(Brand::getAll(), 'name', 'name');
 
         if ($product === null) {
            return $this->redirect('/product/products');
@@ -118,7 +118,7 @@ class ProductController extends Controller
             return $this->redirect('/product/products');
         }
 
-        return $this->renderPartial('edit', [
+        return $this->renderAjax('edit', [
             'product' => $product,
             'types' => $types,
             'brands' => $brands
