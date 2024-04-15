@@ -21,7 +21,7 @@
     --spfy-hint-block-color: #999;
 }
 
-main > .container {
+main > .container, main > .error-container {
     padding: 70px 15px 20px;
 }
 

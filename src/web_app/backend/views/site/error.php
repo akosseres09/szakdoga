@@ -1,28 +1,39 @@
 <?php
 
-/** @var View $this */
+/** @var yii\web\View $this */
 /** @var string $name */
 /** @var string $message */
-/** @var Exception $exception*/
+/** @var Exception $exception */
 
-use yii\helpers\Html;
-use yii\web\View;
+use yii\helpers\Url;
 
 $this->title = $name;
+
 ?>
-<div class="site-error">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+<div class="error-container container-fluid h-100" style="background-color: var(--spfy-primary-light)">
+    <div class="container py-5" style="background-color: white; border-radius: 50px">
+        <div class="w-100 text-center">
+            <div class="site-error">
+                <div class="row">
+                    <h1 style="font-size: 100px;"><?= $exception->statusCode ?></h1>
+                </div>
+                <div class="row mt-2">
+                    <h4>
+                        <?= $message ?>
+                    </h4>
+                </div>
+                <div class="row mt-2">
+                    <span class="fs-5">
+                        It looks like you're lost! <br>
+                        Please return to the homepage.
+                    </span>
+                </div>
+                <div class="mt-4">
+                    <a class="btn btn-outline-dark fs-5" href="<?= Url::to(['/']) ?>">
+                        BACK TO HOMEPAGE
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
 </div>

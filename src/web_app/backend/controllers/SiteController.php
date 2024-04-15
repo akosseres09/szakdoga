@@ -5,10 +5,10 @@ namespace backend\controllers;
 use common\models\LoginForm;
 use common\models\User;
 use Yii;
-use yii\base\Model;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\ErrorAction;
 use yii\web\Response;
 
 /**
@@ -52,7 +52,8 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => ErrorAction::class,
+                'layout' => 'mainWithoutHeaderAndFooter'
             ],
         ];
     }
