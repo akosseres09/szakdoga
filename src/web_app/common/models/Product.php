@@ -90,7 +90,6 @@ class Product extends ActiveRecord
             [['name', 'description_title','type_name', 'brand_name'], 'string', 'max' => 128],
             [['folder_id'], 'string', 'max' => 11],
             [['description', 'details'], 'string', 'max' => 1024],
-            ['rating', 'in', 'range' => [0,1,2,3,4,5]],
             [['number_of_stocks'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number', 'message' => 'Stock number must be 0 or positive!'],
             [['price'], 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number', 'message' => 'Price must be 0 or positive!'],
             ['is_activated', 'default', 'value' => self::INACTIVE],
@@ -117,7 +116,6 @@ class Product extends ActiveRecord
                 'brand_name',
                 'folder_id',
                 'details',
-                'rating',
                 'is_activated'
             ]
         ], parent::scenarios()
