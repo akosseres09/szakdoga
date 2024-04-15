@@ -16,7 +16,7 @@ $link = '/storage/images/' . $model->product->folder_id . '/';
 <div class="card-title pb-2 border-bottom gap-2 ">
     <div class="row">
         <div class="col p-0 fw-bold product-name">
-            <a class="product-name" href="http://sportify.test/shop/view/<?=$model->product->id?>">
+            <a class="product-name" href="<?= Url::to(['/shop/view/'.$model->product->id]) ?>">
                 <?=$model->product->brand->name . ' ' . $model->product->name ?>
             </a>
         </div>

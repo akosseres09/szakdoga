@@ -51,7 +51,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
                 <?php  }?>
             </div>
             <div class="d-none d-lg-block desktop-indicators">
-                <div class="carousel-indicators mt-4" style="position:relative;">
+                <div class="carousel-indicators" style="position:relative;">
                     <?php foreach ($images as $index => $image) { ?>
                         <div class="row">
                             <button type="button" data-bs-target="#productPicsCarouselDesktop" data-bs-slide-to="<?=$index?>" <?= $index === 0 ? 'class="active"' : ''?> aria-current="true" aria-label="Slide <?=$index?>">
@@ -118,6 +118,15 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
                     </div>
                 </div>
                 <?= $form->field($cart, 'size')->hiddenInput(['required' => true])->label('') ?>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-5">
+                <?php if ($product->hasOnStock()) { ?>
+                    <span class="w-100 badge text-bg-success fw-bold fs-6"><?= $product->number_of_stocks ?> Left on Stock</span>
+                <?php } else { ?>
+                    <span class="w-100 badge text-bg-danger fw-bold fs-6"> Unavailable </span>
+                <?php } ?>
             </div>
         </div>
         <div class="row">
