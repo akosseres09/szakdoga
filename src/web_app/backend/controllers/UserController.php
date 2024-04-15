@@ -69,12 +69,12 @@ class UserController extends Controller
             if ($user->save()) {
                Yii::$app->session->setFlash('Success', 'Successfully Edited User!');
             } else {
+                $errors = implode('', $user->getErrors());
                 Yii::$app->session->setFlash('Error', 'Failed To Edit User!');
+                Yii::warning('Failed To Edit User! ' . $errors, __METHOD__);
             }
-
             return $this->redirect('/user/users');
         }
-
         return $this->renderPartial('edit', ['user' => $user]);
     }
 
@@ -90,9 +90,10 @@ class UserController extends Controller
             if ($user->delete()) {
                 Yii::$app->session->setFlash('Success', 'User successfully deleted!');
             } else {
+                $errors = implode('', $user->getErrors());
                 Yii::$app->session->setFlash('Error', 'Something went wrong. User could not be deleted!');
+                Yii::warning('Something went wrong. User could not be deleted!' . $errors, __METHOD__);
             }
-
         }catch (\Throwable $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
@@ -102,7 +103,6 @@ class UserController extends Controller
     public function actionChangeRole($id): Response
     {
         $user = User::findOne($id);
-
         if ($user === null) {
            return $this->redirect('/user/edit/'.$id);
         }
@@ -111,9 +111,10 @@ class UserController extends Controller
         if ($user->save()) {
             Yii::$app->session->setFlash('Success', 'Changed User Role to:' . $user->getRole() . '!');
         } else {
+            $errors = implode('', $user->getErrors());
             Yii::$app->session->setFlash('Error', 'Failed to Change User Role!');
+            Yii::warning('Failed to Change User Role!' . $errors, __METHOD__);
         }
-
         return $this->redirect('/user/users');
     }
 }
