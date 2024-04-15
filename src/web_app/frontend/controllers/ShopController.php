@@ -18,8 +18,8 @@ use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\BadRequestHttpException;
 use yii\web\ErrorAction;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -104,15 +104,16 @@ class ShopController extends BaseController
     public function actionView($id): Response|string
     {
         $product = Product::findOne($id);
+
+        if ($product === null || !Yii::$app->user->identity->isAdmin()) {
+            return $this->redirect('/shop/products');
+        }
+
         $cart = new Cart();
         $rating = Rating::find()->ofUser(Yii::$app->user->id)->ofProduct($id)->one();
 
         if (!$rating) {
             $rating = new Rating();
-        }
-
-        if ($product === null) {
-           return $this->redirect('/shop/products');
         }
 
         return $this->render('view', [
@@ -128,17 +129,23 @@ class ShopController extends BaseController
     public function actionAddRating($id): array
     {
         if (Yii::$app->user->isGuest) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'success' => false
             ];
         } else if (Yii::$app->request->isPost) {
             $rating = Rating::find()->ofUser(Yii::$app->user->id)->ofProduct($id)->one();
+            $product = Product::find()->ofId($id)->one();
+
+            if ($product === null || !$product->isActivated()) {
+                return [
+                    'success' => false
+                ];
+            }
 
             if (!$rating) {
                 $rating = new Rating();
             }
-
-            Yii::$app->response->format = Response::FORMAT_JSON;
 
             if ($rating->load(Yii::$app->request->post())) {
                 $rating->user_id = Yii::$app->user->id;
@@ -157,41 +164,54 @@ class ShopController extends BaseController
         }
     }
 
+    /**
+     * @throws MethodNotAllowedHttpException
+     */
     public function actionGetRating($id): array
     {
-        $query = Product::find()->ofId($id)->with('rating');
-        $product = $query->one();
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        if (!$product) {
+        if (Yii::$app->request->isAjax) {
+            $query = Product::find()->ofId($id)->ofActive()->with('rating');
+            $product = $query->one();
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if (!$product) {
+                return [
+                    'success' => false
+                ];
+            }
+
+            $avgRating = $product->getAverageRatings();
+            $ratings = $product->getRelatedRecords()['rating'];
+
+            $reviews = new ArrayDataProvider([
+                'allModels' => $ratings
+            ]);
+
+
             return [
-                'success' => false
+                'success' => true,
+                'rating' => $avgRating,
+                'reviews' => $this->renderAjax('_reviews', [
+                    'reviews' => $reviews
+                ])
             ];
+        } else {
+            throw new MethodNotAllowedHttpException('You can not access this page via ' . Yii::$app->request->method . ' method');
         }
-
-        $avgRating = $product->getAverageRatings();
-        $ratings = $product->getRelatedRecords()['rating'];
-
-        $reviews = new ArrayDataProvider([
-            'allModels' => $ratings
-        ]);
-
-
-        return [
-            'success' => true,
-            'rating' => $avgRating,
-            'reviews' => $this->renderAjax('_reviews', [
-                'reviews' => $reviews
-            ])
-        ];
     }
 
-    public function actionAddToCart(): array|Response
+    public function actionAddToCart(): array
     {
         $request = Yii::$app->request;
         $id = $request->post('product_id');
         $product = Product::findOne($id);
-        if ($product === null) {
-            return $this->redirect('/shop/products');
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($product === null || !$product->isActivated()) {
+            return [
+                'success' => false,
+                'errors' => 'You Can Not Put This Product in Your Cart!'
+            ];
         }
 
         $cart = new Cart();
@@ -214,71 +234,92 @@ class ShopController extends BaseController
                 ];
             }
         }
-        Yii::$app->response->format = Response::FORMAT_JSON;
         return $data;
     }
 
-    public function actionAddToWishlist($id): Response|array
+    /**
+     * @throws MethodNotAllowedHttpException
+     */
+    public function actionAddToWishlist($id): array
     {
-        $product = Product::findOne($id);
-
-        if ($product === null) {
-            return $this->redirect('/shop/products');
-        }
-
-        try {
-            $wish = new Wishlist();
-            $wish->user_id = Yii::$app->user->id;
-            $wish->product_id = $id;
+        if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if ($wish->save()) {
-                return [
-                    'success' => true,
-                    'down' => false,
-                    'title' => 'Success!',
-                    'text' => 'Product Added To Your Wishlist!'
-                ];
-            } else {
+            $product = Product::findOne($id);
+
+            if ($product === null || !$product->isActivated()) {
                 return [
                     'success' => false,
                     'title' => 'Oops!',
-                    'text' => 'Failed To Add Product To Your Wishlist!'
+                    'text' => 'You Can Not Add This Product to Your Cart!'
                 ];
             }
-        }catch (Exception ) {
-            return [
-                'success' => false,
-                'title' => 'Error',
-                'text' => 'Something Went Wrong!'
-            ];
+
+            try {
+                $wish = new Wishlist();
+                $wish->user_id = Yii::$app->user->id;
+                $wish->product_id = $id;
+                if ($wish->save()) {
+                    return [
+                        'success' => true,
+                        'down' => false,
+                        'title' => 'Success!',
+                        'text' => 'Product Added To Your Wishlist!'
+                    ];
+                } else {
+                    return [
+                        'success' => false,
+                        'title' => 'Oops!',
+                        'text' => 'Failed To Add Product To Your Wishlist!'
+                    ];
+                }
+            }catch (Exception ) {
+                return [
+                    'success' => false,
+                    'title' => 'Error',
+                    'text' => 'Something Went Wrong!'
+                ];
+            }
+        } else {
+            throw new MethodNotAllowedHttpException('You can not access this page via ' . Yii::$app->request->method . ' method');
         }
     }
 
-    public function actionRemoveFromWishlist($id): Response|array
+    /**
+     * @throws MethodNotAllowedHttpException
+     */
+    public function actionRemoveFromWishlist($id): array
     {
-        $product = Product::findOne(['id' => $id]);
-        $user = Yii::$app->user;
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $product = Product::findOne(['id' => $id]);
+            $user = Yii::$app->user;
 
-        if ($product === null) {
-           return $this->redirect('/shop/products');
-        }
+            if ($product === null) {
+                return [
+                    'success' => false,
+                    'title' => 'Oops!',
+                    'text' => 'You Can Not Remove This Product From Your Wishlist!'
+                ];
+            }
 
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        try {
-            $wish = Wishlist::find()->ofUser($user->id)->ofProduct($product->id)->one();
-            $wish->delete();
-            return [
-                'success' => true,
-                'down' => true,
-                'title' => 'Success!',
-                'text' => 'Product Removed From Wishlist!'
-            ];
-        }catch (Throwable $t) {
-            return [
-                'success' => false,
-                'title' => 'Failed To Remove Product From Your Wishlist!',
-                'text' => $t->getMessage()
-            ];
+            try {
+                $wish = Wishlist::find()->ofUser($user->id)->ofProduct($product->id)->one();
+                $wish->delete();
+                return [
+                    'success' => true,
+                    'down' => true,
+                    'title' => 'Success!',
+                    'text' => 'Product Removed From Wishlist!'
+                ];
+            } catch (Throwable $t) {
+                return [
+                    'success' => false,
+                    'title' => 'Failed To Remove Product From Your Wishlist!',
+                    'text' => $t->getMessage()
+                ];
+            }
+        } else {
+            throw new MethodNotAllowedHttpException('You can not access this page via ' . Yii::$app->request->method . ' method');
         }
     }
 }
