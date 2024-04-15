@@ -160,7 +160,6 @@ class User extends ActiveRecord implements IdentityInterface
         return self::USER_CACHE_KEY . $id;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -281,7 +280,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $password
      * @throws Exception
      */
-    public function setPassword(string $password)
+    public function setPassword(string $password): void
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
@@ -290,7 +289,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Generates "remember me" authentication key
      * @throws Exception
      */
-    public function generateAuthKey()
+    public function generateAuthKey(): void
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
@@ -299,7 +298,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Generates new password reset token
      * @throws Exception
      */
-    public function generatePasswordResetToken()
+    public function generatePasswordResetToken(): void
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
@@ -308,7 +307,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Generates new token for email verification
      * @throws Exception
      */
-    public function generateEmailVerificationToken()
+    public function generateEmailVerificationToken(): void
     {
         $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
@@ -316,7 +315,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Removes password reset token
      */
-    public function removePasswordResetToken()
+    public function removePasswordResetToken(): void
     {
         $this->password_reset_token = null;
     }
@@ -356,6 +355,9 @@ class User extends ActiveRecord implements IdentityInterface
         return self::STATUSES[$this->status];
     }
 
-
+    public function isAdmin(): bool
+    {
+        return $this->is_admin === 1;
+    }
 
 }
