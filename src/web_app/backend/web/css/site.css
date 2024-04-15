@@ -6,6 +6,7 @@
     --spfy-light-gray: rgba(128,128,128, 0.2);
     --spfy-main-color: #CD7401;
     --spfy-primary-light: #fe9003;
+    --spfy-primary-lighter: rgba(254, 144, 3, 0.6);
     --spfy-primary-dark: #9a5701;
     --spfy-secondary-color: #7ccd01;
     --spfy-secondary-light: #9afe03;
@@ -113,17 +114,15 @@ a.desc:after {
 
 
 .btn-primary{
-    border-radius: 50px;
     padding: 8px 25px ;
-    background-color: var(--spfy-main-color);
+    background-color: transparent;
     border-color: var(--spfy-main-color);
-    transition: transform 0.2s ;
-    color: var(--spfy-white);
+    transition: all 0.15s ease-in-out ;
+    color: var(--spfy-main-color);
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
-    transform: scale(1.05);
     color: var(--spfy-white);
     background-color: var(--spfy-brown-hover-color);
     border-color: var(--spfy-brown-hover-color);
@@ -214,6 +213,24 @@ a.add-new-btn:active {
     font-weight: 600;
 }
 
+form .form-check-input:checked, form .form-check-input.is-valid:checked {
+    background-color: var(--spfy-primary-light);
+    border-color: var(--spfy-primary-light);
+}
+
+form .form-check-input.is-valid:focus {
+    box-shadow: 0 0 0 0.25rem var(--spfy-primary-lighter);
+}
+
+form .form-check-input:focus {
+    border-color: var(--spfy-primary-lighter);
+    box-shadow: 0 0 0 0.25rem var(--spfy-primary-lighter);
+}
+
+form .form-select:focus, form .form-control:focus {
+    box-shadow: 0 0 0 0.25rem var(--spfy-primary-lighter);
+    border-color: var(--spfy-primary-lighter);
+}
 
 @media screen and (max-width: 480px ) {
     .site-login,

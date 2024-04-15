@@ -17,7 +17,11 @@ $fieldOptions = [
 ]
 ?>
 <div class="container-fluid h-100 new-container">
-    <?= $this->render('/site/common/_alert') ?>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="w-50">
+            <?= $this->render('/site/common/_alert') ?>
+        </div>
+    </div>
     <div class="container d-flex justify-content-center">
         <div class="site-signup">
             <div class="row">
@@ -42,7 +46,7 @@ $fieldOptions = [
 
                     <div class="row pt-4">
                         <div class="text-center">
-                            <?= Html::submitButton('Login', ['class' => 'btn btn-primary text-white', 'name' => 'login-button']) ?>
+                            <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                         </div>
                     </div>
                     <?php ActiveForm::end() ?>
