@@ -128,7 +128,7 @@ class UserController extends BaseController
             Stripe::setApiKey(Yii::$app->stripe->secretKey);
             $invoices = Invoice::all(['customer' => $user->stripe_cus])->data;
             if (empty($invoices)) {
-                $invoices = 'No Items Found';
+                $invoices = [];
             }
         } catch (\Exception $e) {
             Yii::$app->session->setFlash('Error', $e->getMessage());
