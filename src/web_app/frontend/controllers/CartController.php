@@ -104,6 +104,7 @@ class CartController extends BaseController
     public function actionDeleteFromCart($id): array
     {
         if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
             $cart = Cart::findOne($id);
             $success = false;
 
@@ -117,11 +118,9 @@ class CartController extends BaseController
                 if ($cart->delete()) {
                     $success = true;
                 }
-            }catch (Throwable) {
+            } catch (Throwable) {
                 Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
             }
-
-            Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'success' => $success
             ];
@@ -161,8 +160,8 @@ class CartController extends BaseController
         $cartItems = Cart::find()->ofUser($userId)->all();
 
         if (empty($cartItems)) {
-            Yii::$app->session->setFlash('emptyCart');
-            return $this->redirect('/cart/cart');
+            Yii::$app->session->setFlash('emptyCart', 'Your Cart Is Empty!');
+            return $this->redirect('/cart');
         }
 
         return $this->render('payment-info', [
