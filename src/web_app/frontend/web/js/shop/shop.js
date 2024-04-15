@@ -39,7 +39,7 @@ if (cartForm) {
                 }
             })
             .catch(err => {
-                console.log(err)
+                console.error(err)
             });
 
     });
@@ -70,7 +70,7 @@ if (wishlistBtn) {
                     })
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     });
 }
 
@@ -104,7 +104,10 @@ if (ratingForm && btn) {
                 getRating();
             }
             btn.replaceChildren('Save changes');
-        });
+        })
+            .catch(error => {
+                console.error(error);
+            });
     });
 }
 
