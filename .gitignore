@@ -8,3 +8,4 @@ sportify_docker/dump
 sportify_docker/redis_dump
 /sportify_docker/configs/web/config/certificate.crt
 /sportify_docker/configs/web/config/private.key
+/sportify_docker/logs/
