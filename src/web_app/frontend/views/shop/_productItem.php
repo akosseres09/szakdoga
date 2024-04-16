@@ -19,9 +19,12 @@ $imageName = $model->getImages(true);
     <div class="product-name">
         <?= $model->brand_name . ' ' . $model->name ?>
     </div>
-    <div class="price">
-        <div class="fs-4 fw-bold">
+    <div class="price row  d-flex justify-content-center align-items-center">
+        <div class="col fs-4 fw-bold">
             $<?= $model->price ?>
         </div>
+        <?php if (!$model->hasOnStock()) { ?>
+            <span class="col me-2 badge text-bg-danger">Unavailable</span>
+        <?php } ?>
     </div>
 </div>

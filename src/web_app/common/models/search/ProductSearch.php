@@ -54,6 +54,8 @@ class ProductSearch extends Product
             $query->ofActive();
         }
 
+        $query->orderBy(['number_of_stocks' => SORT_DESC]);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -64,7 +66,7 @@ class ProductSearch extends Product
         if (!$active) {
             $dataProvider->sort = [
                 'defaultOrder' => [
-                    'is_activated' => SORT_DESC
+                    'number_of_stocks' => SORT_DESC
                 ]
             ];
         }
