@@ -131,7 +131,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
         </div>
         <div class="row">
             <div class="col-sm-7">
-                <?= $form->field($cart, 'quantity')->textInput(['type' => 'number', 'min' => 1, 'required' => true, 'value' => 1]) ?>
+                <?= $form->field($cart, 'quantity')->textInput(['type' => 'number', 'min' => 1, 'max' => $product->number_of_stocks, 'required' => true, 'value' => 1]) ?>
             </div>
             <div class="col-sm-4 ms-0 ms-sm-4 mt-0 mt-sm-4">
                 <div class="col-2 d-flex justify-content-start justify-content-sm-end align-items-end">

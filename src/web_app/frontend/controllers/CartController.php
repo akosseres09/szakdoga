@@ -197,7 +197,7 @@ class CartController extends BaseController
                 $lineItems[] = [
                     'price_data' => [
                         'product_data' => [
-                            'name' => $item->brand_name . ' ' . $item->product->name
+                            'name' => $item->product->brand_name . ' ' . $item->product->name
                         ],
                         'currency' => 'usd',
                         'unit_amount' => $item->product->price * 100
