@@ -9,6 +9,7 @@ use common\models\ShippingInformation;
 use frontend\components\BaseController;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Throwable;
 use Yii;
@@ -159,6 +160,7 @@ class PaymentController extends BaseController
                 $this->redirect($checkout->url);
 
             } catch (\Exception $e) {
+                Yii::error('Failed to initialize checkout session to pay: ' . $e->getMessage());
                 $transaction->rollBack();
                 Yii::$app->session->setFlash('Something Went Wrong With Your Payment! Please Try Again Later!');
                 return $this->redirect('/payment');
@@ -168,7 +170,16 @@ class PaymentController extends BaseController
 
     public function actionPaymentCancel($session_id): string
     {
-        return $this->render('/payment/payment-fail');
+        $session = null;
+        try {
+            Stripe::setApiKey(Yii::$app->stripe->secretKey);
+            $session = Session::retrieve($session_id);
+        } catch (ApiErrorException $e) {
+            Yii::error('Failed to retrieve session at payment-cancel at:' . Yii::$app->formatter->asDate(strtotime('now')) . ' ' . $e->getMessage(), __METHOD__);
+        }
+        return $this->render('/payment/payment-fail', [
+            'session' => $session
+        ]);
     }
 
     public function actionPaymentFail(): string
@@ -210,7 +221,8 @@ class PaymentController extends BaseController
                 return $this->render('/payment/payment-fail');
             }
 
-        } catch (\Exception|Throwable) {
+        } catch (\Exception|Throwable $e) {
+            Yii::error('Error at payment-success at: ' . Yii::$app->formatter->asDate(strtotime('now')) . ' with: ' . $e->getMessage(), __METHOD__);
             $transaction->rollBack();
             return $this->redirect(['payment-fail']);
         }

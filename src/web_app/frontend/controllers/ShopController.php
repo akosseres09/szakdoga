@@ -272,7 +272,8 @@ class ShopController extends BaseController
                         'text' => 'Failed To Add Product To Your Wishlist!'
                     ];
                 }
-            }catch (Exception ) {
+            }catch (Exception $e) {
+                Yii::error('Failed to add product to wishlist at: ' . Yii::$app->formatter->asDate(strtotime('now')) . ' with: ' . $e->getMessage(), __METHOD__);
                 return [
                     'success' => false,
                     'title' => 'Error',
@@ -312,6 +313,7 @@ class ShopController extends BaseController
                     'text' => 'Product Removed From Wishlist!'
                 ];
             } catch (Throwable $t) {
+                Yii::error('Failed to remove product from wishlist at: ' . Yii::$app->formatter->asDate(strtotime('now')) . 'with: ' . $t->getMessage());
                 return [
                     'success' => false,
                     'title' => 'Failed To Remove Product From Your Wishlist!',

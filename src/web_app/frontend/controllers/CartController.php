@@ -106,8 +106,10 @@ class CartController extends BaseController
             try {
                 if ($cart->delete()) {
                     $success = true;
+                    Yii::info('Deleted cart for user!', __METHOD__);
                 }
-            } catch (Throwable) {
+            } catch (Throwable $t) {
+                Yii::error('Failed to delete cart for user: ' . $t->getMessage(), __METHOD__);
                 Yii::$app->session->setFlash('Error', 'An error occurred while deleting item from cart!');
             }
             return [
@@ -141,6 +143,7 @@ class CartController extends BaseController
                             'success' => true
                         ];
                     } else {
+                        Yii::warning('Failed to delete cart item: ' . $item->id . ' for user: ' . $item->user_id, __METHOD__);
                         $transaction->rollBack();
                         $data = [
                             'success' => false,
@@ -148,6 +151,7 @@ class CartController extends BaseController
                         ];
                     }
                 } else {
+                    Yii::warning('Failed to save wishlist item for user: ' . $item->user_id, __METHOD__);
                     $transaction->rollBack();
                     $data = [
                         'success' => false,
@@ -155,6 +159,7 @@ class CartController extends BaseController
                     ];
                 }
             } catch (StaleObjectException|Throwable $e) {
+                Yii::error('Failed to move items to wishlist: ' . $e->getMessage(), __METHOD__);
                 $transaction->rollBack();
                 $data = [
                     'success' => false,

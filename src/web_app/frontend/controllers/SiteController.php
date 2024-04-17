@@ -7,7 +7,9 @@ use frontend\models\VerifyEmailForm;
 use Stripe\Customer;
 use Stripe\Stripe;
 use Yii;
+use yii\base\Exception;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
 use yii\captcha\CaptchaAction;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -33,10 +35,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup', 'login', 'request-reset-password'],
+                'only' => ['logout', 'signup', 'login', 'reset-password', 'resend-verification-email', 'request-reset-password', 'verify-email'],
                 'rules' => [
                     [
-                        'actions' => ['signup', 'login', 'request-reset-password'],
+                        'actions' => ['resend-verification-email', 'verify-email'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -45,6 +47,16 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => [
+                            'request-reset-password',
+                            'reset-password',
+                            'login',
+                            'signup'
+                        ],
+                        'allow' => true,
+                        'roles' => ['@', '?']
+                    ]
                 ],
             ],
             'verbs' => [
@@ -119,10 +131,10 @@ class SiteController extends Controller
         $this->layout = 'mainWithoutHeaderAndFooter';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
-            if($model->signup()){
+            if ($model->signup()) {
                 Yii::$app->session->setFlash('Success', 'Thank you for registration. Please check your inbox for verification email.');
                 return $this->redirect(['/site/login']);
-            }else {
+            } else {
                 Yii::$app->session->setFlash('Error', 'There was a problem with the signup!');
             }
         }
@@ -132,22 +144,25 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function actionRequestPasswordReset(): Response|string
     {
-        if (!Yii::$app->user->isGuest) {
-            $this->goHome();
-        }
-
         $this->layout = 'mainWithoutHeaderAndFooter';
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
+            try {
+                if ($model->sendEmail()) {
+                    Yii::$app->session->setFlash('Success', 'Check your email for further instructions.');
+                    return $this->goHome();
+                }
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('Error', 'Sorry, we are unable to reset password for the provided email address.');
+                Yii::error('Failed to send an email at: ' . Yii::$app->formatter->asDate(strtotime('now')) . ' with: ' . $e->getMessage(), __METHOD__);
                 return $this->goHome();
             }
-
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+            Yii::$app->session->setFlash('Error', 'Sorry, we are unable to reset password for the provided email address.');
         }
 
         return $this->render('requestPasswordResetToken', [
@@ -160,14 +175,11 @@ class SiteController extends Controller
      *
      * @param string $token
      * @return Response|string
-     * @throws BadRequestHttpException
+     * @throws BadRequestHttpException|Exception
      */
     public function actionResetPassword(string $token): Response|string
     {
-        if (!Yii::$app->user->isGuest) {
-            $this->goHome();
-        }
-
+        $this->layout = 'mainWithoutHeaderAndFooter';
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidArgumentException $e) {
@@ -175,9 +187,9 @@ class SiteController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password saved.');
+            Yii::$app->session->setFlash('Success', 'New password saved.');
 
-            return $this->goHome();
+            return $this->redirect('/site/login');
         }
 
         return $this->render('resetPassword', [
@@ -190,7 +202,7 @@ class SiteController extends Controller
      *
      * @param string $token
      * @return Response
-     *@throws BadRequestHttpException
+     * @throws BadRequestHttpException|InvalidConfigException
      */
     public function actionVerifyEmail(string $token): Response
     {
@@ -200,7 +212,7 @@ class SiteController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
         if (($model->verifyEmail())) {
-//            try {
+            try {
                 Stripe::setApiKey(Yii::$app->stripe->secretKey);
                 $customer = Customer::create([
                    'email' => $model->user->email
@@ -209,11 +221,12 @@ class SiteController extends Controller
                 if (!$model->user->save()) {
                     $customer->delete();
                 }
-//            } catch (\Exception $e) {
-//                Yii::$app->session->setFlash('error', 'Failed to create Stripe Customer!');
-//            }
+            } catch (\Exception $e) {
+                Yii::error('failed to create user at: ' . Yii::$app->formatter->asDate(strtotime('now')) . ' with: ' . $e->getMessage());
+                Yii::$app->session->setFlash('error', 'Failed to create Stripe Customer!');
+            }
             Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-        }else {
+        } else {
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
         }
 
