@@ -154,7 +154,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
         <div class="row pt-3">
             <div class="col d-flex align-items-center">
                 <?php if (!$product->hasOnStock() && $product->isShoe()) {?>
-                    <button class="btn btn-outline-dark">Notify me when On Stock</button>
+                    <button type="button" class="btn btn-outline-dark">Notify me when On Stock</button>
                 <?php } else if($product->isActivated()) { ?>
                     <button type="submit" class="btn btn-primary">Place in Cart</button>
                 <?php } ?>

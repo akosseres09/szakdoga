@@ -105,7 +105,7 @@ class ShopController extends BaseController
     {
         $product = Product::findOne($id);
 
-        if ($product === null || !Yii::$app->user->identity->isAdmin()) {
+        if ($product === null) {
             return $this->redirect('/shop/products');
         }
 
