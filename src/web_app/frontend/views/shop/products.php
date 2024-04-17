@@ -24,6 +24,7 @@ use yii\widgets\ListView;
 
 ShopAsset::register($this);
 
+echo $this->render('/site/common/_alert');
 
 $this->title = 'The Best Choice In Sports » Sportify ';
 

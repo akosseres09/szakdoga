@@ -8,6 +8,8 @@ $this->title = 'Sportify » The best Choice ';
 
 LandingAsset::register($this);
 
+echo $this->render('/site/common/_alert');
+
 ?>
 
 
