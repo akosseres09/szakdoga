@@ -128,8 +128,8 @@ class ShopController extends BaseController
      */
     public function actionAddRating($id): array
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->user->isGuest) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'success' => false
             ];

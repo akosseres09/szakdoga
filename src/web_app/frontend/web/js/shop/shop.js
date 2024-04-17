@@ -105,9 +105,10 @@ if (ratingForm && btn) {
             }
             btn.replaceChildren('Save changes');
         })
-            .catch(error => {
-                console.error(error);
-            });
+        .catch(error => {
+            console.error(error);
+            btn.replaceChildren('Save Changes');
+        });
     });
 }
 
