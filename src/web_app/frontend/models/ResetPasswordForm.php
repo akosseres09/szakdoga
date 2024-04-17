@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use yii\base\Exception;
 use yii\base\InvalidArgumentException;
 use yii\base\Model;
 use Yii;
@@ -13,6 +14,7 @@ use common\models\User;
 class ResetPasswordForm extends Model
 {
     public $password;
+    public $rePassword;
 
     /**
      * @var \common\models\User
@@ -42,20 +44,35 @@ class ResetPasswordForm extends Model
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            ['password', 'required'],
-            ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['rePassword', 'trim'],
+            ['password', 'trim'],
+            [['password', 'rePassword'], 'required'],
+            [['password', 'rePassword'], 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['rePassword', 'compare', 'compareAttribute' => 'password', 'skipOnError' => false,'message' => 'Passwords do not match']
         ];
+    }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'rePassword' => 'Password Again'
+        ];
+    }
+
+    public static function samePws() {
+
     }
 
     /**
      * Resets password.
      *
      * @return bool if password was reset.
+     * @throws Exception
      */
-    public function resetPassword()
+    public function resetPassword(): bool
     {
         $user = $this->_user;
         $user->setPassword($this->password);

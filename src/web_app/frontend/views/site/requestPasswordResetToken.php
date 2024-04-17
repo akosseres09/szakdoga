@@ -10,11 +10,23 @@ use yii\bootstrap5\ActiveForm;
 use yii\helpers\Url;
 
 $this->title = 'Sportify » Request password reset';
+
 $fieldOptions = [
     'labelOptions' => ['class' => 'control-label'],
-    'template' => '<div><span class="pb-5">{label}</span>{input}{hint}{error}</div>'
+    'template' => '<div><span class="pb-5">{label}</span>{input}{error}</div>'
 ];
-
+$this->registerCss(<<<CSS
+    .site-password-reset {
+        min-width: 50%;
+        max-width: 100%;
+    }
+    
+    @media screen and (max-width: 480px){
+        .site-password-reset {
+            padding: 25px 30px;
+        }
+    }
+CSS);
 ?>
 <div class="container-fluid h-100 new-container" >
     <div class="container d-flex justify-content-center">
@@ -24,7 +36,6 @@ $fieldOptions = [
                     <a class="col" href="<?= Url::to(['/']) ?>">Sportify</a>
                 </h1>
                 <div class="col text-center pb-3">
-                    <span class="text-center fs-5"> If you do not remember your password, <br>please give your email address to reset it. </span>
                 </div>
             </div>
             <div class="w-100 border-bottom"></div>

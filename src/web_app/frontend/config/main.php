@@ -1,5 +1,6 @@
 <?php
 
+use yii\log\EmailTarget;
 use yii\log\FileTarget;
 
 $params = array_merge(
@@ -35,10 +36,20 @@ return [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => FileTarget::class,
+                    'class' => EmailTarget::class,
                     'levels' => ['error', 'warning'],
-                    'maxFileSize' => 1024,
+                    'exportInterval' => 5,
+                    'message' => [
+                        'from' => 'errors@sportify.com',
+                        'to' => 'admin@sportify.com',
+                        'subject' => 'Logs'
+                    ]
                 ],
+                [
+                    'class' => FileTarget::class,
+                    'levels' => ['info'],
+                    'maxFileSize' => 1024
+                ]
             ],
         ],
         'errorHandler' => [
