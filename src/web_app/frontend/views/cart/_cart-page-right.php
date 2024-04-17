@@ -24,12 +24,12 @@ use yii\helpers\Url;
                 <span class="fw-bold">Subtotal:</span>
                 <span id="subtotal" class="fw-bold fs-5">$<?= $total ?></span>
             </div>
-            <a href="<?= $totalCount === 0 ? '#' : Url::to(['/cart/payment-info']) ?>"
+            <a href="<?= $totalCount === 0 ? '#' : Url::to(['/payment']) ?>"
                class="btn go-to-payment-info <?= $total === 0 ? 'btn-disabled' : '' ?>">Payment
                 <span class="ps-2 material-symbols-outlined">chevron_right</span>
             </a>
             <span class="choice">or</span>
-            <a href="<?= Url::to(['/shop/products']) ?>" class="continue-shopping fw-light">
+            <a href="<?= Url::to(['/shop']) ?>" class="continue-shopping fw-light">
                 <span class="pe-2 material-symbols-outlined">chevron_left</span>
                 Continue Shopping
             </a>

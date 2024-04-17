@@ -2,24 +2,36 @@
 /**
  * @var boolean $cartDone
  * @var boolean $paymentInfoDone
+ * @var boolean $cancelled
  */
 
+use yii\helpers\Url;
 
+if (empty($cancelled)) {
+    $cancelled = false;
+}
+
+$endSecond = '</div>';
 if ($cartDone && !$paymentInfoDone) {
     $first = '<a class="step done" href="/cart">';
     $second = '<div class="step active">';
     $endFirst = '</a>';
 } else if ($cartDone && $paymentInfoDone) {
-    $first = '<div class="step done">' ;
-    $second = '<div class="step done">';
-    $endFirst = '</div>';
-} else {
+    if ($cancelled) {
+        $first = '<a class="step done" href="'. Url::to(['/cart']) .'">';
+        $second = '<a class="step done" href="'. Url::to(['/payment']) .'">';
+        $endFirst = '</a>';
+        $endSecond = '</a>';
+    } else {
+        $first = '<div class="step done">' ;
+        $second = '<div class="step done">';
+        $endFirst = '</div>';
+    }
+} else  {
     $first = '<div class="step active">';
     $second = '<div class="step">';
     $endFirst = '</div>';
 }
-
-$endSecond = '</div>';
 
 ?>
 <div class="progress-steps mb-5 mt-5">

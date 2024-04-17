@@ -25,7 +25,7 @@ $this->registerCssFile('/css/payment/payment.css');
 
 <?= $this->render('/site/common/_alert') ?>
 
-<?= $this->render('_cart-steps', [
+<?= $this->render('/cart/_cart-steps', [
     'cartDone' => true,
     'paymentInfoDone' => false
 ]) ?>
@@ -36,7 +36,7 @@ $this->registerCssFile('/css/payment/payment.css');
             <?php $form = ActiveForm::begin([
                 'id' => 'payment-form',
                 'method' => 'post',
-                'action' => '/cart/pay',
+                'action' => '/payment/pay',
                 'options' => [
                     'class' => 'd-flex align-items-start',
                 ]

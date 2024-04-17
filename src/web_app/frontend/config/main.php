@@ -61,9 +61,9 @@ return [
                 'order' => 'order/index',
                 'shop' => 'shop/products',
                 'cart' => 'cart/cart',
-                'payment' => 'cart/payment-info',
-                'payment-cancel' => 'cart/payment-cancel',
-                'payment-success' => 'cart/payment-success',
+                'payment' => 'payment/payment-info',
+                'payment-cancel' => 'payment/payment-cancel',
+                'payment-success' => 'payment/payment-success',
                 'invoices' => 'user/invoices',
                 'account' => 'user/account',
                 'settings' => 'user/settings'
