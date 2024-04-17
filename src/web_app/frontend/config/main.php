@@ -38,7 +38,7 @@ return [
                 [
                     'class' => EmailTarget::class,
                     'levels' => ['error', 'warning'],
-                    'exportInterval' => 5,
+                    'exportInterval' => 100,
                     'message' => [
                         'from' => 'errors@sportify.com',
                         'to' => 'admin@sportify.com',
@@ -60,14 +60,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'landing/main' => '/',
-                'shop/view/<id>' => 'shop/view',
-                'shop/add-to-wishlist/<id>' => 'shop/add-to-wishlist',
-                'shop/remove-from-wishlist/<id>' => 'shop/remove-from-wishlist',
-                'shop/add-rating/<id>' => 'shop/add-rating',
-                'shop/get-rating/<id>' => 'shop/get-rating',
-                'cart/delete-from-cart/<id>' => 'cart/delete-from-cart',
-                'cart/move-to-wishlist/<id>' => 'cart/move-to-wishlist',
-                'wishlist/delete-from-wishlist/<id>' => 'wishlist/delete-from-wishlist',
+                '<controller>/<action>/<id>' => '<controller>/<action>',
                 'wishlist' => 'wishlist/index',
                 'order' => 'order/index',
                 'shop' => 'shop/products',

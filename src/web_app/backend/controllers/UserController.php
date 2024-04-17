@@ -4,22 +4,23 @@ namespace backend\controllers;
 
 use common\models\search\UserSearch;
 use common\models\User;
+use frontend\components\BaseController;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\Response;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     public function behaviors(): array
     {
-        return [
+        return array_merge([
             'access' => [
                 'class' => AccessControl::class,
+                'only' => ['users', 'delete', 'edit', 'change-role'],
                 'rules' => [
                     [
-                        'actions' => ['users','delete', 'edit', 'change-role'],
+                        'actions' => ['users', 'delete', 'edit', 'change-role'],
                         'allow' => true,
                         'roles' => ['@']
                     ]
@@ -29,12 +30,9 @@ class UserController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
-                    'upgrade' => ['POST'],
-                    'demote' => ['POST']
                 ]
             ]
-
-        ];
+        ], parent::behaviors());
     }
 
     public function actions(): array
@@ -78,8 +76,9 @@ class UserController extends Controller
         return $this->renderPartial('edit', ['user' => $user]);
     }
 
-    public function actionDelete($id): Response
+    public function actionDelete(): Response
     {
+        $id = Yii::$app->request->post('id');
         $user = User::findOne($id);
 
         if ($user === null) {
