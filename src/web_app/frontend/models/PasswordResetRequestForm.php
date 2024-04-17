@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\base\Exception;
 use yii\base\Model;
 use common\models\User;
 
@@ -17,7 +18,7 @@ class PasswordResetRequestForm extends Model
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['email', 'trim'],
@@ -34,9 +35,10 @@ class PasswordResetRequestForm extends Model
     /**
      * Sends an email with a link, for resetting the password.
      *
-     * @return bool whether the email was send
+     * @return bool whether the email was sent
+     * @throws Exception
      */
-    public function sendEmail()
+    public function sendEmail(): bool
     {
         /* @var $user User */
         $user = User::findOne([
@@ -47,12 +49,19 @@ class PasswordResetRequestForm extends Model
         if (!$user) {
             return false;
         }
-        
-        if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
+
+        if (empty($user->password_reset_token)) {
             $user->generatePasswordResetToken();
             if (!$user->save()) {
                 return false;
             }
+        } else if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
+            $user->generatePasswordResetToken();
+            if (!$user->save()) {
+                return false;
+            }
+        } else {
+            return true;
         }
 
         return Yii::$app
@@ -61,9 +70,9 @@ class PasswordResetRequestForm extends Model
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user]
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setFrom([Yii::$app->params['supportEmail'] => 'Sportify robot'])
             ->setTo($this->email)
-            ->setSubject('Password reset for ' . Yii::$app->name)
+            ->setSubject('Reset Your Password!')
             ->send();
     }
 }

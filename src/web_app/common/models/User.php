@@ -193,10 +193,10 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Finds user by password reset token
      *
-     * @param string $token password reset token
+     * @param string|null $token password reset token
      * @return static|null
      */
-    public static function findByPasswordResetToken(string $token): ?User
+    public static function findByPasswordResetToken(string $token = null): ?User
     {
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
