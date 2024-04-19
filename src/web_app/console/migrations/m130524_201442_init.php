@@ -23,6 +23,7 @@ class m130524_201442_init extends Migration
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+            'deleted_at' => $this->integer()->null()->defaultValue(null),
             'verification_token' => $this->string()->defaultValue(null),
             'last_login_at' => $this->integer(),
             'stripe_cus' => $this->string(30)->defaultValue(null)
@@ -32,6 +33,8 @@ class m130524_201442_init extends Migration
         $this->createIndex('{{%idx-user-email}}', '{{%user}}', 'email');
         $this->createIndex('{{%idx-user-is_admin}}', '{{%user}}', 'is_admin');
         $this->createIndex('{{%idx-user-status}}', '{{%user}}', 'status');
+        $this->createIndex('{{%idx-user-deleted_at}}', '{{%user}}', 'deleted_at');
+        $this->createIndex('{{%idx-user-created_at}}', '{{%user}}', 'created_at');
     }
 
     public function safeDown(): void
@@ -40,6 +43,8 @@ class m130524_201442_init extends Migration
         $this->dropIndex('{{%idx-user-email}}','{{%user}}');
         $this->dropIndex('{{%idx-user-is_admin}}','{{%user}}');
         $this->dropIndex('{{%idx-user-status}}','{{%user}}');
+        $this->dropIndex('{{%idx-user-deleted_at}}','{{%user}}');
+        $this->dropIndex('{{%idx-user-created_at}}','{{%user}}');
         $this->dropTable('{{%user}}');
     }
 }
