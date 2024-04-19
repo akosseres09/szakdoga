@@ -23,10 +23,15 @@ class m231222_124806_create_product_table extends Migration
             'is_activated' => $this->integer(1)->notNull(),
             'is_kid' => $this->integer(1)->notNull(),
             'gender' => $this->integer(1)->notNull(),
-            'folder_id' => $this->string(11)->notNull()->unique(),
             'brand_name' => $this->string(128)->notNull(),
             'type_name' => $this->string(128)->notNull(),
         ]);
+
+        if (YII_ENV_DEV) {
+            $this->addColumn('{{%product}}', 'folder_id', $this->string(11)->notNull());
+        } else {
+            $this->addColumn('{{%product}}', 'folder_id', $this->string(11)->notNull()->unique());
+        }
 
         $this->createIndex('{{%idx-product-brand_name}}',
             '{{product}}',
