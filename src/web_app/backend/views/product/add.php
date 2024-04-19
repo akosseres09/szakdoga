@@ -24,10 +24,20 @@ $this->registerCss(<<<CSS
     }
 
     #uploadedImagesContainer {
+        padding: 0 calc(var(--bs-gutter-x) * 0.5) ;
+        max-height: 500px;
         margin-top: 10px;
         display: flex;
         justify-content: start;
         align-items: center;
+        gap: 10px;
+    }
+
+    #uploadedImagesContainer img {
+        max-height: 200px;
+        max-width: fit-content;
+        aspect-ratio: 4/3;
+        padding: 0 !important;
     }
 CSS
 );
@@ -89,6 +99,9 @@ CSS
                 </div>
             </div>
             <div class="row" id="uploadedImagesContainer">
+                <div class="delete-btn">
+
+                </div>
             </div>
             <div class="row">
                 <?= $form->field($product, 'description_title', $fieldOptions)->textInput(['maxlength' => 128, 'required' => true]) ?>

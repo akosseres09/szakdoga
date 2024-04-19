@@ -4,7 +4,6 @@ const scrollable = document.querySelector('.user-profile-tabs');
 let isDown = false;
 let startX, scrollLeft;
 
-
 if (userLink && productContainer) {
     userLink.forEach(link => {
         link.addEventListener('click', e => {
@@ -58,22 +57,25 @@ function getProductPage(href) {
 }
 
 function triggerFileSelect() {
-    const input = document.querySelector('input[type="file"]').click();
+    document.querySelector('input[type="file"]').click();
 }
 
 function showFiles(event) {
     const files = event.target.files;
     const container = document.getElementById('uploadedImagesContainer');
     container.innerHTML = '';
+    const gap = files.length * 10;
+    const padding = 2 * 24 * 0.5;
+    const width = container.clientWidth - gap - padding;
 
     for (const file of files) {
         const reader = new FileReader();
-        const width = container.clientWidth;
         reader.onloadend = function (e) {
             const img = document.createElement('img');
             img.src = e.target.result;
             img.alt = file.name;
-            img.style.width = (1 / files.length) * 100 + '%';
+            img.style.minWidth = width/6 + 'px';
+            img.style.width = width / files.length + 'px';
             img.style.height = 'auto';
             container.appendChild(img);
         }
