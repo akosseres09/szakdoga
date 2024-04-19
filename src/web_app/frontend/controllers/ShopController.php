@@ -13,6 +13,7 @@ use Exception;
 use frontend\components\BaseController;
 use Throwable;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\captcha\CaptchaAction;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
@@ -238,7 +239,7 @@ class ShopController extends BaseController
     }
 
     /**
-     * @throws MethodNotAllowedHttpException
+     * @throws MethodNotAllowedHttpException|InvalidConfigException
      */
     public function actionAddToWishlist($id): array
     {
@@ -286,7 +287,7 @@ class ShopController extends BaseController
     }
 
     /**
-     * @throws MethodNotAllowedHttpException
+     * @throws MethodNotAllowedHttpException|InvalidConfigException
      */
     public function actionRemoveFromWishlist($id): array
     {

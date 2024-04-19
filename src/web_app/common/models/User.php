@@ -25,6 +25,7 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $deleted_at
  * @property string $verification_token
  * @property integer $last_login_at
  * @property string $stripe_cus
@@ -97,7 +98,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['is_admin'], 'in', 'range' => [self::USER, self::ADMIN]],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
-            [['created_at', 'updated_at', 'last_login_at'], 'integer']
+            [['created_at', 'updated_at', 'last_login_at', 'deleted_at'], 'integer']
         ];
     }
     public function attributeLabels(): array
@@ -108,8 +109,6 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => 'Email',
             'is_admin' => 'Role',
             'status' => 'Status',
-            'created_at' => 'Registered',
-            'updated_at' => 'Updated'
         ];
     }
 
@@ -166,7 +165,13 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findIdentity($id): User|IdentityInterface|null
     {
         return Yii::$app->cache->getOrSet(static::getCacheKey($id), function () use ($id) {
-            return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+            return static::findOne(
+                [
+                    'id' => $id,
+                    'status' => self::STATUS_ACTIVE,
+                    'deleted_at' => null
+                ]
+            );
         }, 60 * 60 * 4);
     }
 

@@ -9,12 +9,12 @@ use yii\db\Expression;
 
 class ProductSearch extends Product
 {
-    public $brandName;
-    public $typeName;
-    public $minPrice;
-    public $maxPrice;
-    public $kidOrAdult;
-    public $genderName;
+    public $brand;
+    public $type;
+    public $min;
+    public $max;
+    public $kid;
+    public $gender;
     public $pageSize;
     const SEARCH_ON_STOCK = 1;
     const SEARCH_OFF_STOCK = 0;
@@ -28,7 +28,7 @@ class ProductSearch extends Product
         32 => 32
     ];
 
-    public function formName()
+    public function formName(): string
     {
         return '';
     }
@@ -36,13 +36,12 @@ class ProductSearch extends Product
     public function rules(): array
     {
         return [
-            [['minPrice', 'maxPrice'], 'number'],
-            [['minPrice'], 'compare', 'compareAttribute' => 'maxPrice', 'type' => 'number', 'operator' => '<='],
-            [['brandName'], 'each', 'rule' => ['string']],
-            [['typeName'], 'each', 'rule' => ['string']],
+            [['min', 'max'], 'number'],
+            [['min'], 'compare', 'compareAttribute' => 'max', 'type' => 'number', 'operator' => '<='],
+            [['brand', 'type'], 'each', 'rule' => ['string']],
             [['name'], 'string', 'max' => 128],
-            [['kidOrAdult'], 'each', 'rule' => ['string']],
-            [['genderName'], 'each', 'rule' => ['string']],
+            [['kid'], 'each', 'rule' => ['string']],
+            [['gender'], 'each', 'rule' => ['string']],
             ['pageSize', 'in', 'range' => self::PAGE_SIZES]
         ];
     }
@@ -82,12 +81,12 @@ class ProductSearch extends Product
         }
 
         $query->andFilterWhere(['like', new Expression('CONCAT(brand_name, " ", product.name)'), $this->name])
-            ->andFilterWhere(['IN', 'type_name', $this->typeName])
-            ->andFilterWhere(['IN', 'brand_name', $this->brandName])
-            ->andFilterWhere(['IN', 'is_kid', $this->kidOrAdult])
-            ->andFilterWhere(['IN', 'gender', $this->genderName])
-            ->andFilterWhere(['>=', 'price', $this->minPrice])
-            ->andFilterWhere(['<=', 'price', $this->maxPrice])
+            ->andFilterWhere(['IN', 'type_name', $this->type])
+            ->andFilterWhere(['IN', 'brand_name', $this->brand])
+            ->andFilterWhere(['IN', 'is_kid', $this->kid])
+            ->andFilterWhere(['IN', 'gender', $this->gender])
+            ->andFilterWhere(['>=', 'price', $this->min])
+            ->andFilterWhere(['<=', 'price', $this->max])
             ->andFilterWhere(['is_activated' => $active]);
 
         return $dataProvider;

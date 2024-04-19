@@ -46,13 +46,13 @@ $form = ActiveForm::begin([
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#TypeFilter" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                Type <?= isset($filterTypeCount['typeName']) ? '(' . $filterTypeCount['typeName'] . ')' : '' ?>
+                Type <?= isset($filterTypeCount['type']) ? '(' . $filterTypeCount['type'] . ')' : '' ?>
             </button>
         </h2>
         <div id="TypeFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
                 <div>
-                    <?= $form->field($searchModel, 'typeName', $accOptions)->checkboxList($types) ?>
+                    <?= $form->field($searchModel, 'type', $accOptions)->checkboxList($types) ?>
                 </div>
             </div>
         </div>
@@ -60,13 +60,13 @@ $form = ActiveForm::begin([
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#BrandFilter" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                Brand <?= isset($filterTypeCount['brandName']) ? '(' . $filterTypeCount['brandName'] . ')' : '' ?>
+                Brand <?= isset($filterTypeCount['brand']) ? '(' . $filterTypeCount['brand'] . ')' : '' ?>
             </button>
         </h2>
         <div id="BrandFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
                 <?=
-                $form->field($searchModel, 'brandName', $accOptions)->checkboxList($brands);
+                $form->field($searchModel, 'brand', $accOptions)->checkboxList($brands);
                 ?>
             </div>
         </div>
@@ -74,12 +74,12 @@ $form = ActiveForm::begin([
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#SizeFilter" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                Kid/Adult <?= isset($filterTypeCount['KidOrAdult']) ? '(' . $filterTypeCount['KidOrAdult'] . ')' : '' ?>
+                Kid/Adult <?= isset($filterTypeCount['kid']) ? '(' . $filterTypeCount['kid'] . ')' : '' ?>
             </button>
         </h2>
         <div id="SizeFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <?= $form->field($searchModel, 'kidOrAdult', $accOptions)->checkboxList([
+                <?= $form->field($searchModel, 'kid', $accOptions)->checkboxList([
                     Product::ADULT => 'Adult',
                     Product::CHILDREN => 'Children'
                 ]) ?>
@@ -89,12 +89,12 @@ $form = ActiveForm::begin([
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#GenderFilter" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                Gender <?= isset($filterTypeCount['genderName']) ? '(' . $filterTypeCount['genderName'] . ')' : '' ?>
+                Gender <?= isset($filterTypeCount['gender']) ? '(' . $filterTypeCount['gender'] . ')' : '' ?>
             </button>
         </h2>
         <div id="GenderFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
-                <?= $form->field($searchModel, 'genderName', $accOptions)->checkboxList([
+                <?= $form->field($searchModel, 'gender', $accOptions)->checkboxList([
                     Product::GENDER_MALE => 'Male',
                     Product::GENDER_FEMALE => 'Female'
                 ]) ?>
@@ -105,17 +105,17 @@ $form = ActiveForm::begin([
     <div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#PriceFilter" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                Price <?= isset($filterTypeCount['maxPrice']) || isset($filterTypeCount['minPrice'])  ? '(' . $filterTypeCount['minPrice'] + $filterTypeCount['maxPrice'] . ')' : '' ?>
+                Price <?= isset($filterTypeCount['max']) || isset($filterTypeCount['min'])  ? '(' . $filterTypeCount['min'] + $filterTypeCount['max'] . ')' : '' ?>
             </button>
         </h2>
         <div id="PriceFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
                 <div class="row">
                     <div class="col-6">
-                        <?= $form->field($searchModel, 'minPrice')->textInput(['type' => 'number', 'placeHolder' => '0'])->label('Min') ?>
+                        <?= $form->field($searchModel, 'min')->textInput(['type' => 'number', 'placeHolder' => '0'])->label('Min') ?>
                     </div>
                     <div class="col-6">
-                        <?= $form->field($searchModel, 'maxPrice')->textInput(['type' => 'number', 'placeHolder' => '500'])->label('Max') ?>
+                        <?= $form->field($searchModel, 'max')->textInput(['type' => 'number', 'placeHolder' => '500'])->label('Max') ?>
                     </div>
                 </div>
             </div>
