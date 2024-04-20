@@ -9,7 +9,7 @@ use yii\db\StaleObjectException;
 
 class UserController extends Controller
 {
-    public function actionDeactivateById(int $id)
+    public function actionDeactivateById(int $id): void
     {
         $user = User::find()->ofId($id)->ofDeleted()->one();
 
