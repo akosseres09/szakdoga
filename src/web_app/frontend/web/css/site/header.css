@@ -6,6 +6,36 @@
     color: inherit;
     text-decoration: none;
 }
+#desktop-header .dropdown-menu .dropdown-item.sub::after {
+    position: absolute;
+    top: 10px;
+}
+
+#desktop-header .dropdown-menu .dropdown-item {
+    position: relative;
+}
+
+
+#desktop-header .dropdown-toggle::after, #desktop-header .dropdown-item.sub::after {
+    display: inline-block;
+    margin-top: 0.15em;
+    margin-left: 0.5em;
+    vertical-align: 0.5em;
+    content: "";
+    border-top: 0.3em solid transparent;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0.3em solid transparent;
+    border-left: 0.3em solid;
+}
+
+#desktop-header .dropdown-toggle.show::after {
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+
+
 
 .drop > span > a {
     border-radius: 10px

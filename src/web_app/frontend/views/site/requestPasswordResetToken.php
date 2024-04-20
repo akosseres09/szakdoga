@@ -50,7 +50,11 @@ CSS);
                             <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
                         </div>
                         <div class="text-center">
-                            <?= Html::a('Cancel', Url::to(['/site/login']),['class' => ['btn btn-outline-dark cancel']]) ?>
+                            <?php if(Yii::$app->user->isGuest) { ?>
+                                <?= Html::a('Cancel', Url::to(['/site/login']),['class' => ['btn btn-outline-dark cancel']]) ?>
+                            <?php } else { ?>
+                                <?= Html::a('Cancel', Url::to(Yii::$app->request->referrer),['class' => ['btn btn-outline-dark cancel']]) ?>
+                            <?php } ?>
                         </div>
                     </div>
                     <?php ActiveForm::end() ?>
