@@ -44,18 +44,74 @@ CSS);
                     <a class="btn btn-outline-dark" href="<?= Url::to(['/site/request-password-reset']) ?>">RESET PASSWORD</a>
                 </div>
                 <div>
-                    <?php $form = ActiveForm::begin([
-                        'id' => 'user-delete-form',
-                        'action' => Url::to(['/user/delete']),
-                        'method' => 'POST'
-                    ]) ?>
-                    <?= $form->field($user, 'id')->hiddenInput()->label(false) ?>
-                    <?= Html::submitButton('DELETE ACCOUNT', [
-                            'class' => 'btn btn-outline-danger'
-                    ]) ?>
-                    <?php ActiveForm::end() ?>
+                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        DEACTIVATE ACCOUNT
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#permaDeleteModal">
+                        PERMANENTLY DELETE ACCOUNT
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <?php $form = ActiveForm::begin([
+            'id' => 'DeleteModalForm',
+            'action' => '/user/delete',
+        ]) ?>
+        <?= $form->field($user, 'id')->hiddenInput()->label(false) ?>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="exampleModalLabel">Deactivate Account</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-break">
+                <h4>Are You Sure?</h4>
+                <span class="h5 fw-normal">
+                    Your account will be <span class="fw-bold text-danger">DEACTIVATED!</span><br>
+                    If you wish to use this account after deactivation, you need to contact us!
+                    <br>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-danger">Deactivate</button>
+            </div>
+        </div>
+        <?php ActiveForm::end() ?>
+    </div>
+</div>
+
+<div class="modal fade" id="permaDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <?php $form = ActiveForm::begin([
+            'id' => 'PermaDeleteModalForm',
+            'action' => '/user/perma-delete',
+        ]) ?>
+        <?= $form->field($user, 'id')->hiddenInput()->label(false) ?>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="exampleModalLabel">Delete Account</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-break">
+                <h4>Are You Sure?</h4>
+                <span class="h5 fw-normal">
+                    Your account will be <span class="fw-bold text-danger">DELETED!</span><br>
+                    If you want to use our site again, you would need to create a new account!
+                    <br>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        <?php ActiveForm::end() ?>
     </div>
 </div>

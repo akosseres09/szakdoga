@@ -12,6 +12,7 @@ use Stripe\Stripe;
 use Throwable;
 use Yii;
 use yii\data\ArrayDataProvider;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\ErrorAction;
@@ -25,10 +26,10 @@ class UserController extends BaseController
        return array_merge([
            'access' => [
                'class' => AccessControl::class,
-               'only' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices', 'delete'],
+               'only' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices', 'delete', 'perma-delete'],
                'rules' => [
                    [
-                       'actions' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices', 'delete'],
+                       'actions' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices', 'delete', 'perma-delete'],
                        'allow' => true,
                        'roles' => ['@']
                    ]
@@ -38,6 +39,8 @@ class UserController extends BaseController
                'class' => VerbFilter::class,
                'actions' => [
                    'update' => ['POST'],
+                   'delete' => ['POST'],
+                   'perma-delete' => ['POST'],
                    'save-shipping' => ['POST'],
                    'save-billing' => ['POST']
                ],
@@ -146,6 +149,33 @@ class UserController extends BaseController
             return $this->goHome();
         } else {
             Yii::$app->session->setFlash('Error', $user->errors);
+        }
+
+        return $this->redirect(['/user/settings']);
+    }
+
+    public function actionPermaDelete(): Response
+    {
+        $id = (int)Yii::$app->request->post('User')['id'];
+        if ($id !== Yii::$app->user->id) {
+            Yii::$app->session->setFlash('Error', 'You cannot delete other accounts!');
+            return $this->redirect(['/user/settings']);
+        }
+
+        $user = User::find()->ofId($id)->ofDeleted()->one();
+        if (!$user) {
+            Yii::$app->session->setFlash('Error', 'User not found!');
+            return $this->redirect(['/user/settings']);
+        }
+
+        try {
+            if ($user->delete()) {
+                Yii::$app->user->logout();
+            } else {
+                Yii::$app->session->setFlash('Error', 'Failed to delete account!');
+            }
+        } catch (StaleObjectException|Throwable $e) {
+            Yii::$app->session->setFlash('Error', 'Something went wrong while deleting the account!');
         }
 
         return $this->redirect(['/user/settings']);

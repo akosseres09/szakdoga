@@ -120,7 +120,6 @@ a.desc:after {
 }
 
 .btn-primary{
-    padding: 8px 25px ;
     background-color: transparent;
     border-color: var(--spfy-main-color);
     transition: all 0.15s ;
