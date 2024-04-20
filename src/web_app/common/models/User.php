@@ -192,7 +192,11 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername(string $username): ?User
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne([
+            'username' => $username,
+            'status' => self::STATUS_ACTIVE,
+            'deleted_at' => null
+        ]);
     }
 
     /**
@@ -210,6 +214,7 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
+            'deleted_at' => null
         ]);
     }
 
@@ -223,7 +228,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne([
             'verification_token' => $token,
-            'status' => self::STATUS_INACTIVE
+            'status' => self::STATUS_INACTIVE,
+            'deleted_at' => null
         ]);
     }
 
@@ -247,7 +253,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->getPrimaryKey();
     }
@@ -363,6 +369,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function isAdmin(): bool
     {
         return $this->is_admin === 1;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->deleted_at !== null;
     }
 
 }

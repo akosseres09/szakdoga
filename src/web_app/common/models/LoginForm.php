@@ -54,7 +54,7 @@ class LoginForm extends Model
      *
      * @return bool whether the user is logged in successfully
      */
-    public function login()
+    public function login(): bool
     {
         if ($this->validate()) {
             $user = $this->getUser();
@@ -71,7 +71,7 @@ class LoginForm extends Model
      *
      * @return User|null
      */
-    protected function getUser()
+    protected function getUser(): User| null
     {
         if ($this->_user === null) {
             $this->_user = User::findByUsername($this->username);

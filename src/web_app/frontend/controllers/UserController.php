@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\BillingInformation;
 use common\models\ShippingInformation;
+use common\models\User;
 use frontend\components\BaseController;
 use Stripe\Customer;
 use Stripe\Invoice;
@@ -24,10 +25,10 @@ class UserController extends BaseController
        return array_merge([
            'access' => [
                'class' => AccessControl::class,
-               'only' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices'],
+               'only' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices', 'delete'],
                'rules' => [
                    [
-                       'actions' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices'],
+                       'actions' => ['settings', 'account', 'save-billing', 'save-shipping', 'invoices', 'delete'],
                        'allow' => true,
                        'roles' => ['@']
                    ]
@@ -118,6 +119,34 @@ class UserController extends BaseController
                 }
             }
         }
+        return $this->redirect(['/user/settings']);
+    }
+
+    public function actionDelete(): Response
+    {
+        $id = (int)Yii::$app->request->post('User')['id'];
+        if ($id !== Yii::$app->user->id) {
+            Yii::$app->session->setFlash('Error', 'You cannot delete other accounts!');
+            return $this->redirect(['/user/settings']);
+        }
+
+        $user = User::find()->ofId($id)->ofDeleted()->one();
+        if (!$user) {
+            Yii::$app->session->setFlash('Error', 'User not found!');
+            return $this->redirect(['/user/settings']);
+        }
+
+        $user->deleted_at = strtotime('now');
+
+        if ($user->save()) {
+            var_dump(Yii::$app->cache->delete(User::getCacheKey($id)));
+            Yii::$app->session->setFlash('Success', 'User deleted successfully!');
+            Yii::$app->user->logout();
+            return $this->goHome();
+        } else {
+            Yii::$app->session->setFlash('Error', $user->errors);
+        }
+
         return $this->redirect(['/user/settings']);
     }
 
