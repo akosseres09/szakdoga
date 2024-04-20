@@ -17,10 +17,10 @@ class UserController extends BaseController
         return array_merge([
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['users', 'delete', 'edit', 'change-role'],
+                'only' => ['users', 'delete', 'edit', 'change-role', 'undelete'],
                 'rules' => [
                     [
-                        'actions' => ['users', 'delete', 'edit', 'change-role'],
+                        'actions' => ['users', 'delete', 'edit', 'change-role', 'undelete'],
                         'allow' => true,
                         'roles' => ['@']
                     ]
@@ -30,6 +30,7 @@ class UserController extends BaseController
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'undelete' => ['POST'],
                 ]
             ]
         ], parent::behaviors());
@@ -85,16 +86,35 @@ class UserController extends BaseController
             return $this->redirect('/user/users');
         }
 
-        try {
-            if ($user->delete()) {
-                Yii::$app->session->setFlash('Success', 'User successfully deleted!');
-            } else {
-                $errors = implode('', $user->getErrors());
-                Yii::$app->session->setFlash('Error', 'Something went wrong. User could not be deleted!');
-                Yii::warning('Something went wrong. User could not be deleted!' . $errors, __METHOD__);
-            }
-        }catch (\Throwable $e) {
-            Yii::$app->session->setFlash('error', $e->getMessage());
+        if ($user->deleted_at !== null) {
+            return $this->redirect('/user/users');
+        }
+
+        $user->deleted_at = strtotime('now');
+        if ($user->save()) {
+            Yii::$app->session->setFlash('Success', 'Successfully Deleted User!');
+        } else {
+            $errors = implode('', $user->getErrors());
+            Yii::$app->session->setFlash('Error', $errors);
+        }
+
+        return $this->redirect('/user/users');
+    }
+
+    public function actionUndelete(int $id): Response
+    {
+        $user = User::find()->ofId($id)->one();
+        if (!$user) {
+            return $this->redirect('/user/users');
+        }
+
+        $user->deleted_at = null;
+        $user->status = User::STATUS_ACTIVE;
+        if ($user->save()) {
+            Yii::$app->session->setFlash('Success', 'Successfully Deleted User!');
+        } else {
+            $errors = implode('', $user->getErrors());
+            Yii::$app->session->setFlash('Error', $errors);
         }
         return $this->redirect('/user/users');
     }

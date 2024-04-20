@@ -137,10 +137,11 @@ class UserController extends BaseController
         }
 
         $user->deleted_at = strtotime('now');
+        $user->status = User::STATUS_INACTIVE;
 
         if ($user->save()) {
             var_dump(Yii::$app->cache->delete(User::getCacheKey($id)));
-            Yii::$app->session->setFlash('Success', 'User deleted successfully!');
+            Yii::$app->session->setFlash('Success', 'User activated successfully!');
             Yii::$app->user->logout();
             return $this->goHome();
         } else {

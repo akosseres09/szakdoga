@@ -106,13 +106,19 @@ echo $this->render('/site/common/_alert');
             'class' => 'yii\grid\DataColumn',
             'header' => 'Edit',
             'content' => function ($model) {
-                $edit = Html::a('Edit', ['/user/edit/'.$model->id], ['class' => 'editUserBtn btn btn-primary me-2', 'data' => [
-                    'bs-toggle' => 'modal',
-                    'bs-target' => '#editUserModal'
-                ]]);
-                $delete = Html::a('Delete', ['/user/delete/'.$model->id], ['class' => 'btn btn-outline-dark m-delete', 'data' => ['method' => 'POST']]);
-                return
-                    Yii::$app->user->id !== $model->id ? $edit . $delete : $edit;
+                if ($model->deleted_at === null) {
+                    $edit = Html::a('Edit', ['/user/edit/'.$model->id], ['class' => 'editUserBtn btn btn-primary me-2', 'data' => [
+                        'bs-toggle' => 'modal',
+                        'bs-target' => '#editUserModal'
+                    ]]);
+                    $delete = Html::a('Delete', ['/user/delete/'.$model->id], ['class' => 'btn btn-outline-dark m-delete', 'data' => ['method' => 'POST']]);
+                    return Yii::$app->user->id !== $model->id ? $edit . $delete : $edit;
+                } else {
+                    return Html::a('Undo Delete', ['/user/undelete/'.$model->id], ['class' => 'btn btn-outline-warning m-delete', 'data' => [
+                            'method' => 'POST'
+                    ]]);
+                }
+
             }
         ]
     ],
