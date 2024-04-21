@@ -28,7 +28,7 @@ $actionName = Yii::$app->controller->action->id;
                </a>
                 <div class="px-3 drop" aria-labelledby="navbarDropdown">
                     <span>
-                        <a class="p-1 dropdown-item" href="<?= Url::to(['/shop?gende='. Product::GENDER_MALE]) ?>">
+                        <a class="p-1 dropdown-item" href="<?= Url::to(['/shop?gender='. Product::GENDER_MALE]) ?>">
                             Men
                         </a>
                     </span>
@@ -105,36 +105,36 @@ $actionName = Yii::$app->controller->action->id;
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li>
-                                    <a class="dropdown-item sub" href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0']) ?>">Men</a>
+                                    <a class="dropdown-item sub" href="<?= Url::to(['/shop?gender=&gender%5B%5D=0']) ?>">Men</a>
                                     <ul class="submenu dropdown-menu">
-                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Shirt']) ?>">Shirt</a></li>
-                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Accessories']) ?>">Accessories</a></li>
+                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=0&type=&type%5B%5D=Shirt']) ?>">Shirt</a></li>
+                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=0&type=&type%5B%5D=Accessories']) ?>">Accessories</a></li>
                                         <li class="dropdown-item sub">
-                                            <a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Basketball+Shoes&typeName%5B%5D=Handball+Shoes&typeName%5B%5D=Indoor+Football+Shoes&typeName%5B%5D=Outdoor+Football+Shoes&typeName%5B%5D=Shoes']) ?>">Shoes</a>
+                                            <a href="<?= Url::to(['/shop?gender=&gender%5B%5D=0&type=&type%5B%5D=Basketball+Shoes&type%5B%5D=Handball+Shoes&type%5B%5D=Indoor+Football+Shoes&type%5B%5D=Outdoor+Football+Shoes&type%5B%5D=Shoes']) ?>">Shoes</a>
                                             <ul class="submenu dropdown-menu">
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Indoor Football Shoes']) ?>">Indoor Football Shoes</a></li>
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Outdoor Football Shoes']) ?>">Outdoor Football Shoes</a></li>
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Basketball Shoes']) ?>">Basketball Shoes</a></li>
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=handball Shoes']) ?>">Handball Shoes</a></li>
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=0&typeName=&typeName%5B%5D=Shoes']) ?>">Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=0&type=&type%5B%5D=Indoor Football Shoes']) ?>">Indoor Football Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=0&type=&type%5B%5D=Outdoor Football Shoes']) ?>">Outdoor Football Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=0&type=&type%5B%5D=Basketball Shoes']) ?>">Basketball Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=0&type=&type%5B%5D=handball Shoes']) ?>">Handball Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=0&type=&type%5B%5D=Shoes']) ?>">Shoes</a></li>
                                             </ul>
                                         </li>
 
                                     </ul>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item sub" href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1']) ?>">Women</a>
+                                    <a class="dropdown-item sub" href="<?= Url::to(['/shop?gender=&gender%5B%5D=1']) ?>">Women</a>
                                     <ul class="submenu dropdown-menu">
-                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Shirt']) ?>">Shirt</a></li>
-                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Accessories']) ?>">Accessories</a></li>
+                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=1&type=&type%5B%5D=Shirt']) ?>">Shirt</a></li>
+                                        <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=1&type=&type%5B%5D=Accessories']) ?>">Accessories</a></li>
                                         <li class="dropdown-item sub">
-                                            <a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Basketball+Shoes&typeName%5B%5D=Handball+Shoes&typeName%5B%5D=Indoor+Football+Shoes&typeName%5B%5D=Outdoor+Football+Shoes&typeName%5B%5D=Shoes']) ?>">Shoes</a>
+                                            <a href="<?= Url::to(['/shop?gender=&gender%5B%5D=1&type=&type%5B%5D=Basketball+Shoes&type%5B%5D=Handball+Shoes&type%5B%5D=Indoor+Football+Shoes&type%5B%5D=Outdoor+Football+Shoes&type%5B%5D=Shoes']) ?>">Shoes</a>
                                             <ul class="dropdown-menu submenu">
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Indoor Football Shoes']) ?>">Indoor Football Shoes</a></li>
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Outdoor Football Shoes']) ?>">Outdoor Football Shoes</a></li>
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Basketball Shoes']) ?>">Basketball Shoes</a></li>
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=handball Shoes']) ?>">Handball Shoes</a></li>
-                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?genderName=&genderName%5B%5D=1&typeName=&typeName%5B%5D=Shoes']) ?>">Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=1&type=&type%5B%5D=Indoor Football Shoes']) ?>">Indoor Football Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=1&type=&type%5B%5D=Outdoor Football Shoes']) ?>">Outdoor Football Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=1&type=&type%5B%5D=Basketball Shoes']) ?>">Basketball Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=1&type=&type%5B%5D=handball Shoes']) ?>">Handball Shoes</a></li>
+                                                <li class="dropdown-item"><a href="<?= Url::to(['/shop?gender=&gender%5B%5D=1&type=&type%5B%5D=Shoes']) ?>">Shoes</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -142,7 +142,7 @@ $actionName = Yii::$app->controller->action->id;
                             </ul>
                         </div>
                         <div class="nav-item">
-                            <a class="nav-link" href="<?= Url::to(['/shop?typeName=&typeName%5B%5D=Gloves']) ?>" id="navbarDropdown">
+                            <a class="nav-link" href="<?= Url::to(['/shop?type=&type%5B%5D=Gloves']) ?>" id="navbarDropdown">
                                 Gloves
                             </a>
                         </div>
