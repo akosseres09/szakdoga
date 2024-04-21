@@ -15,7 +15,7 @@ function loadRating(entries, observer) {
         if (entry.isIntersecting && !elem) {
             getRating();
         }
-    })
+    });
 }
 
 function getRating() {
@@ -41,7 +41,7 @@ function getRating() {
 function parseRating(rating) {
     return new Intl.NumberFormat('en', {
         minimumFractionDigits: 2, maximumFractionDigits: 2
-    }).format(rating)
+    }).format(rating);
 }
 
 function getRatingHtml(rating) {

@@ -35,11 +35,11 @@ if (cartForm) {
                         icon: "error",
                         titleText: 'Oops!',
                         text: errorText
-                    })
+                    });
                 }
             })
             .catch(err => {
-                console.error(err)
+                console.error(err);
             });
 
     });
@@ -67,7 +67,7 @@ if (wishlistBtn) {
                         titleText: res.title,
                         text: res.text,
                         icon: "error"
-                    })
+                    });
                 }
             })
             .catch(err => console.error(err));

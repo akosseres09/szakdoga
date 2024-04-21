@@ -19,9 +19,10 @@ if (deleteBtn) {
             }).then(res => {
                 if (res.isConfirmed) {
                     fetchAjax(link)
-                        .then(() => {
-                            window.location.reload();
-                        }).catch(err => console.log(err))
+                    .then(() => {
+                        window.location.reload();
+                    })
+                    .catch(err => console.log(err));
                 }
             });
         });
@@ -44,11 +45,11 @@ if (moveToWishlistBtn) {
                             title: 'Something Went Wrong!',
                             text: message,
                             icon: 'error'
-                        })
+                        });
                     } else {
                         window.location.reload();
                     }
-                })
+                });
         });
-    })
+    });
 }

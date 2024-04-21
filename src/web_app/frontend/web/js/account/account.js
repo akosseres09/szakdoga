@@ -26,8 +26,8 @@ if (userLink) {
                 next.classList.add('active');
                 getAccountPage(next.dataset.href);
             }
-        })
-    })
+        });
+    });
 }
 
 if (scrollable) {
@@ -43,7 +43,7 @@ if (scrollable) {
 
     scrollable.addEventListener('mouseup', () => {
         isDown = false;
-    })
+    });
 
     scrollable.addEventListener('mousemove', (e) => {
         if (!isDown) return;
@@ -65,5 +65,5 @@ function getAccountPage(href) {
         .then(res => {
             settingsContainer.innerHTML = res.data;
             history.pushState(res.data, '', href);
-        })
+        });
 }

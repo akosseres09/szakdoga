@@ -14,7 +14,7 @@ function updateCartCounter() {
 
 function updateWishlistCounter(success) {
     let count = parseInt(wishlistCount.innerText) || 0;
-    success ? count-- : count++
+    success ? count-- : count++;
     wishlistCount.innerText = count;
 }
 
@@ -25,7 +25,7 @@ function parseLink(link) {
 }
 
 function sendDataToUrl(url, formSendData = {}){
-    return fetch(url, formSendData)
+    return fetch(url, formSendData);
 }
 
 function getLoader() {
@@ -50,5 +50,5 @@ function showCartSwal() {
         title: 'Something went wrong!',
         text: 'Your cart is empty!',
         icon: 'error'
-    })
+    });
 }
