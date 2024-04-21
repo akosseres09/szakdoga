@@ -251,14 +251,12 @@ a:focus {
 }
 
 .loader {
-    width: 24px;
-    height: 24px;
-    border: 5px solid var(--spfy-light-gray);
-    border-bottom-color: var(--spfy-main-color);
+    border: 8px solid var(--spfy-light-gray-summary); /* Light grey */
+    border-top: 8px solid var(--spfy-main-color); /* Blue */
     border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
 }
 
 .custom-pagination {
@@ -337,13 +335,9 @@ form .form-select:focus, form .form-control:focus {
     }
 }
 
-@keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media(max-width:767px) {

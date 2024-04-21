@@ -56,6 +56,8 @@ if (scrollable) {
 
 
 function getAccountPage(href) {
+    settingsContainer.innerHTML = '';
+    settingsContainer.appendChild(getLoader());
     fetch(href, {
         headers : {
             'X-Requested-With': 'XMLHttpRequest'
