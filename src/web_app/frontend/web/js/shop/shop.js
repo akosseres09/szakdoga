@@ -1,5 +1,5 @@
 const cartForm = document.getElementById('place-in-cart-form');
-const wishlistBtn = document.querySelector('.wishlist-btn');
+const wishlistBtn = document.querySelector('.wishlist-link');
 const sizeItems = document.querySelectorAll('.size-item');
 const sizeInput = document.getElementById('cart-size');
 const ratingForm = document.getElementById('rating-form');
@@ -49,14 +49,14 @@ if (cartForm) {
 if (wishlistBtn) {
     wishlistBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        let wishlistLink = document.querySelector('.wishlist-link');
-        fetchAjax(wishlistLink.href)
+        const wishlistIcon = document.querySelector('.wishlist-btn');
+        fetchAjax(wishlistBtn.href)
             .then(res => res.json())
             .then(res => {
                 if (res.success) {
                     updateWishlistCounter(res.down);
-                    wishlistBtn.classList.toggle('active');
-                    wishlistLink.href = parseLink(wishlistLink.href);
+                    wishlistIcon.classList.toggle('active');
+                    wishlistBtn.href = parseLink(wishlistBtn.href);
                     swalWithCustomButtons.fire({
                         titleText: res.title,
                         text: res.text,
