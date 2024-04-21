@@ -177,7 +177,7 @@ class PaymentController extends BaseController
         } catch (ApiErrorException $e) {
             Yii::error('Failed to retrieve session at payment-cancel at:' . Yii::$app->formatter->asDate(strtotime('now')) . ' ' . $e->getMessage(), __METHOD__);
         }
-        return $this->render('/payment/payment-fail', [
+        return $this->render('/payment/payment-cancel', [
             'session' => $session
         ]);
     }

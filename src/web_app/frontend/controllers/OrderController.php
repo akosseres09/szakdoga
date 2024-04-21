@@ -47,7 +47,7 @@ class OrderController extends BaseController
         ])->distinct()
             ->from('{{%order}}')
             ->where(['order.user_id' => Yii::$app->user->id])
-            ->orderBy('order.created_at')
+            ->orderBy('order.created_at DESC')
             ->groupBy('order.created_at');
 
         $orders = new ActiveDataProvider([

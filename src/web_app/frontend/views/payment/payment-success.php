@@ -17,3 +17,13 @@ echo $this->render('/cart/_cart-steps', [
 ]);
 
 ?>
+
+<div class="container-fluid">
+    <div class="container">
+        <?= $this->render('/common/_empty_text', [
+            'title' => 'Successful Payment',
+            'text' => 'Your payment was successful. The ordered products are being processed! Thank you for the purchase!',
+            'icon' => false,
+        ]) ?>
+    </div>
+</div>
