@@ -39,7 +39,7 @@ CSS);
                 </div>
                 <?php ActiveForm::end() ?>
             </div>
-            <div class="col-md-4 d-flex flex-column align-items-center mt-2 gap-3">
+            <div class="col-md-4 mt-md-0 mt-5 d-flex flex-column align-items-center mt-2 gap-3">
                 <div>
                     <a class="btn btn-outline-dark" href="<?= Url::to(['/site/request-password-reset']) ?>">RESET PASSWORD</a>
                 </div>
@@ -67,11 +67,10 @@ CSS);
         <?= $form->field($user, 'id')->hiddenInput()->label(false) ?>
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-4" id="exampleModalLabel">Deactivate Account</h1>
+                <h1 class="modal-title fs-4" id="exampleModalLabel">Deactivate Account?</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-break">
-                <h4>Are You Sure?</h4>
                 <span class="h5 fw-normal">
                     Your account will be <span class="fw-bold text-danger">DEACTIVATED!</span><br>
                     If you wish to use this account after deactivation, you need to contact us!
@@ -96,14 +95,13 @@ CSS);
         <?= $form->field($user, 'id')->hiddenInput()->label(false) ?>
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-4" id="exampleModalLabel">Delete Account</h1>
+                <h1 class="modal-title fs-4" id="exampleModalLabel">Delete Account?</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-break">
-                <h4>Are You Sure?</h4>
                 <span class="h5 fw-normal">
                     Your account will be <span class="fw-bold text-danger">DELETED!</span><br>
-                    If you want to use our site again, you would need to create a new account!
+                    If you wish to use our site again, you would need to create a new account!
                     <br>
                 </span>
             </div>
