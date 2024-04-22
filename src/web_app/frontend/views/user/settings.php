@@ -40,17 +40,17 @@ CSS);
                 <?php ActiveForm::end() ?>
             </div>
             <div class="col-md-4 mt-md-0 mt-5 d-flex flex-column align-items-center mt-2 gap-3">
-                <div>
-                    <a class="btn btn-outline-dark" href="<?= Url::to(['/site/request-password-reset']) ?>">RESET PASSWORD</a>
+                <div class="w-75">
+                    <a class="w-100 btn btn-outline-dark" href="<?= Url::to(['/site/request-password-reset']) ?>">RESET PASSWORD</a>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <div class="w-75">
+                    <button type="button" class="w-100 btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#deleteModal">
                         DEACTIVATE ACCOUNT
                     </button>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#permaDeleteModal">
-                        PERMANENTLY DELETE ACCOUNT
+                <div class="w-75">
+                    <button type="button" class="w-100 btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#permaDeleteModal">
+                        DELETE ACCOUNT
                     </button>
                 </div>
             </div>
