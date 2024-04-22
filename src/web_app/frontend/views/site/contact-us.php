@@ -21,6 +21,10 @@ $this->registerCss(<<<CSS
         min-width: 50%;
         max-width: 100%;
     }
+    
+    #contactform-captcha-image {
+        cursor: pointer;
+    }
 
     @media screen and (max-width: 480px){
         .site-password-reset {
