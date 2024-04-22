@@ -10,3 +10,5 @@ sportify_docker/redis_dump
 /sportify_docker/configs/web/config/private.key
 /sportify_docker/logs/
 /src/.jshintrc
+/sportify_docker/configs/web/config/sportify.test+1.pem
+/sportify_docker/configs/web/config/sportify.test+1-key.pem

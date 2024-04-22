@@ -7,6 +7,9 @@ let startX, scrollLeft;
 if (userLink) {
     userLink.forEach(link => {
         link.addEventListener('click', e => {
+            if (link.classList.contains('active')) {
+                return;
+            }
             const active = document.querySelector('.user-link.active');
             const activeIcon = document.querySelector('.user-link .active-icon');
             const next = e.target.closest('.user-link');
