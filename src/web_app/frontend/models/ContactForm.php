@@ -10,35 +10,36 @@ use yii\base\Model;
  */
 class ContactForm extends Model
 {
-    public $name;
     public $email;
     public $subject;
     public $body;
-    public $verifyCode;
+    public $captcha;
 
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
+            [['email', 'subject', 'body'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
+            ['captcha', 'captcha'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
-            'verifyCode' => 'Verification Code',
+            'email' => 'Your email address',
+            'body' => 'Description',
+            'captcha' => 'Verification Code',
         ];
     }
 
@@ -48,14 +49,17 @@ class ContactForm extends Model
      * @param string $email the target email address
      * @return bool whether the email was sent
      */
-    public function sendEmail($email)
+    public function sendEmail(string $email): bool
     {
-        return Yii::$app->mailer->compose()
-            ->setTo($email)
-            ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
-            ->setReplyTo([$this->email => $this->name])
+        return Yii::$app
+            ->mailer
+            ->compose(
+                ['html' => 'contactUs-html', 'text' => 'contactUs-text'],
+                ['form' => $this]
+            )
+            ->setTo(Yii::$app->params['adminEmail'])
+            ->setFrom($email)
             ->setSubject($this->subject)
-            ->setTextBody($this->body)
             ->send();
     }
 }

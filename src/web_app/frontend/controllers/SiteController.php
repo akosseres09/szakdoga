@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\ContactForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Stripe\Customer;
@@ -35,7 +36,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup', 'login', 'reset-password', 'resend-verification-email', 'request-reset-password', 'verify-email'],
+                'only' => ['logout', 'signup', 'login', 'reset-password', 'resend-verification-email', 'request-reset-password', 'verify-email', 'contact-us'],
                 'rules' => [
                     [
                         'actions' => ['resend-verification-email', 'verify-email'],
@@ -52,7 +53,8 @@ class SiteController extends Controller
                             'request-reset-password',
                             'reset-password',
                             'login',
-                            'signup'
+                            'signup',
+                            'contact-us',
                         ],
                         'allow' => true,
                         'roles' => ['@', '?']
@@ -251,6 +253,32 @@ class SiteController extends Controller
 
         return $this->render('resendVerificationEmail', [
             'model' => $model
+        ]);
+    }
+
+    public function actionContactUs(): string
+    {
+        $this->layout = 'mainWithoutHeaderAndFooter';
+        $contactForm = new ContactForm();
+
+        if (Yii::$app->request->isPost) {
+            if ($contactForm->load(Yii::$app->request->post()) && $contactForm->validate()) {
+                if ($contactForm->sendEmail($contactForm->email)) {
+                    Yii::$app->session->setFlash('Success', 'Thank you for contacting us! We will respond to you as soon as possible.');
+                } else {
+                    Yii::$app->session->setFlash('Error', 'There was an error sending your message.');
+                }
+            } else {
+                Yii::$app->session->setFlash('Error', 'There was an error sending your message.');
+            }
+        }
+
+        $contactForm->subject = '';
+        $contactForm->body = '';
+        $contactForm->captcha = '';
+
+        return $this->render('contact-us', [
+            'contactForm' => $contactForm,
         ]);
     }
 }
