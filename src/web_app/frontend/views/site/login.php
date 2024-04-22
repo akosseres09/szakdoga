@@ -14,8 +14,11 @@ use yii\web\View;
 
 $this->title = 'Sportify » Login';
 $fieldOptions = [
-    'labelOptions' => ['class' => 'control-label'],
-    'template' => '<div><span class="pb-5">{label}</span>{input}{hint}{error}</div>'
+    'labelOptions' => ['class' => 'text-muted', 'style' => 'padding-left: 0.5rem'],
+    'inputOptions' => ['class' => 'custom-input form-control'],
+    'template' => '<div class="mb-3 form-floating">
+                    {input}{label}{error}
+                    </div>'
 ];
 
 $this->render('common/_alert');
@@ -25,8 +28,10 @@ $this->render('common/_alert');
     <div class="container d-flex justify-content-center">
         <div class="site-signup">
             <div class="row">
-                <h1 class="row text-center pb-2">
+                <h1 class="row text-center">
                     <a class="col-sm" href="<?= Url::to(['/']) ?>">Sportify</a>
+                </h1>
+                <h1 class="row text-center pb-2">
                     <span class="col-sm w-100 px-5">Login</span>
                 </h1>
             </div>
@@ -35,10 +40,10 @@ $this->render('common/_alert');
                 <div class="col-sm-12">
                     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                     <div class="row pt-3">
-                        <?= $form->field($user, 'username', $fieldOptions)->textInput(['autofocus' => true]) ?>
+                        <?= $form->field($user, 'username', $fieldOptions)->textInput(['autofocus' => true, 'placeHolder' => 'Username']) ?>
                     </div>
                     <div class="row pt-2">
-                        <?= $form->field($user, 'password', $fieldOptions)->passwordInput() ?>
+                        <?= $form->field($user, 'password', $fieldOptions)->passwordInput(['placeHolder' => 'Password']) ?>
                     </div>
                     <div class="row pt-2">
                         <?= $form->field($user, 'rememberMe', $fieldOptions)->checkbox() ?>

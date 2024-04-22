@@ -17,7 +17,7 @@ use yii\helpers\Url;
 
 $options = [
     'inputOptions' => [
-        'class' => 'form-control',
+        'class' => 'form-control custom-input',
         'id' => 'filter-search'
     ],
     'template' => '<div class="mb-3 form-floating">
@@ -34,7 +34,8 @@ $form = ActiveForm::begin([
     'id' => 'shop-filter-form',
     'action' => Url::to(['/shop/products']),
     'method' => 'get'
-]); ?>
+]);
+?>
 <?= $form->field($searchModel, 'name', $options)->textInput(['type' => 'search', 'placeHolder' => 'Search']) ?>
 <?php if ($paramCount > 0 ) { ?>
     <span class="fw-bold ps-2 brown">You currently have <?=$paramCount?> active Filters</span>
@@ -124,8 +125,8 @@ $form = ActiveForm::begin([
 </div>
 <div class="d-flex justify-content-center gap-3 align-items-center">
     <?= Html::submitButton('Filter', ['class' => 'btn btn-primary mt-3', 'id' => 'filter-button' ]) ?>
-    <?php if ($paramCount > 0) { ?>
-        <?= Html::a(Html::button('Reset Filters', ['class' => 'btn btn-outline-dark mt-3']), ['/shop/products']) ?>
+    <?php if (count($filterTypeCount) > 0) { ?>
+        <?= Html::a(Html::button('Reset Filters', ['class' => 'btn btn-outline-dark mt-3']), ['/shop']) ?>
     <?php } ?>
 </div>
 <?php ActiveForm::end() ?>

@@ -11,8 +11,11 @@ use yii\web\View;
 use yii\bootstrap5\ActiveForm;
 
 $fieldOptions = [
-    'labelOptions' => ['class' => 'control-label'],
-    'template' => '<div><span class="pb-5">{label}</span>{input}{hint}{error}</div>'
+    'labelOptions' => ['class' => 'text-muted', 'style' => 'padding-left: 0.5rem'],
+    'inputOptions' => ['class' => 'form-control custom-input'],
+    'template' => '<div class="mb-3 form-floating">
+                    {input}{label}{error}
+                    </div>'
 ];
 
 $this->title = 'Sportify » Signup';
@@ -24,8 +27,10 @@ $this->render('common/_alert');
     <div class="container d-flex justify-content-center">
         <div class="site-signup">
             <div class="row">
-                <h1 class="row text-center pb-2">
+                <h1 class="row text-center">
                     <a class="col" href="<?= Url::to(['/']) ?>">Sportify</a>
+                </h1>
+                <h1 class="row text-center pb-2">
                     <span class="col">Register</span>
                 </h1>
             </div>
@@ -34,16 +39,18 @@ $this->render('common/_alert');
                 <div class="col-sm-12">
                     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                     <div class="row pt-3">
-                        <?= $form->field($model, 'username', $fieldOptions)->textInput() ?>
+                        <?= $form->field($model, 'username', $fieldOptions)->textInput(['placeHolder' => 'Username']) ?>
                     </div>
                     <div class="row pt-2">
-                        <?= $form->field($model, 'email', $fieldOptions)->textInput(['maxlength' => 255, 'type' => 'email']) ?>
+                        <?= $form->field($model, 'email', $fieldOptions)->textInput(['maxlength' => 255, 'type' => 'email', 'placeHolder' => 'Email']) ?>
                     </div>
-                    <div class="row pt-2">
-                        <?= $form->field($model, 'password', $fieldOptions)->passwordInput() ?>
-                    </div>
-                    <div class="row pt-2">
-                        <?= $form->field($model, 'passwordAgain', $fieldOptions)->passwordInput() ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'password', $fieldOptions)->passwordInput(['placeHolder' => '']) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($model, 'passwordAgain', $fieldOptions)->passwordInput(['placeHolder' => '']) ?>
+                        </div>
                     </div>
                     <div class="row pt-2">
                         <div class="col">

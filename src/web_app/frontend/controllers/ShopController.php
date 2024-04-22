@@ -80,13 +80,13 @@ class ShopController extends BaseController
         $types = ArrayHelper::map(Type::getAll(), 'name', 'name');
         $brands = ArrayHelper::map(Brand::getAll(), 'name', 'name');
 
-        $paramCount = 0;
         $filterTypeCount = [];
         foreach ($request->queryParams as $key => $param) {
             if ($key !== 'page' && $key !== 'per-page' && $key !== 'pageSize' && $param !== '') {
-                $paramCount++;
                 if (is_array($param)) {
                     $filterTypeCount[$key] = count($param);
+                } else {
+                    $filterTypeCount[$key] = 1;
                 }
             }
         }
