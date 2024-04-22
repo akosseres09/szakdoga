@@ -66,15 +66,27 @@ $actionName = Yii::$app->controller->action->id;
                         Wishlist
                     </a>
                 </div>
+                <div class="nav-item">
+                    <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/order']) ?>">
+                        Orders
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link justify-content-start" aria-current="page" href="<?= Url::to(['/site/contact-us']) ?>">
+                        Contact Us
+                    </a>
+                </div>
                 <div class="mobile-nav nav-item dropdown">
                     <a class="nav-link justify-content-start" href="#">
                         Profile
                     </a>
                     <div class="px-3 drop" aria-labelledby="navbarDropdown">
                         <span>
-                           <a class="dropdown-item p-1" href="<?= Url::to(['/account']) ?>">Account</a></span>
+                           <a class="dropdown-item p-1" href="<?= Url::to(['/account']) ?>">Account</a>
+                        </span>
                         <span>
-                            <a class="dropdown-item p-1" href="<?= Url::to(['/settings']) ?>">Settings</a></span>
+                            <a class="dropdown-item p-1" href="<?= Url::to(['/settings']) ?>">Settings</a>
+                        </span>
                         <span>
                             <?= Html::a('Logout', ['/site/logout'], [
                                 'class' => 'dropdown-item p-1',
@@ -146,6 +158,11 @@ $actionName = Yii::$app->controller->action->id;
                                 Gloves
                             </a>
                         </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="<?= Url::to(['/site/contact-us']) ?>" id="navbarDropdown">
+                                Contact Us
+                            </a>
+                        </div>
                     </div>
                     <?php if(Yii::$app->user->isGuest): ?>
                         <div class="d-flex gap-3 me-5">
@@ -188,6 +205,8 @@ $actionName = Yii::$app->controller->action->id;
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="transform: translateX(-50%)">
                                     <a class="dropdown-item" href="<?= Url::to(['/account']) ?>">Account</a>
+                                    <a class="dropdown-item" href="<?= Url::to(['/wishlist']) ?>">Wishlist</a>
+                                    <a class="dropdown-item" href="<?= Url::to(['/order']) ?>">Orders</a>
                                     <a class="dropdown-item" href="<?= Url::to(['/settings']) ?>">Settings</a>
                                     <?= Html::a('Logout', ['/site/logout'], [
                                         'class' => 'dropdown-item',
