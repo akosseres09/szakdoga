@@ -2,6 +2,7 @@
 
 use common\components\AddressHelper;
 use common\models\ShippingInformation;
+use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 /**
@@ -21,14 +22,17 @@ $empty = AddressHelper::isEmpty($shipping);
                 edit
             </span>
             <div class="address">
+                <div class="row fw-bold">
+                    <?= Html::encode($shipping->user->email) ?>
+                </div>
                 <div class="row">
-                    <?= $shipping->country ?>,
-                    <?= $shipping->state ?>
+                    <?= Html::encode($shipping->country) ?>,
+                    <?= Html::encode($shipping->state) ?>
                 </div>
                 <div class="row text-muted">
-                    <?= $shipping->postcode ?>
-                    <?= $shipping->city ?>
-                    <?= $shipping->street ?>
+                    <?= Html::encode($shipping->postcode) ?>
+                    <?= Html::encode($shipping->city) ?>
+                    <?= Html::encode($shipping->street) ?>
                 </div>
             </div>
         </div>

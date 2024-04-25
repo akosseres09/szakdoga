@@ -35,16 +35,16 @@ return [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
-                [
-                    'class' => EmailTarget::class,
-                    'levels' => ['error', 'warning'],
-                    'exportInterval' => 100,
-                    'message' => [
-                        'from' => 'errors@sportify.com',
-                        'to' => 'admin@sportify.com',
-                        'subject' => 'Logs'
-                    ]
-                ],
+//                [
+//                    'class' => EmailTarget::class,
+//                    'levels' => ['error', 'warning'],
+//                    'exportInterval' => 100,
+//                    'message' => [
+//                        'from' => 'errors@sportify.com',
+//                        'to' => 'admin@sportify.com',
+//                        'subject' => 'Logs'
+//                    ]
+//                ],
                 [
                     'class' => FileTarget::class,
                     'levels' => ['info'],

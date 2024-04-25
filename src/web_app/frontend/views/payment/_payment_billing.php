@@ -7,6 +7,7 @@
 
 use common\components\AddressHelper;
 use common\models\BillingInformation;
+use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 
@@ -22,16 +23,16 @@ $empty = AddressHelper::isEmpty($billing);
         </span>
             <div class="address">
                 <div class="row fw-bold">
-                    <?= $billing->user->email ?>
+                    <?= Html::encode($billing->user->email) ?>
                 </div>
                 <div class="row">
-                    <?= $billing->country ?>,
-                    <?= $billing->state ?>
+                    <?= Html::encode($billing->country) ?>,
+                    <?= Html::encode($billing->state) ?>
                 </div>
                 <div class="row text-muted">
-                    <?= $billing->postcode ?>
-                    <?= $billing->city ?>
-                    <?= $billing->street ?>
+                    <?= Html::encode($billing->postcode) ?>
+                    <?= Html::encode($billing->city) ?>
+                    <?= Html::encode($billing->street) ?>
                 </div>
             </div>
         </div>
