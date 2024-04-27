@@ -53,7 +53,15 @@ $form = ActiveForm::begin([
         <div id="TypeFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
                 <div>
-                    <?= $form->field($searchModel, 'type', $accOptions)->checkboxList($types) ?>
+                    <?= $form->field($searchModel, 'type', $accOptions)
+                        ->checkboxList($types, [
+                            'item' => function ($index, $label, $name, $checked, $value) {
+                                $checked = $checked ? 'checked' : '';
+                                $html = '<input type="checkbox" class="btn-check" id="type-btn-check-' . $index . '" name="' . $name . '" value="' . $value . '" ' . $checked . '>';
+                                $html .= '<label class="btn btn-outline-dark mb-2" style="border-radius: 30px" for="type-btn-check-' . $index . '">' . $label . '</label>';
+                                return $html;
+                            }
+                        ]) ?>
                 </div>
             </div>
         </div>
@@ -67,7 +75,15 @@ $form = ActiveForm::begin([
         <div id="BrandFilter" class="accordion-collapse collapse">
             <div class="accordion-body">
                 <?=
-                $form->field($searchModel, 'brand', $accOptions)->checkboxList($brands);
+                $form->field($searchModel, 'brand', array_merge($accOptions, $accOptions))
+                    ->checkboxList($brands, [
+                        'item' => function ($index, $label, $name, $checked, $value) {
+                            $checked = $checked ? 'checked' : '';
+                            $html = '<input type="checkbox" class="btn-check" id="brand-btn-check-' . $index . '" name="' . $name . '" value="' . $value . '" ' . $checked . '>';
+                            $html .= '<label class="btn btn-outline-dark mb-2" style="border-radius: 30px" for="brand-btn-check-' . $index . '">' . $label . '</label>';
+                            return $html;
+                        }
+                    ]);
                 ?>
             </div>
         </div>
@@ -83,6 +99,13 @@ $form = ActiveForm::begin([
                 <?= $form->field($searchModel, 'kid', $accOptions)->checkboxList([
                     Product::ADULT => 'Adult',
                     Product::CHILDREN => 'Children'
+                ], [
+                    'item' => function ($index, $label, $name, $checked, $value) {
+                        $checked = $checked ? 'checked' : '';
+                        $html = '<input type="checkbox" class="btn-check" id="kid-btn-check-' . $index . '" name="' . $name . '" value="' . $value . '" ' . $checked . '>';
+                        $html .= '<label class="btn btn-outline-dark mb-2" style="border-radius: 30px" for="kid-btn-check-' . $index . '">' . $label . '</label>';
+                        return $html;
+                    }
                 ]) ?>
             </div>
         </div>
@@ -98,6 +121,13 @@ $form = ActiveForm::begin([
                 <?= $form->field($searchModel, 'gender', $accOptions)->checkboxList([
                     Product::GENDER_MALE => 'Male',
                     Product::GENDER_FEMALE => 'Female'
+                ], [
+                    'item' => function ($index, $label, $name, $checked, $value) {
+                        $checked = $checked ? 'checked' : '';
+                        $html = '<input type="checkbox" class="btn-check" id="gender-btn-check-' . $index . '" name="' . $name . '" value="' . $value . '" ' . $checked . '>';
+                        $html .= '<label class="btn btn-outline-dark mb-2" style="border-radius: 30px" for="gender-btn-check-' . $index . '">' . $label . '</label>';
+                        return $html;
+                    }
                 ]) ?>
             </div>
         </div>
