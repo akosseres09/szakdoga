@@ -2,6 +2,7 @@
 
 use common\models\Cart;
 use common\models\Product;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /**
@@ -28,7 +29,7 @@ $image = $model->product->getImages(true);
                     </div>
                     <div class="row pt-2 pb-3">
                         <span class="col fw-semibold">
-                            <?= $model->size ?>
+                            <?= Html::encode($model->size) ?>
                             <?= Product::GENDERS[$model->product->gender] ?>
                             <?= $model->product->type_name ?>
                         </span>
@@ -40,7 +41,12 @@ $image = $model->product->getImages(true);
                 </div>
                 <div class="col-2 d-flex justify-content-end align-items-center">
                     <span class="fw-bold fs-5">
-                         $<?= $model->quantity * $model->price ?>
+                        <?php if ($model->quantity > 1) {
+                            echo Html::encode($model->quantity) . 'x' .  Html::encode($model->price) . '$';
+                        } else {
+                            echo Html::encode($model->price) . '$';
+                        }
+                        ?>
                     </span>
                 </div>
             </div>

@@ -7,6 +7,7 @@
  */
 
 use common\models\Rating;
+use yii\helpers\Html;
 use yii\web\View;
 
 $this->registerCss(<<<CSS
@@ -29,7 +30,7 @@ CSS);
         <?= Yii::$app->formatter->asDate($model->created_at) . ' - ' . $model->user->username . ' (' .  $model->user->email . ')' ?>
     </span>
     <div class="mt-1">
-        <?= $model->description ?>
+        <?= Html::encode($model->description) ?>
     </div>
 </div>
 
