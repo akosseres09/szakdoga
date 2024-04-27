@@ -10,10 +10,11 @@ use frontend\components\BaseController;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
+use Stripe\Refund;
 use Stripe\Stripe;
-use Throwable;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -52,6 +53,13 @@ class PaymentController extends BaseController
     public function actionPaymentInfo(): Response|string
     {
         $userId = Yii::$app->user->id;
+
+        $cartItems = Cart::find()->ofUser($userId)->all();
+        if (empty($cartItems)) {
+            Yii::$app->session->setFlash('cartError', 'Your Cart Is Empty!');
+            return $this->redirect('/cart');
+        }
+
         $billingInfo = BillingInformation::find()->ofUser($userId)->one();
         $shippingInfo = ShippingInformation::find()->ofUser($userId)->one();
 
@@ -75,13 +83,6 @@ class PaymentController extends BaseController
 
         if (!$shippingInfo) {
             $shippingInfo = new ShippingInformation();
-        }
-
-        $cartItems = Cart::find()->ofUser($userId)->all();
-
-        if (empty($cartItems)) {
-            Yii::$app->session->setFlash('emptyCart', 'Your Cart Is Empty!');
-            return $this->redirect('/cart');
         }
 
         return $this->render('payment-info', [
@@ -162,14 +163,19 @@ class PaymentController extends BaseController
             } catch (\Exception $e) {
                 Yii::error('Failed to initialize checkout session to pay: ' . $e->getMessage());
                 $transaction->rollBack();
-                Yii::$app->session->setFlash('Something Went Wrong With Your Payment! Please Try Again Later!');
+                Yii::$app->session->setFlash('cartError', 'Something Went Wrong With Your Payment! Please Try Again Later!');
                 return $this->redirect('/payment');
             }
         }
     }
 
-    public function actionPaymentCancel($session_id): string
+    public function actionPaymentCancel($session_id = ''): string|Response
     {
+        if (empty($session_id)) {
+            Yii::$app->session->setFlash('cartError', 'You can not access this page!');
+            return $this->redirect('/cart');
+        }
+
         $session = null;
         try {
             Stripe::setApiKey(Yii::$app->stripe->secretKey);
@@ -182,13 +188,22 @@ class PaymentController extends BaseController
         ]);
     }
 
-    public function actionPaymentFail(): string
+    public function actionPaymentFail($session_id = ''): string|Response
     {
+        if (empty($session_id)) {
+            Yii::$app->session->setFlash('cartError', 'You can not access this page!');
+            return $this->redirect('/cart');
+        }
         return $this->render('/payment/payment-fail');
     }
 
-    public function actionPaymentSuccess($session_id): string|Response
+    public function actionPaymentSuccess($session_id = ''): string|Response
     {
+        if (empty($session_id)) {
+            Yii::$app->session->setFlash('cartError', 'You can not access this page!');
+            return $this->redirect('/cart');
+        }
+
         $transaction = Yii::$app->db->beginTransaction();
         try {
             Stripe::setApiKey(Yii::$app->stripe->secretKey);
@@ -218,13 +233,33 @@ class PaymentController extends BaseController
                 $transaction->commit();
                 return $this->render('/payment/payment-success');
             } else {
+                Refund::create([
+                    'payment_intent' => $session->payment_intent,
+                    'amount' => $session->amount_total,
+                ]);
                 return $this->render('/payment/payment-fail');
             }
 
-        } catch (\Exception|Throwable $e) {
+        } catch (ApiErrorException| Exception $e) {
             Yii::error('Error at payment-success at: ' . Yii::$app->formatter->asDate(strtotime('now')) . ' with: ' . $e->getMessage(), __METHOD__);
             $transaction->rollBack();
-            return $this->redirect(['payment-fail']);
+            $refund = null;
+            try {
+                if ($session !== null) {
+                    $refund = Refund::create([
+                        'payment_intent' => $session->payment_intent,
+                        'amount' => $session->amount_total,
+                    ]);
+                }
+            } catch (ApiErrorException $e) {
+                Yii::error('Failed to create a refund at: ' . Yii::$app->formatter->asDate(strtotime('now')) . ' with: ' . $e->getMessage(), __METHOD__);
+            }
+            if ($refund) {
+                return $this->redirect(['payment-fail?session_id='.$session_id]);
+            } else {
+                Yii::$app->session->setFlash('cartError', 'Something Went Wrong With Your Payment!');
+                return $this->redirect(['/cart']);
+            }
         }
     }
 }

@@ -76,9 +76,8 @@ class OrderController extends BaseController
         $user = Yii::$app->user;
         $order = Order::find()->ofDate($date)->ofUser($user->id)->with(['product'])->all();
 
-
         if (empty($order)) {
-            return $this->redirect('/user/account?tab=orders');
+            return $this->redirect('/order');
         }
 
         $orders = new ArrayDataProvider([
@@ -89,5 +88,4 @@ class OrderController extends BaseController
             'orders' => $orders
         ]);
     }
-
 }
