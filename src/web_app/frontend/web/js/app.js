@@ -45,10 +45,10 @@ setTimeout(function() {
     $('.alert').fadeOut();
 }, 5000);
 
-function showCartSwal() {
+function showCartSwal(text = 'Your cart is Empty') {
     swalWithCustomButtons.fire({
         title: 'Something went wrong!',
-        text: 'Your cart is empty!',
+        text: text,
         icon: 'error'
     });
 }
