@@ -2,6 +2,7 @@
 
 
 use common\models\Product;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Order;
 use yii\web\View;
@@ -59,11 +60,11 @@ CSS);
         <div class="product-details">
             <?= $model->product->type_name ?> <br>
             <?= Product::GENDERS[$model->product->gender] ?>,
-            Size <?= $model->size ?>
+            Size <?= Html::encode($model->size) ?>
         </div>
         <div class="price">
             <div class="fs-4 fw-bold">
-                $<?= $model->quantity * $model->product->price ?>
+                $<?= Html::encode($model->quantity * $model->product->price) ?>
             </div>
         </div>
     </div>
