@@ -17,15 +17,14 @@ use yii\widgets\ListView;
 $this->title = 'Cart - Sportify';
 
 CartAsset::register($this);
-
-if (Yii::$app->session->getFlash('emptyCart')) {
+$flash = Yii::$app->session->getFlash('cartError');
+if ($flash) {
     $this->registerJs(<<<JS
-        showCartSwal();
+        let flash = '$flash';
+        showCartSwal(flash);
 JS, View::POS_END);
 }
 ?>
-
-<?= $this->render('/site/common/_alert') ?>
 
 <?= $this->render('_cart-steps', [
     'cartDone' => false,
