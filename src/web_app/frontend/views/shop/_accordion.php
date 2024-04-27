@@ -7,6 +7,7 @@
 
 use common\models\Product;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Html;
 use yii\web\View;
 
 ?>
@@ -41,14 +42,14 @@ use yii\web\View;
                         <div class="row">
                             <div class="col-9">
                                 <h5>
-                                    <?= $product->description_title ?>
+                                    <?= Html::encode($product->description_title) ?>
                                 </h5>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-*">
                                  <span class="mt-2">
-                                    <?= $product->description ?>
+                                    <?= Html::encode($product->description) ?>
                                 </span>
                             </div>
                         </div>
@@ -65,7 +66,7 @@ use yii\web\View;
                 </h2>
                 <div id="detailsAcc" class="accordion-collapse collapse" data-bs-parent="#details">
                     <div class="accordion-body">
-                        <?= $product->details ?>
+                        <?= Html::encode($product->details) ?>
                     </div>
                 </div>
             </div>
