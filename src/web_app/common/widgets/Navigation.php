@@ -16,7 +16,7 @@ class Navigation extends Widget
 
     public function run(): void
     {
-        echo \Yii::$app->view->renderFile('@frontend/views/common/_navigation.php', [
+        echo \Yii::$app->view->renderFile('@common/widgets/views/_navigation.php', [
             'tabs' => $this->tabs,
             'tab' => $this->tab
         ]);

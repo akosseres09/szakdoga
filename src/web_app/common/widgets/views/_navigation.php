@@ -4,8 +4,11 @@
  * @var string $tab
  */
 
-?>
 
+use common\assets\NavigationAsset;
+
+NavigationAsset::register($this);
+?>
 
 <ul class="user-profile-tabs">
     <?php foreach ($tabs as $site) {

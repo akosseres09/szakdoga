@@ -1,19 +1,15 @@
 <?php
 
-use backend\assets\AppAsset;
 use common\models\Type;
 use common\widgets\Navigation;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
-use yii\web\JqueryAsset;
 use yii\web\View;
 
 /**
  * @var View $this
  * @var $products ActiveDataProvider
  */
-$this->registerCssFile('/css/account/account.css');
-$this->registerJsFile('/js/account/account.js', ['depends' => [JqueryAsset::class, AppAsset::class]]);
 $this->title = 'Products Admin  »  Sportify';
 
 echo $this->render('/site/common/_alert');
@@ -52,7 +48,7 @@ $tab = $tabs[Yii::$app->request->get('tab')]['site'] ?? 'All';
             'tab' => $tab,
         ]); ?>
     </div>
-    <div id="product-container">
+    <div id="settings-container">
         <?=
             $this->render('_listView', [
                 'products' => $products

@@ -13,10 +13,6 @@ class AccountAsset extends AssetBundle
       'css/site/account.css'
     ];
 
-    public $js = [
-        'js/account/account.js'
-    ];
-
     public $depends = [
         '\frontend\assets\SwalAsset',
         '\yii\web\JqueryAsset',

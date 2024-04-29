@@ -60,7 +60,9 @@ if (scrollable) {
 
 function getAccountPage(href) {
     settingsContainer.innerHTML = '';
-    settingsContainer.appendChild(getLoader());
+    if (typeof getLoader === 'function') {
+        settingsContainer.appendChild(getLoader());
+    }
     fetch(href, {
         headers : {
             'X-Requested-With': 'XMLHttpRequest'
