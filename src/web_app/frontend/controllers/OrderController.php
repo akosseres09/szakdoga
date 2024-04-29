@@ -6,7 +6,6 @@ use common\models\Order;
 use frontend\components\BaseController;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\ErrorAction;
@@ -74,15 +73,15 @@ class OrderController extends BaseController
     public function actionItems($date): string|Response
     {
         $user = Yii::$app->user;
-        $order = Order::find()->ofDate($date)->ofUser($user->id)->with(['product'])->all();
+        $query = Order::find()->ofDate($date)->ofUser($user->id)->with(['product']);
 
-        if (empty($order)) {
+        $orders = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        if ($orders->totalCount === 0) {
             return $this->redirect('/order');
         }
-
-        $orders = new ArrayDataProvider([
-            'allModels' => $order
-        ]);
 
         return $this->render('view', [
             'orders' => $orders

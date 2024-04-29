@@ -4,9 +4,12 @@
  * @var ActiveDataProvider $orders
  */
 
+use common\widgets\OrderWidget;
 use yii\data\ActiveDataProvider;
 use yii\web\View;
 
-$this->title = 'View Order';
+echo OrderWidget::widget([
+    'orders' => $orders
+])
 
 ?>
