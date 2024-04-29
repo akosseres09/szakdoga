@@ -7,7 +7,6 @@ setTimeout(function() {
     $('.alert').fadeOut();
 }, 4000);
 
-
 function getDataFromUrl(url, intoItem) {
     fetch(url)
         .then(r => r.text())

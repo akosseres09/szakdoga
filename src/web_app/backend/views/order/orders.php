@@ -17,6 +17,15 @@ use yii\web\View;
 
 $this->title = 'Orders';
 
+$flash = Yii::$app->session->getFlash('Error');
+
+if ($flash) {
+    $this->registerJs(<<<JS
+        const flash = '$flash';
+        showSwal(flash);    
+JS
+);
+}
 ?>
 
 <div class="my-4">
@@ -67,7 +76,7 @@ $this->title = 'Orders';
                 'value' => function ($model) {
                     $userID = $model['id'];
                     $date = $model['created_at'];
-                    $href = Url::to(["/order/view/$userID?date=$date" ]);
+                    $href = Url::to(["/order/view/$userID/$date" ]);
                     return Html::a('View Order', $href);
                 }
             ]

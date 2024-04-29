@@ -20,6 +20,6 @@ class CartAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',
-        '\frontend\assets\SwalAsset'
+        '\common\assets\SwalAsset'
     ];
 }

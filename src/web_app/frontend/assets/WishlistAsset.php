@@ -16,7 +16,7 @@ class WishlistAsset extends AssetBundle
     public $js = [];
 
     public $depends = [
-        '\frontend\assets\SwalAsset',
+        '\common\assets\SwalAsset',
         'yii\web\YiiAsset'
     ];
 }

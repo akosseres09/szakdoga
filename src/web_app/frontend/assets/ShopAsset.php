@@ -18,7 +18,7 @@ class ShopAsset extends AssetBundle
     ];
 
     public $depends = [
-        '\frontend\assets\SwalAsset',
+        '\common\assets\SwalAsset',
         '\frontend\assets\AppAsset'
     ];
 }

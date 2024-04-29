@@ -1,13 +1,12 @@
 <?php
 
-namespace frontend\assets;
+namespace common\assets;
 
 use yii\web\AssetBundle;
 
 class SwalAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@common/assets';
 
     public $css = [
         'css/sweetalert2.min.css'
