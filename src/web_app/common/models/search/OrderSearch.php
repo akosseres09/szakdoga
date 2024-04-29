@@ -46,8 +46,8 @@ class OrderSearch extends Order
             ],
             'sort' => [
                 'attributes' => [
-                    'order.created_at',
-                    'user.username'
+                    'created_at',
+                    'name'
                 ]
             ]
         ]);

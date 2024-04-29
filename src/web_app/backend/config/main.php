@@ -46,7 +46,6 @@ return [
                 '<controller>/<action>/<id>' => '<controller>/<action>',
                 'products' => 'product/products',
                 'orders' => 'order/orders',
-                'order/view/<userId>/<date>' => 'order/view'
             ],
         ],
         'assetManager' => [

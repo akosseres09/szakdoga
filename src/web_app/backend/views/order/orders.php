@@ -76,7 +76,7 @@ JS
                 'value' => function ($model) {
                     $userID = $model['id'];
                     $date = $model['created_at'];
-                    $href = Url::to(["/order/view/$userID/$date" ]);
+                    $href = Url::to(["/order/view?user=$userID&date=$date" ]);
                     return Html::a('View Order', $href);
                 }
             ]

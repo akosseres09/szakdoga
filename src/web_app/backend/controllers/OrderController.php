@@ -2,10 +2,13 @@
 
 namespace backend\controllers;
 
+use common\models\Order;
 use common\models\search\OrderSearch;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Response;
 
 class OrderController extends Controller
 {
@@ -36,8 +39,24 @@ class OrderController extends Controller
         ]);
     }
 
-    public function actionView(int $userId, int $date)
+    public function actionView(int $user, int $date): string|Response
     {
-        return '';
+        $query = Order::find()->ofUser($user)->ofDate($date)->with('product');
+
+        $orders = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 12,
+            ]
+        ]);
+
+        if ($orders->totalCount === 0) {
+            Yii::$app->session->setFlash('Error', 'No Orders with the given id or date!');
+            return $this->redirect('/orders');
+        }
+
+        return $this->render('view', [
+            'orders' => $orders,
+        ]);
     }
 }
