@@ -2,7 +2,6 @@
 
 namespace common\assets;
 
-use backend\assets\AppAsset;
 use yii\web\AssetBundle;
 
 class NavigationAsset extends AssetBundle
