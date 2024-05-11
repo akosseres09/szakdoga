@@ -17,10 +17,6 @@ class NavigationAsset extends AssetBundle
         'js/navigation.js',
     ];
 
-    public $depends = [
-        AppAsset::class
-    ];
-
     public $publishOptions = [
         'forceCopy' => true
     ];
