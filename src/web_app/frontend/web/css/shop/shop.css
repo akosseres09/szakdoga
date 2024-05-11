@@ -176,6 +176,28 @@
     border-left: none;
 }
 
+.star-rating-accordion .star.partial-star {
+    position: relative;
+}
+
+.star-rating-accordion .star.partial-star:after {
+    content: "\f005";
+    z-index: 100;
+    left: 0;
+    position: absolute;
+    width: calc(18px * var(--width));
+    overflow: hidden;
+    color: gold;
+}
+
+.star-rating-accordion .star.full-star {
+    color: gold;
+}
+
+.star-rating-accordion .star {
+    color: lightgray;
+}
+
 .star-rating {
     direction: rtl;
     display: inline-block;
@@ -196,9 +218,6 @@
     color: gold;
 }
 
-.star-rating-accordion .star {
-    color: lightgray;
-}
 
 @media screen and (min-width: 992px) and (max-width: 1200px) {
     .size-container {
