@@ -46,7 +46,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
             <div class="carousel-inner order-lg-2">
                 <?php foreach ($images as $index => $image) {?>
                     <div class="carousel-item text-center <?= $index === 0 ? 'active' : ''?>">
-                        <img src="/storage/images/<?=$product->folder_id . '/' . $image?>">
+                        <img alt="" src="/storage/images/<?=$product->folder_id . '/' . $image?>">
                     </div>
                 <?php  }?>
             </div>
@@ -55,7 +55,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
                     <?php foreach ($images as $index => $image) { ?>
                         <div class="row">
                             <button type="button" data-bs-target="#productPicsCarouselDesktop" data-bs-slide-to="<?=$index?>" <?= $index === 0 ? 'class="active"' : ''?> aria-current="true" aria-label="Slide <?=$index?>">
-                                <img src="/storage/images/<?=$product->folder_id . '/' . $image?>">
+                                <img alt="" src="/storage/images/<?=$product->folder_id . '/' . $image?>">
                             </button>
                         </div>
                     <?php } ?>
@@ -67,7 +67,7 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
         <div class="carousel-inner order-lg-2">
             <?php foreach ($images as $index => $image) {?>
                 <div class="carousel-item text-center <?= $index === 0 ? 'active' : ''?>">
-                    <img src="/storage/images/<?=$product->folder_id . '/' . $image?>">
+                    <img alt="" src="/storage/images/<?=$product->folder_id . '/' . $image?>">
                 </div>
             <?php  }?>
         </div>
