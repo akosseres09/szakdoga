@@ -121,11 +121,11 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
             </div>
         </div>
         <div class="row mb-2">
-            <div class="col-5">
+            <div class="col-auto">
                 <?php if ($product->hasOnStock()) { ?>
-                    <span class="w-100 badge text-bg-success fw-bold fs-6"><?= $product->number_of_stocks ?> Left on Stock</span>
+                    <span class="w-100 px-4 badge text-bg-success fw-bold fs-6"><?= $product->number_of_stocks ?> Left on Stock</span>
                 <?php } else { ?>
-                    <span class="w-100 badge text-bg-danger fw-bold fs-6"> Unavailable </span>
+                    <span class="w-100 px-4 badge text-bg-danger fw-bold fs-6"> Unavailable </span>
                 <?php } ?>
             </div>
         </div>
