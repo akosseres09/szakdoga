@@ -17,21 +17,21 @@ $image = $model->product->getImages(true);
 <div class="mt-4 mx-4" <?= $index !== $total - 1 ? 'style="border-bottom: 1px solid var(--spfy-primary-light)"' : '' ?>>
     <div class="row pb-4">
         <div class="d-none d-md-flex col-2">
-            <img src="/storage/images/<?= $model->product->folder_id ?>/<?= $image[0] ?>" alt="Item picture" style="width:100%; border-radius: 10px">
+            <img src="/storage/images/<?= Html::encode($model->product->folder_id) ?>/<?= $image[0] ?>" alt="Item picture" style="width:100%; border-radius: 10px">
         </div>
         <div class="col-md-10 col-12">
             <div class="row">
                 <div class="col">
                     <div class="row">
                         <a href="<?= Url::to(['/shop/view/'.$model->product_id]) ?>" class="fw-bold">
-                            <?=$model->product->brand_name . ' ' . $model->product->name ?>
+                            <?= Html::encode($model->product->brand_name) . ' ' . Html::encode($model->product->name) ?>
                         </a>
                     </div>
                     <div class="row pt-2 pb-3">
                         <span class="col fw-semibold">
                             <?= Html::encode($model->size) ?>
                             <?= Product::GENDERS[$model->product->gender] ?>
-                            <?= $model->product->type_name ?>
+                            <?= Html::encode($model->product->type_name) ?>
                         </span>
                     </div>
                     <div class="d-flex align-items-center gap-2">

@@ -39,21 +39,21 @@ $empty = AddressHelper::isEmpty($shipping);
     </div>
     <div class="shippingForm <?= $empty ? '' : 'd-none' ?>">
         <div class="row">
-            <div class="col">
+            <div class="col-md-6 col-lg-4">
                 <?= $form->field($shipping, 'country')->textInput(['maxlength' => 128, 'placeHolder' => 'Country'])->label(false) ?>
             </div>
-            <div class="col">
+            <div class="col-md-6 col-lg-4">
                 <?= $form->field($shipping, 'state')->textInput(['maxlength' => 64, 'placeHolder' => 'State'])->label(false) ?>
             </div>
-            <div class="col">
+            <div class="col-md-12 col-lg-4">
                 <?= $form->field($shipping, 'postcode')->textInput(['placeHolder' => 'Post Code'])->label(false) ?>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col">
+        <div class="row">
+            <div class="col-md-6">
                 <?= $form->field($shipping, 'city')->textInput(['maxlength' => 64, 'placeHolder' => 'City'])->label(false) ?>
             </div>
-            <div class="col">
+            <div class="col-md-6">
                 <?= $form->field($shipping, 'street')->textInput(['maxlength' => 64, 'placeHolder' => 'Street'])->label(false) ?>
             </div>
         </div>

@@ -1,3 +1,7 @@
+#payment-form {
+    position: relative;
+}
+
 .platforms {
     display: flex;
     flex: 1 1;
@@ -9,14 +13,14 @@
     margin-left: 50px;
 }
 
-.billingContainer, .shippingContainer, .cardContainer {
+.billingContainer, .shippingContainer {
     border: 2px solid var(--spfy-light-gray);
     border-radius: 10px;
     padding: 20px;
     position: relative;
 }
 
-.billingContainer.active, .shippingContainer.active, .cardContainer.active {
+.billingContainer.active, .shippingContainer.active {
     border: 2px solid var(--spfy-primary-light);
 }
 
@@ -112,24 +116,16 @@
     border-bottom-color: white;
 }
 
-@media screen and (max-width: 768px) {
+.information {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+}
+
+@media screen and (max-width: 992px) {
     #payment-form {
         flex-direction: column;
-    }
-
-    .platforms {
-        width: 100%;
-    }
-
-    .panel {
-        margin-top: 20px;
-        margin-left: 0;
-        flex: 1 1;
-        width: 100%;
-    }
-
-    .editIcon {
-        right: 15px;
     }
 
     .panel .payment-button {
@@ -138,6 +134,22 @@
         bottom: 0;
         left: 0;
         z-index: 50;
+    }
+
+    .platforms {
+        width: 100%;
+    }
+
+    .panel {
+        margin-top: 10px;
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .editIcon {
+        right: 15px;
     }
 
     .container {

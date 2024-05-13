@@ -4,6 +4,7 @@
  * @var Wishlist $model
  */
 
+use common\components\Html;
 use common\models\Wishlist;
 use yii\helpers\Url;
 use yii\web\View;
@@ -17,7 +18,7 @@ $link = '/storage/images/' . $model->product->folder_id . '/';
     <div class="row">
         <div class="col p-0 fw-bold product-name">
             <a class="product-name" href="<?= Url::to(['/shop/view/'.$model->product->id]) ?>">
-                <?=$model->product->brand->name . ' ' . $model->product->name ?>
+                <?= Html::encode($model->product->brand->name) . ' ' . Html::encode($model->product->name) ?>
             </a>
         </div>
         <div class="col-2">
