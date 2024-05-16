@@ -196,7 +196,7 @@ class Product extends ActiveRecord
 
     public function isShoe(): bool
     {
-        return str_contains($this->type_name, 'Shoes') ;
+        return str_contains(strtolower($this->type_name), 'shoes') ;
     }
 
     public function isKid(): bool

@@ -27,6 +27,9 @@ class Cart extends ActiveRecord
     const QUANTITY_ONE = 1;
     const KID_SIZES = ["24", "25", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "36 2/3", "37", "37 1/3", "38", "38 2/3"];
     const ADULT_SIZES = ["39 1/3", "40", "40 2/3", "41 1/3", "42", "42 2/3", "43 1/3", "44", "44 2/3", "45 1/3", "46", "46 2/3"];
+
+    const SHIRT_SIZES =  ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
     const CART_CAHCE_KEY = 'cart';
     public static function tableName(): string
     {
@@ -96,7 +99,12 @@ class Cart extends ActiveRecord
     {
         $product = Product::findOne($this->product_id);
         if ($product) {
-            $size = $product->isKid() ? self::KID_SIZES : self::ADULT_SIZES;
+            if (str_contains(strtolower($product->type_name), 'shoes')) {
+                $size = $product->isKid() ? self::KID_SIZES : self::ADULT_SIZES;
+            } else {
+                $size = self::SHIRT_SIZES;
+            }
+
             if (!in_array($this->size, $size, true)) {
                 $this->addError($attribute, 'There is no such size of this product!');
             }

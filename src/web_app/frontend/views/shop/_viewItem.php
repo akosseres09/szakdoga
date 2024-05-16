@@ -106,15 +106,22 @@ $this->registerJsFile('/js/shop/carouselImgZoomer.js');
                 </div>
                 <div class="row mt-3 size-picker">
                     <div class="size-container">
-                        <?php if(!$product->isKid()) { ?>
-                            <?php foreach (Cart::ADULT_SIZES as $size) { ?>
-                                <div class="p-2 size-item"><?= $size ?></div>
+                        <?php
+                            if (!$product->isShoe()) {
+                                foreach (Cart::SHIRT_SIZES as $size) { ?>
+                                    <div class="p-2 size-item"><?= $size ?></div>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <?php if(!$product->isKid()) { ?>
+                                    <?php foreach (Cart::ADULT_SIZES as $size) { ?>
+                                        <div class="p-2 size-item"><?= $size ?></div>
+                                <?php } ?>
+                                <?php } else { ?>
+                                    <?php foreach (Cart::KID_SIZES as $size) { ?>
+                                        <div class="p-2 size-item"><?= $size ?></div>
+                                    <?php } ?>
+                                <?php } ?>
                             <?php } ?>
-                        <?php } else { ?>
-                            <?php foreach (Cart::KID_SIZES as $size) { ?>
-                                <div class="p-2 size-item"><?= $size ?></div>
-                            <?php } ?>
-                        <?php } ?>
                     </div>
                 </div>
                 <?= $form->field($cart, 'size')->hiddenInput(['required' => true])->label('') ?>

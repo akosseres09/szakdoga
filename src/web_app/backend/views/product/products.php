@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use common\models\Type;
 use common\widgets\Navigation;
