@@ -226,8 +226,8 @@ class Product extends ActiveRecord
                 mkdir($imagePath, 0777, true);
             }
 
-            foreach ($this->images as $image) {
-                $filePath = $imagePath . '/' . $image->baseName . '.' . $image->extension;
+            foreach ($this->images as $index => $image) {
+                $filePath = $imagePath . '/' . $index+1 . '.' . $image->extension;
                 Image::getImagine()->open($image->tempName)
                     ->resize(new Box(500,500))
                     ->save($filePath);
